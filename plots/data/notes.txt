@@ -1,0 +1,6 @@
+mdlvis.py -C psa32_maxred -s d+00 lst*.uvA
+fringe_rate_filter_weighted.py -a 0_16 -p I -C psa32_maxred --clean=1 *uvAs
+plot_uv.py *As{,F} 
+mkdir d+00
+mv *.uvAs *.uvAsF d+00
+srctrk_hmap.py d*/*fng.npz
