@@ -1,5 +1,5 @@
 %\documentclass[preprint]{aastex}  % USE THIS TO MAKE BIB, THEN FORMAT USING EMULATEAPJ
-\documentclass[twocolumn,numberedappendix]{emulateapj}
+\documentclass[twocolumn,apj,numberedappendix]{emulateapj}
 \shorttitle{Fringe-Rate Filtering}
 \shortauthors{Parsons, et al.}
 
@@ -184,6 +184,7 @@ the Equation \eqref{simpVis}'s integrand as the continuous version of $\A$.  We
 can model the noise covariance between baselines $b$ and $b^\prime$, at times
 $t$ and $t^\prime$ as
 \begin{equation}
+\label{eq:noiseCovar}
 N_{bb^\prime} (t, t^\prime) = \sigma^2 \delta_{bb^\prime} \delta(t-t^\prime),
 \end{equation}
 where $\sigma$ is an root-mean-square noise level assumed to be uncorrelated in
@@ -573,8 +574,63 @@ effective primary beam.
 \label{besselContributions}
 \end{figure*}
 
-\subsection{Denoising data sets for power spectrum estimation}
-Talk about how we can think of the denoising as a pre-processing step.
+\subsection{De-noising data sets for power spectrum estimation}
+Until now, our discussion of fringe-rate filtering has centered around the mapmaking problem.  However, our intuitive understanding of fringe-rate filtering---that it differentiates instrumental noise from celestial signals by identifying certain fringe rates as being too rapid to be physical sources on the sky---holds much more generally.  In this section, we consider fringe-rate filtering in the context of power spectrum estimation, and in particular show how fringe-rate filtering can be used as a preprocessing tool to de-noise data sets prior to power spectrum estimation.
+
+Our goal is to consider how an optimal estimator for a power spectrum (or any other two-point statistic) can be phrased in terms of a fringe-rate filtered data set.  As an example, we will consider the frequency-frequency angular cross-power spectrum $C_\ell (\nu, \nu^\prime)$.  This represents no loss of generality, even though most $21\,\textrm{cm}$ experiments seek to measure the spherically averaged power spectrum $P(k)$, as the two quantities are related by an invertible linear operation (which we show explicitly in Appendix XXX).  Thus, an optimal and lossless prescription for computing $C_\ell (\nu, \nu^\prime)$ can be easily translated into one for $P(k)$.  Here we deal with the former because it is a more natural quantity to consider when the flat-sky approximation does not hold.
+
+To form an optimal estimator for $C_\ell (\nu, \nu^\prime)$, one computes
+\begin{equation}
+\label{eq:generalEst}
+\widehat{C}_\ell (\nu, \nu^\prime)  = N_\ell \vis^\dagger(\nu) \mathbf{C}^{-1} \mathbf{Q}^\ell \mathbf{C}^{-1} \vis(\nu^\prime),
+\end{equation}
+where $\mathbf{C} \equiv \langle \vis \vis^\dagger \rangle$ is the covariance matrix of measured visibilities, $\mathbf{Q}^\ell \equiv \partial \mathbf{C} / \partial C_\ell $ is the response of the covariance matrix to $C_\ell$, and $N_\ell$ is a normalization constant.  [XXX: cite stuff].  As usual, this matrix equation can be evaluated in any basis.  Like before, however, it will be particularly convenient to express the relevant measurements in a per-baseline, fringe-rate basis, and the true sky in terms of spherical harmonics so that $T(\rhat) = \sum_{\ell m} a_{\ell m} Y_{\ell m} (\rhat)$.  Re-expressing our measurement equation yet again, we have
+\begin{equation}
+\widetilde{V}_b (f_m) = \sum_\ell w_{\ell m} (b) a_{\ell m} + n_{m}
+\end{equation}
+where
+\begin{eqnarray}
+w_{\ell m} = \sum_n \int d\Omega && Y_{\ell n}^*(\rhat) e^{i \frac{2 \pi b_y}{\lambda} \cos \eta \cos \theta} e^{i m \varphi} B_\theta (\theta) \nonumber \\
+&&\times \sum_q \widetilde{B}^*_q  J_{m-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right).
+\end{eqnarray}
+[XXX: Could be a complex conjugate in the last term.  Check.]  The covariance matrix is then
+\begin{equation}
+\mathbf{C}_{m,b;m^\prime,b^\prime} = \sum_\ell w_{\ell m}(b) w^*_{\ell m^\prime }(b^\prime) C_\ell \delta_{m m^\prime} + \sigma^2 \delta_{m m^\prime} \delta_{b b^\prime},
+\end{equation}
+where we used $\langle a_{\ell m} a^*_{\ell^\prime m^\prime} \rangle = C_\ell \delta_{\ell \ell^\prime} \delta_{m m^\prime}$ [XXX: Probably a normalization factor too.] and the noise covariance of Equation \eqref{eq:noiseCovar}.  Differentiating gives
+\begin{equation}
+\mathbf{Q}^\ell_{m,b;m^\prime,b^\prime} =  w_{\ell m}(b) w^*_{\ell m^\prime }(b^\prime) \delta_{m m^\prime}.
+\end{equation}
+Moving forward, we will assume that our observations are relatively low signal to noise, so that $\mathbf{C}$ is dominated by the noise covariance and $\mathbf{C}^{-1} \approx \sigma^{-2} \mathbf{I}$.  This will give a final estimator that effectively weights data samples by their signal-to-noise.  The generalization to a high signal-to-noise regime is straightforward, and results in data samples weighted by signal over signal-plus-noise.
+
+With the aforementioned assumptions, our optimal estimator becomes
+\begin{equation}
+\label{eq:mspaceEst}
+\widehat{C}_\ell (\nu, \nu^\prime) = N_\ell \sum_{mbb^\prime} \widetilde{V}^*_b (f_m) w_{\ell m}(b) w^*_{\ell m}(b^\prime) \widetilde{V}_{b^\prime} (f_m),
+\end{equation}
+where we have absorbed the (constant) factors of $\sigma^2$ into the normalization $N_\ell$.  This expression can be applied as-is, but can also be interpreted in terms of time-ordered, filtered visibilities.  If we define
+\begin{equation}
+\widetilde{V}^\textrm{filt}_{b,\ell} (f_m) \equiv w^*_{\ell m}(b) \widetilde{V}_{b} (f_m)
+\end{equation}
+as a fringe-rate filtered set of visibilities, it becomes clear that the sum over $m$ is a dot product between the visibilities of two baselines in fringe-rate space.  Invoking Parseval's theorem to rewrite the sum over fringe-rate as an integral over time, we obtain
+\begin{equation}
+\widehat{C}_\ell (\nu, \nu^\prime) = N_\ell  \int_{-\frac{T_\Earth}{2}}^{\frac{T_\Earth}{2}} \frac{dt}{T_\Earth}  \sum_{bb^\prime} V^{\textrm{filt}*}_{b^\prime,\ell} (t) V^\textrm{filt}_{b,\ell} (t),
+\end{equation}
+where the de-noised visibility is defined as
+\begin{equation}
+V^\textrm{filt}_{b,\ell} (t)=  \sum_m \exp \left[i \frac{2 \pi m t}{T_\Earth}\right] w_{\ell m}^* \widetilde{V}_{b} (f_m).
+\end{equation}
+
+The final estimator calls for the formation of cross-power spectra between fringe-rate filtered visibilities from all baseline pairs, and then to average in time.  What this shows is that even though naive time integration is suboptimal for power spectrum estimation (just as it was suboptimal for imaging), it is possible to define a set of de-noised visibilities that do give an optimal power spectrum estimate when time-averaged.  Note that since Equation \eqref{eq:generalEst} is the 
+
+The ability to work simply and optimally with a de-noised set of visibilities can be advantageous over other approaches.  For instance, having a built-in way to optimally combine time-ordered data allows one to circumvent the mapmaking process, which can introduce gridding artifacts that are eventually propagated into a power spectrum.  In addition, while Equation \eqref{eq:mspaceEst} shows that it is possible to work entirely in fringe-rate space and therefore not strictly necessary to go back to the de-noised, time-domain visibilities, having data in the form a time series can be useful for dealing with potential systematics such as RFI [XXX: make sure we've defined the acronym by this point].
+
+Our definition of de-noised visibilities also makes it easier to see how 
+
+Also, the sensitivity benefits are transparent.
+
+Do stuff by simulations.
+
 
 [XXX: Maybe discuss computational cost for narrow field telescopes vs. widefield?]
 
