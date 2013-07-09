@@ -69,6 +69,8 @@ Further details are supplied in Appendices A and B of \citet{parsons_et_al2013}.
 
 \section{The mapmaking problem: combining time-ordered data in an optimal way}
 
+[XXX: Say somewhere that unless otherwise stated, considering a drift-scan telescope.]
+
 In this section, our goal is to examine how time-ordered visibilities from an
 interferometer should be best combined into information about the sky (such as
 an image-domain map).  Contrary to expectations, we will find that it is
@@ -364,40 +366,41 @@ time-ordered data from an interferometer.
 
 [XXX: Talk about how we're only going to use these to guide intuition, and more numerical stuff later in the paper.]
 
-\subsection{Effective beam patterns}
+\subsection{The possibility of deconvolution}
 
-Unlike the narrow-beam toy example of Section \ref{timeSubOpt}, Equation
-\eqref{fringeBessel} reveals that in general, the fringe-rate response of a
-celestial source depends on the declination of the source.  Sources near the
-celestial pole tend to have low fringe rates, whereas those near the celestial
-equator tend to have higher fringe rates, as one can see in Figure [XXX: insert
-figure refrence].  Applying a filter in fringe-rate space therefore
-geometrically selects certain parts of the sky, effectively narrowing the
-primary beam of the observation.  To see this, consider an interferometer
-baseline of length $16 \lambda$, located at the equator.  Neglecting the
-effects of the instrument's primary beam, the contribution of sources to
-$\widetilde{V}_b (f_n)$ at various $\theta$ is given by $ J_n ( 2 \pi b_0 \sin
-\theta / \lambda ) \sin \theta$.  This function has a broad response over a
-large range of $\theta$, as one can see in the left column of Figure
-\ref{besselContributions}.  However, this response is highly oscillatory away
-from zero declination ($\theta = \pi/2$) and therefore cancels out near
-celestial poles, particularly for low fringe-rate bins.  To quantify this, we
-plot in the right panels of Figure \ref{besselContributions} the cumulative
-effect of sources at various $\theta$, i.e.
-\begin{equation}
-\label{eq:cumulResponse}
-I_n ( \theta) \equiv \int_0^\theta J_n \left( \frac{2 \pi b_0 \sin \gamma }{ \lambda} \right) \sin \gamma \, d\gamma,
-\end{equation}
-and ask which range of $\theta$ values contribute most to the final result
-$\widetilde{V}_b (f_n) \propto I_n (\pi /2)$.  One sees that for the low
-($n=5$) fringe-rate bin, most of the contribution to $\widetilde{V}_b (f_n)$
-comes from a narrow region around $\theta \approx \pi / 2$, whereas for the
-higher fringe-rate, a broader range of declinations contribute to the final
-result.  A fringe-rate filter that downweights high fringe-rates therefore
-narrows the effective beam.
-
-We now compute more rigorously quantify the notion of an effective beam.  Note
-that if one has a sufficient number of baselines (roughly speaking, a
+%Unlike the narrow-beam toy example of Section \ref{timeSubOpt}, Equation
+%\eqref{fringeBessel} reveals that in general, the fringe-rate response of a
+%celestial source depends on the declination of the source.  Sources near the
+%celestial pole tend to have low fringe rates, whereas those near the celestial
+%equator tend to have higher fringe rates, as one can see in Figure [XXX: insert
+%figure refrence].  Applying a filter in fringe-rate space therefore
+%geometrically selects certain parts of the sky, effectively narrowing the
+%primary beam of the observation.  To see this, consider an interferometer
+%baseline of length $16 \lambda$, located at the equator.  Neglecting the
+%effects of the instrument's primary beam, the contribution of sources to
+%$\widetilde{V}_b (f_n)$ at various $\theta$ is given by $ J_n ( 2 \pi b_0 \sin
+%\theta / \lambda ) \sin \theta$.  This function has a broad response over a
+%large range of $\theta$, as one can see in the left column of Figure
+%\ref{besselContributions}.  However, this response is highly oscillatory away
+%from zero declination ($\theta = \pi/2$) and therefore cancels out near
+%celestial poles, particularly for low fringe-rate bins.  To quantify this, we
+%plot in the right panels of Figure \ref{besselContributions} the cumulative
+%effect of sources at various $\theta$, i.e.
+%\begin{equation}
+%\label{eq:cumulResponse}
+%I_n ( \theta) \equiv \int_0^\theta J_n \left( \frac{2 \pi b_0 \sin \gamma }{ \lambda} \right) \sin \gamma \, d\gamma,
+%\end{equation}
+%and ask which range of $\theta$ values contribute most to the final result
+%$\widetilde{V}_b (f_n) \propto I_n (\pi /2)$.  One sees that for the low
+%($n=5$) fringe-rate bin, most of the contribution to $\widetilde{V}_b (f_n)$
+%comes from a narrow region around $\theta \approx \pi / 2$, whereas for the
+%higher fringe-rate, a broader range of declinations contribute to the final
+%result.  A fringe-rate filter that downweights high fringe-rates therefore
+%narrows the effective beam.
+%
+%We now compute more rigorously quantify the notion of an effective beam.  Note
+%that 
+If one has a sufficient number of baselines (roughly speaking, a
 ``fully-filled $uv$-plane"), then the application of $ \left[ \A^\dagger
 \N^{-1} \A \right]^{-1}$ should perfectly deconvolve instrumental beams in our
 estimator of the sky [Equation \eqref{optEst}] and leave a delta-function
@@ -413,6 +416,7 @@ that it expresses a given baseline's fringe-rate measurements in terms of
 azimuthal Fourier modes $a_m(\theta)$ of the sky $T(\theta, \varphi) = \sum_m
 a_m(\theta) e^{i m \varphi}$.  The measurement equation becomes
 \begin{equation}
+\label{eq:convenientBasis}
 \widetilde{V}_b (f_n) = \sum_m \int d\theta \, B_\theta (\theta) \sin \theta  \, e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \cos \theta}  \sum_q \widetilde{B}_q  J_{n-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right) \delta_{mn} a_m (\theta).
 \end{equation}
 The Kronecker delta function appears because for a drift-scan telescope, the
@@ -428,8 +432,8 @@ results in
 where we have once again taken $\N$ to be diagonal, with entries $\sigma^2$, and have made the definitions
 \begin{eqnarray}
 g_b(\theta, m) &\equiv& B_\theta^*(\theta) \sin \theta e^{i 2 \pi  \frac{b_y}{\lambda} \cos \eta \cos \theta}  \sum_q \widetilde{B}^*_q  J_{m-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right) \\
-h_b ( \theta, m) &\equiv& \frac{g_b (\theta, m)}{\int_0^\pi g_b (\gamma, m) d\gamma} \\
-\lambda_b^m &\equiv&  \Bigg{|} \int_0^\pi g_b (\gamma, m) d\gamma  \Bigg{|} ^2.
+h_b ( \theta, m) &\equiv& \frac{g_b (\theta, m)}{\sqrt{\lambda_b^m}} \\
+\lambda_b^m &\equiv&  \int_0^\pi |g_b (\gamma, m) |^2 d\gamma .
 \end{eqnarray}
 
 Whether or not $\A^\dagger \N^{-1} \A$ is invertible for a given baseline
@@ -478,165 +482,225 @@ baselines for invertibility, Equation \eqref{eq:sigma} says that
 \end{equation} 
 As expected, azimuthal modes corresponding to low fringe-rate bins can be
 measured with high signal-to-noise.
-
-In the event of non-invertibility, on the other hand, one may elect to forgo
-the deconvolution step, and to simply normalize the estimator of the sky
-appropriately.  Put another way, as an alternative to Equation \eqref{optEst},
-we can instead use
-\begin{equation}
-\hat{\x} = \mathbf{M} \A^t \N^{-1} \vis
-\end{equation}
-as our estimator, where $\mathbf{M}$ is a diagonal normalization matrix.
-Inserting Equation \eqref{measEqn} into this and taking the ensemble average
-gives
-\begin{equation}
-\langle \hat{\x} \rangle = \mathbf{M} \A^t \N^{-1} \A \x \equiv \mathbf{B}^\textrm{eff} \x,
-\end{equation}
-where we have assumed that the instrumental noise is unbiased, so that $\langle
-\mathbf{n} \rangle = 0$, and have defined an effective beam matrix
-$\mathbf{B}^\textrm{eff}$ that is proportional to $\A^\dagger \N^{-1} \A$,
-which we have already computed in an $(m, \theta)$ basis.  If we were to
-re-express our result in a $(\varphi, \theta)$ (i.e., image) basis, each row of
-$\mathbf{B}^\textrm{eff}$ would give the weighted average of the true sky that
-forms the estimator of the sky temperature in some direction---precisely what
-one would define as an effective beam.  To ensure that these beams and our
-estimator are properly normalized, we require that each row sums to unity,
-which implicitly defines $\mathbf{M}$.  Importantly, our definition of the
-effective beam includes both the effects of the primary beam and the
-synthesized beam.
-
-For intuition and simplicity, however, suppose we stay in the $(m, \theta)$
-basis and keep $m$ fixed while we examine the behavior of the effective beam as
-a function of $\theta$ for a pure east-west baseline.  Ignoring irrelevant
-normalization constants, the result from Equation \eqref{manifest} is
-\begin{equation}
-B^\textrm{eff} (\theta) \propto B_\theta (\theta) \sin \theta \sum_q \widetilde{B}_q  J_{m-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right).
-\end{equation}
-The Bessel function provides an additional tapering of the primary beam, just
-as we heuristically predicted at the beginning of this section.  This is not
-the result of deconvolution, since we assumed no deconvolution in this
-treatment.  The narrowing of the beam is due purely to an optimal combination
-of time-ordered data.
-
-Finally, with a limited number of baselines, one may also perform a partial
-deconvolution.  For example, if one replaces the uncomputable quantity $\left[
-\A^\dagger \N^{-1} \A \right]^{-1}$ by a pseudoinverse, the eigenmodes that are
-present in the data will be deconvolved, while those that are missing will be
-set to zero \citep{Shaw2013}.  The result is a partially narrowed beam that
-converges to a delta function in both sky directions as baselines are added
-until full invertibility is attained.
-
 %
-%Assuming again that $\N$ is diagonal, we have that $\mathbf{B}^\textrm{eff} \propto \A^t \A$.  Evaluating this quantity again for a drift-scan telescope yields (for a single row of the matrix, corresponding to the effective beam pattern centered in direction $\rhat^\prime$)
+%In the event of non-invertibility, on the other hand, one may elect to forgo
+%the deconvolution step, and to simply normalize the estimator of the sky
+%appropriately.  Put another way, as an alternative to Equation \eqref{optEst},
+%we can instead use
 %\begin{equation}
-%B^\textrm{eff}_{\rhat^\prime} (\rhat) \propto \sum_b \int dt B^*(\rhat^\prime, t) B(\rhat, t) e^{i \frac{2 \pi b_y}{\lambda} \cos \eta (\cos \theta^\prime - \cos \theta)} e^{i \frac{2 \pi b_0}{\lambda} (\sin \theta^\prime \sin (\varphi^\prime - \omega_\Earth t ) - \sin \theta \sin (\varphi - \omega_\Earth t )) }.
+%\hat{\x} = \mathbf{M} \A^t \N^{-1} \vis
 %\end{equation}
-%To simplify this, notice that the time-dependent term in the exponent can be written as
+%as our estimator, where $\mathbf{M}$ is a diagonal normalization matrix.
+%Inserting Equation \eqref{measEqn} into this and taking the ensemble average
+%gives
 %\begin{equation}
-%\sqrt{\sin^2 \theta + \sin^2 \theta^\prime - 2 \sin \theta \sin \theta^\prime \cos (\varphi - \varphi^\prime) } \sin (\omega_\Earth + \kappa),
+%\langle \hat{\x} \rangle = \mathbf{M} \A^t \N^{-1} \A \x \equiv \mathbf{B}^\textrm{eff} \x,
 %\end{equation}
-%where
+%where we have assumed that the instrumental noise is unbiased, so that $\langle
+%\mathbf{n} \rangle = 0$, and have defined an effective beam matrix
+%$\mathbf{B}^\textrm{eff}$ that is proportional to $\A^\dagger \N^{-1} \A$,
+%which we have already computed in an $(m, \theta)$ basis.  If we were to
+%re-express our result in a $(\varphi, \theta)$ (i.e., image) basis, each row of
+%$\mathbf{B}^\textrm{eff}$ would give the weighted average of the true sky that
+%forms the estimator of the sky temperature in some direction---precisely what
+%one would define as an effective beam.  To ensure that these beams and our
+%estimator are properly normalized, we require that each row sums to unity,
+%which implicitly defines $\mathbf{M}$.  Importantly, our definition of the
+%effective beam includes both the effects of the primary beam and the
+%synthesized beam.
+%
+%For intuition and simplicity, however, suppose we stay in the $(m, \theta)$
+%basis and keep $m$ fixed while we examine the behavior of the effective beam as
+%a function of $\theta$ for a pure east-west baseline.  Ignoring irrelevant
+%normalization constants, the result from Equation \eqref{manifest} is
 %\begin{equation}
-%\kappa = \textrm{arctan} \left( \frac{\sin \theta \sin \varphi - \sin \theta^\prime \sin \varphi^\prime}{\sin \theta^\prime \cos \varphi^\prime - \sin \theta \cos \varphi}\right).
+%B^\textrm{eff} (\theta) \propto B_\theta (\theta) \sin \theta \sum_q \widetilde{B}_q  J_{m-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right).
 %\end{equation}
-%Then, using the same mathematical tricks as we employed earlier in the paper, one obtains
-%\begin{equation}
-%B^\textrm{eff}_{\rhat^\prime} (\rhat) \propto B_\theta (\theta) B_\theta (\theta^\prime) \sum_b e^{i \frac{2 \pi b_y}{\lambda} \cos \eta (\cos \theta^\prime - \cos \theta)} g(\theta, \phi, \theta^\prime, \phi^\prime, b_0).
-%\end{equation}
-%where
-%\begin{equation}
-%g(\theta, \phi, \theta^\prime, \phi^\prime, b_0) \equiv \sum_{q,r} \widetilde{B}^*_q \widetilde{B}_r e^{i q \varphi^\prime} e^{-i r \varphi} e^{i (q-r) \kappa} J_{q-r} \left( \frac{2 \pi b_0}{\lambda} \sqrt{\sin^2 \theta + \sin^2 \theta^\prime - 2 \sin \theta \sin \theta^\prime \cos (\varphi - \varphi^\prime) }   \right).
-%\end{equation}
-%While somewhat unwieldy, some intuition for this formula can be obtained by examining certain special cases.  Suppose, for instance, the primary beam has no azimuthal dependence, and that our baseline is oriented purely in the east-west direction.  The effective beam then reduces to
-%\begin{equation}
-%B^\textrm{eff}_{\rhat^\prime} (\rhat) \propto B_\theta (\theta) B_\theta (\theta^\prime) \sum_b  J_0 \left( \frac{2 \pi b_0}{\lambda} \sqrt{\sin^2 \theta + \sin^2 \theta^\prime - 2 \sin \theta \sin \theta^\prime \cos (\varphi - \varphi^\prime) }   \right).
-%\end{equation}
-%First, notice that even for a single baseline, the tapering shape of the Bessel function $J_0$ narrows the primary beam somewhat, as expected from the discussion above.  With multiple baselines, the beam further narrows 
-%[XXX: HMM.  If we have eigenbeams, one can say that these are the beams that people ought to be convolving with. if they want to see what their images look like after ]
+%The Bessel function provides an additional tapering of the primary beam, just
+%as we heuristically predicted at the beginning of this section.  This is not
+%the result of deconvolution, since we assumed no deconvolution in this
+%treatment.  The narrowing of the beam is due purely to an optimal combination
+%of time-ordered data.
+%
+%Finally, with a limited number of baselines, one may also perform a partial
+%deconvolution.  For example, if one replaces the uncomputable quantity $\left[
+%\A^\dagger \N^{-1} \A \right]^{-1}$ by a pseudoinverse, the eigenmodes that are
+%present in the data will be deconvolved, while those that are missing will be
+%set to zero \citep{Shaw2013}.  The result is a partially narrowed beam that
+%converges to a delta function in both sky directions as baselines are added
+%until full invertibility is attained.
 
-\begin{figure*}
-\centering
-\includegraphics[width=1.0\textwidth]{plots/besselContributions.pdf}
-\caption{
-Left column: responses of selected fringe rate bins to different $\theta$ (and
-therefore different declinations).  Right column: cumulative response
-integrated from $0$ to $\theta$, i.e. $I_n (\theta)$ as defined by Equation
-\eqref{eq:cumulResponse}.  The top row shows the $n=5$ fringe-rate bin, while
-the bottom row shows the $n=50$ fringe-rate bin, with the $n^{th}$ bin defined
-to have a fringe rate of $f_n \equiv n / T_\Earth$.  For these illustrative
-plots, the primary beam was ignored, and the baseline under consideration was a
-single $16\lambda$ baseline with an east-west orientation at the equator.  From
-the right column, one sees that lower fringe rates derive most of their
-celestial signal from a narrow region in the sky, so low-pass fringe-rate
-filtering suggested in Section \ref{fringeRateIntro} causes a narrowing of the
-effective primary beam.
-}
-\label{besselContributions}
-\end{figure*}
 
-\subsection{De-noising data sets for power spectrum estimation}
-Until now, our discussion of fringe-rate filtering has centered around the mapmaking problem.  However, our intuitive understanding of fringe-rate filtering---that it differentiates instrumental noise from celestial signals by identifying certain fringe rates as being too rapid to be physical sources on the sky---holds much more generally.  In this section, we consider fringe-rate filtering in the context of power spectrum estimation, and in particular show how fringe-rate filtering can be used as a preprocessing tool to de-noise data sets prior to power spectrum estimation.
+%\begin{figure*}
+%\centering
+%\includegraphics[width=1.0\textwidth]{plots/besselContributions.pdf}
+%\caption{
+%Left column: responses of selected fringe rate bins to different $\theta$ (and
+%therefore different declinations).  Right column: cumulative response
+%integrated from $0$ to $\theta$, i.e. $I_n (\theta)$ as defined by Equation
+%\eqref{eq:cumulResponse}.  The top row shows the $n=5$ fringe-rate bin, while
+%the bottom row shows the $n=50$ fringe-rate bin, with the $n^{th}$ bin defined
+%to have a fringe rate of $f_n \equiv n / T_\Earth$.  For these illustrative
+%plots, the primary beam was ignored, and the baseline under consideration was a
+%single $16\lambda$ baseline with an east-west orientation at the equator.  From
+%the right column, one sees that lower fringe rates derive most of their
+%celestial signal from a narrow region in the sky, so low-pass fringe-rate
+%filtering suggested in Section \ref{fringeRateIntro} causes a narrowing of the
+%effective primary beam.
+%}
+%\label{besselContributions}
+%\end{figure*}
 
-Our goal is to consider how an optimal estimator for a power spectrum (or any other two-point statistic) can be phrased in terms of a fringe-rate filtered data set.  As an example, we will consider the frequency-frequency angular cross-power spectrum $C_\ell (\nu, \nu^\prime)$.  This represents no loss of generality, even though most $21\,\textrm{cm}$ experiments seek to measure the spherically averaged power spectrum $P(k)$, as the two quantities are related by an invertible linear operation (which we show explicitly in Appendix XXX).  Thus, an optimal and lossless prescription for computing $C_\ell (\nu, \nu^\prime)$ can be easily translated into one for $P(k)$.  Here we deal with the former because it is a more natural quantity to consider when the flat-sky approximation does not hold.
+\subsection{De-noising visibilities without mapmaking}
+Until now, our discussion of fringe-rate filtering has centered around the mapmaking problem.  However, our intuitive understanding of fringe-rate filtering---that it differentiates instrumental noise from celestial signals by identifying high fringe-rates as being noise-dominated---holds much more generally.    In this section, we show how fringe-rate filtering can be used a de-noising tool for visibilities, bypassing the image domain entirely.  This allows one to take advantage an important benefit of mapmaking, namely, the reduction of instrumental noise through the coherent combination of time-ordered data, while avoiding some of its drawbacks such as the introduction of curved-sky or gridding artifacts.  Moreover, for many applications (such as power spectrum estimation), it is more natural to work with interferometric visibilities directly, provided they can be de-noised.
 
-To form an optimal estimator for $C_\ell (\nu, \nu^\prime)$, one computes
+To de-noise our visibilities, suppose (for a brief moment) that one did in fact produce an estimator $\xhat$ of the sky in the image domain.  One could then transform this estimator back into time-ordered visibilities $\vis_\textrm{filt}$ by simply computing $\vis_\textrm{filt} \equiv \A \xhat$.  Such a set of visibilities would represent de-noised visibilities since Equation \eqref{optEst} is essentially a best-fit solution based on noisy data, which means that $\A \xhat$ is simply the predicted measurements from the best-fit model.  Now, if these predicted measurements were actually generated by first forming a map, one would still incur all the difficulties in imaging that one had hoped to avoid.  To deal with this issue, we note that the relationship between the original visibilities and the de-noised ones are given by
 \begin{equation}
-\label{eq:generalEst}
-\widehat{C}_\ell (\nu, \nu^\prime)  = N_\ell \vis^\dagger(\nu) \mathbf{C}^{-1} \mathbf{Q}^\ell \mathbf{C}^{-1} \vis(\nu^\prime),
+\vis_\textrm{filt} = \A \left[ \A^\dagger \N^{-1} \A \right]^{-1} \A^\dagger \N^{-1} \vis \equiv \mathbf{W}  \vis.
 \end{equation}
-where $\mathbf{C} \equiv \langle \vis \vis^\dagger \rangle$ is the covariance matrix of measured visibilities, $\mathbf{Q}^\ell \equiv \partial \mathbf{C} / \partial C_\ell $ is the response of the covariance matrix to $C_\ell$, and $N_\ell$ is a normalization constant.  [XXX: cite stuff].  As usual, this matrix equation can be evaluated in any basis.  Like before, however, it will be particularly convenient to express the relevant measurements in a per-baseline, fringe-rate basis, and the true sky in terms of spherical harmonics so that $T(\rhat) = \sum_{\ell m} a_{\ell m} Y_{\ell m} (\rhat)$.  Re-expressing our measurement equation yet again, we have
+The matrix $\mathbf{W}$ can be thought of as a de-noising filter, and if it can be computed analytically we will have bypassed imaging entirely.
+
+Fortunately, an analytic treatment is possible if one makes the observation that the matrices ``internal" to $\mathbf{W}$ can be expressed in any basis without affecting the final result.  Expressing the $\A$ matrix in a fringe-rate/azimuthal Fourier mode/polar angle/baseline basis, i.e. the basis implied by Equation \eqref{eq:convenientBasis}, a little algebra reveals that $\mathbf{W}$ takes the form
 \begin{equation}
-\widetilde{V}_b (f_m) = \sum_\ell w_{\ell m} (b) a_{\ell m} + n_{m}
+\label{eq:denoiseweights}
+\mathbf{W}_{n,b; n^\prime\!,b^\prime} = \delta_{nn^\prime}\sum_{b^{\prime\prime}} \frac{c_{bb^\prime}(n) c^*_{b^\prime b^{\prime\prime}}(n)}{(\lambda_{b^{\prime \prime}}^n )^2},
+\end{equation}
+where we have again assumed white noise, and have defined
+\begin{equation}
+c_{bb^\prime}(n) \equiv  \int_0^\pi  g_b^*(\theta,n) g_{b^{\prime}}(\theta,n) d\theta.
+\end{equation}
+[XXX: may need to be clearer about what basis the final result is in.]  The various matrix elements of $\mathbf{W}$ provide the linear combinations of data from various baselines and fringe-rate bins that should be taken to de-noise the data.  Different fringe-rate bins do not mix, whereas the data from different baselines are combined to de-noise a given fringe-rate bin.  Intuitively, a given fringe-rate is measured by different baselines with different levels of sensitivity (for instance, longer baselines more ``naturally" sample higher fringe-rates), and $\mathbf{W}$ takes this into account to combine data in an optimal way.  Note that with our analytical prescription, all relevant quantities can be precomputed given a beam model, and no imaging is required to combine information from different baselines.
+
+\subsection{De-noising visibilities from a single baseline}
+
+While Equation \eqref{eq:denoiseweights} is useful for combining information from different baselines, it is unable to de-noise data from a single baseline.  Indeed, one can see that $\mathbf{W}$ reduces to the identity matrix in the single baseline case.  To understand this, recall that for a drift-scan interferometer there is a one-to-one, monotonic correspondence fringe-rate and azimuthal Fourier number.  Thus, while high fringe-rate bins are quite \emph{likely} to be noise-dominated, if the sky contained a strong signal in a high azimuthal Fourier mode, it would in principle be \emph{possible} for the bin to be signal-dominated.  Put another way, high fringe-rate bins are not necessarily noise-dominated and discardable, since they each access unique information about the sky.
+
+In order to de-noise visibilities from a single baseline, it is necessary to place a prior on the nature of the sky signal.  For instance, suppose one had reliable prior knowledge of the sky in the form of a signal covariance matrix $\mathbf{S} \equiv \langle \x \x \rangle$.  One could then form a Wiener-filtered estimate of $\x$:
+\begin{equation}
+\label{eq:WienerEst}
+\xhat_\textrm{Wiener} = \left[ \mathbf{S}^{-1} + \mathbf{A}^\dagger \mathbf{N}^{-1} \mathbf{A} \right]^{-1} \mathbf{A}^\dagger \mathbf{N}^{-1} \vis,
+\end{equation}
+which by construction minimizes $\langle | \xhat_\textrm{Wiener} - \x |^2 \rangle$, the expected error \citep{Tegmark97}.  Like before, we can then proceed to multiply by $\mathbf{A}$ to arrive at a set of filtered visibilities:
+\begin{equation}
+\vis_\textrm{Wiener} \equiv \A \xhat_\textrm{Wiener}.
+\end{equation}
+As an example, suppose the sky consisted of a continuum of unresolved and unclustered point sources.  The signal covariance matrix would then be of the form $\mathbf{S} = \sigma_s^2 \mathbf{I}$, where $\sigma_s$ is some root-mean-square signal magnitude.  In the low signal-to-noise limit\footnote{What turns out to be a signal-to-noise weighting in our special case simply becomes a signal-over-signal-plus-noise weighting in the general case.}, where the second term in Equation \ref{eq:WienerEst}'s inverse term can be neglected, the de-noising filter $\mathbf{W}^\textrm{Wiener}$ becomes
+\begin{equation}
+\label{eq:WienerWeights}
+\mathbf{W}^\textrm{Wiener}_{n n^\prime} = \delta_{n n^\prime} \frac{\sigma_s^2}{\sigma_n^2} \int_0^{\pi}  | g_b (\theta, n) |^2 d\theta.
+\end{equation}
+Each element of this diagonal matrix specifies a weighting for a fringe-rate bin.  The integral quantifies the response of the baseline to the particular fringe-rate bin, and when multiplied by $\sigma_s^2$, gives the signal in the bin.  (Note that $\sigma_s$ and $\sigma_n$ have different units, so that $\mathbf{W}^\textrm{Wiener}$ is dimensionless).  With $\sigma_n^2$ in the denominator, the Wiener filter enacts a signal-to-noise weighting in fringe-rate space.  Given that $ | g_b (\theta, n) |^2$ decays rapidly at high $n$ (as discussed in previous sections), the Wiener filter does precisely what we intuitively expect it to do: it down-weights high fringe-rates that are likely noise-dominated.  Our placement of a flat signal prior essentially precluded the possibility that a strong signal in high azimuthal Fourier modes could result in a signal-dominated measurement at high fringe-rate bins, allowing us to safely downweight those bins without sacrificing signal.
+
+Care must be taken, however, when using a set of visibilities that have been Wiener-filtered.  Because fringe-rate filtering is effectively a way to enact time-integration, the resulting time-series of filtered visibilities will possess correlated errors and will no longer be independent.  This is expected and desirable in the sense that it is what allows the Wiener filter to minimize errors.  However, this comes at a cost.  Recall that fringe-rates map directly to azimuthal Fourier mode numbers.  Thus, if one were to use the Wiener-filtered data to measure (say) a power spectrum, the result would be biased low, as Equation \eqref{eq:WienerWeights} gives fringe-rate weights that are all less than one.
+
+\subsection{De-noising visibilities for power spectrum estimation}
+
+To avoid incurring a multiplicative bias in power spectrum estimator, it is necessary to appropriately normalize the weights derived in the previous section.  This normalization cannot be done on a fringe-rate-by-fringe-rate basis, since the diagonal nature of $\mathbf{W}^\textrm{Wiener}$ would result in the identity matrix.  (This follows immediately from the arguments that led us to impose a prior on the signal covariance matrix, namely that each fringe-rate bin probes unique information on the sky).  However, a typical power spectrum estimator takes advantage of statistical isotropy to sum together the power estimates of individual azimuthal modes (or equivalently, fringe rates).  To arrive at a power-conserving normalization, then, we simply require that the summed power estimates are properly normalized.  This allows different fringe rates to retain their relative normalization, preserving the de-noising ability of our filter.
+
+As an example, suppose one were to form an estimator of the angular cross-power spectrum $C_\ell$ between the sky at two frequencies:
+\begin{equation}
+\label{eq:C_Ell}
+\widehat{C}_\ell (\nu, \nu^\prime) \propto \frac{1}{2\ell + 1} \sum_{m=-\ell}^{\ell} \vis^*_m (\nu) \vis_m (\nu^\prime),
+\end{equation}
+where $K=...$ [XXX: put in a conversion factor for Jy to K etc. Need to be better about the distinction between xhat and v].  If one makes the assumption that a given baseline's response is strongly peaked at the specific angular mode $\ell \sim 2 \pi \sqrt{b_x^2+ b_y^2} / \lambda$, we will only need to consider the estimator on a baseline-by-baseline basis.  If the input visibilities are chosen to be the Wiener-filtered ones, this estimator can be shown to be an optimal, minimum-variance estimator [XXX: need to dig up Ue-Li and Uros' paper references].  Now, isotropy dictates that all azimuthal Fourier modes contribute the same power.  To ensure that the power spectrum estimate is properly normalized, we therefore require the \emph{square} of the weights given by Equation \eqref{eq:WienerWeights} sum to unity.  In other words, for the purposes of power spectrum estimation one weights the $n^\textrm{th}$ fringe-rate bin by
+\begin{equation}
+w_n = \frac{ \int_0^{\pi}  | g_b (\theta, n) |^2 d\theta}{\sum_m \left( \int_0^{\pi}  | g_b (\theta^\prime, m) |^2 d\theta^\prime \right)^2 },
+\end{equation}
+with filtered visibilities given by $v^\textrm{filt}_n = w_n v_n$.
+
+Equation \eqref{eq:C_Ell} can be written in terms of a time-series by the nothing the following.  Since the interferometer response decays rapidly for large fringe-rate bins, we can extend the sum over $m$ to go from $-\infty$ to $+\infty$.  Then recalling that $m$ doubles as the fringe-rate index, which is the Fourier dual to time, one can use Parseval's theorem to write
+\begin{equation}
+\widehat{C}_\ell \propto \frac{1}{2\ell +1}  \int_{-\frac{T_\Earth}{2}}^{\frac{T_\Earth}{2}} \frac{dt}{T_\Earth}   V_{\textrm{filt}}^* (\nu,t) V_\textrm{filt} (\nu^\prime,t),
 \end{equation}
 where
-\begin{eqnarray}
-w_{\ell m} = \sum_n \int d\Omega && Y_{\ell n}^*(\rhat) e^{i \frac{2 \pi b_y}{\lambda} \cos \eta \cos \theta} e^{i m \varphi} B_\theta (\theta) \nonumber \\
-&&\times \sum_q \widetilde{B}^*_q  J_{m-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right).
-\end{eqnarray}
-[XXX: Could be a complex conjugate in the last term.  Check.]  The covariance matrix is then
 \begin{equation}
-\mathbf{C}_{m,b;m^\prime,b^\prime} = \sum_\ell w_{\ell m}(b) w^*_{\ell m^\prime }(b^\prime) C_\ell \delta_{m m^\prime} + \sigma^2 \delta_{m m^\prime} \delta_{b b^\prime},
+V_\textrm{filt}(\nu,t)=  \sum_m \exp \left[i \frac{2 \pi m t}{T_\Earth}\right] w_m v_m (\nu).
 \end{equation}
-where we used $\langle a_{\ell m} a^*_{\ell^\prime m^\prime} \rangle = C_\ell \delta_{\ell \ell^\prime} \delta_{m m^\prime}$ [XXX: Probably a normalization factor too.] and the noise covariance of Equation \eqref{eq:noiseCovar}.  Differentiating gives
-\begin{equation}
-\mathbf{Q}^\ell_{m,b;m^\prime,b^\prime} =  w_{\ell m}(b) w^*_{\ell m^\prime }(b^\prime) \delta_{m m^\prime}.
-\end{equation}
-Moving forward, we will assume that our observations are relatively low signal to noise, so that $\mathbf{C}$ is dominated by the noise covariance and $\mathbf{C}^{-1} \approx \sigma^{-2} \mathbf{I}$.  This will give a final estimator that effectively weights data samples by their signal-to-noise.  The generalization to a high signal-to-noise regime is straightforward, and results in data samples weighted by signal over signal-plus-noise.
+Written in this way, it is clear that the optimal power spectrum estimator reduces to averaging together estimators that are formed at every instant in time---provided that one uses the fringe-rate filtered visibilities instead of the original, unprocessed visibilities.  Ordinarily, forming power spectra at every instant is suboptimal because it involves the squaring of visibilities, resulting in the loss of coherent phase information.  In other words, one cannot coherently add together constraints on the same sky information from different time slices, and errors in the power spectrum average down as $1/\sqrt{t}$.  Traditionally, coherent integration can be implemented by first forming a map of the sky (in whatever basis one desires), and then to estimate the power spectrum from maps.  The final errors on the power spectrum then decrease as $1/t$.  What has been shown here is that fringe-rate filtered visibilities are visibilities that have effectively already been coherently integrated in time, and estimating the power spectrum time-slice-by-time-slice with them represents no loss of sensitivity.  Working in a time basis can be preferable to using Equation \eqref{eq:C_Ell} directly because many systematics can be more easily isolated by examining time-series data.  Our analytic expressions allow fringe-rate filtering to be performed without mapmaking, reducing the possibility of image-domain artifacts and curved-sky complications.
 
-With the aforementioned assumptions, our optimal estimator becomes
-\begin{equation}
-\label{eq:mspaceEst}
-\widehat{C}_\ell (\nu, \nu^\prime) = N_\ell \sum_{mbb^\prime} \widetilde{V}^*_b (f_m) w_{\ell m}(b) w^*_{\ell m}(b^\prime) \widetilde{V}_{b^\prime} (f_m),
-\end{equation}
-where we have absorbed the (constant) factors of $\sigma^2$ into the normalization $N_\ell$.  This expression can be applied as-is, but can also be interpreted in terms of time-ordered, filtered visibilities.  If we define
-\begin{equation}
-\widetilde{V}^\textrm{filt}_{b,\ell} (f_m) \equiv w^*_{\ell m}(b) \widetilde{V}_{b} (f_m)
-\end{equation}
-as a fringe-rate filtered set of visibilities, it becomes clear that the sum over $m$ is a dot product between the visibilities of two baselines in fringe-rate space.  Invoking Parseval's theorem to rewrite the sum over fringe-rate as an integral over time, we obtain
-\begin{equation}
-\widehat{C}_\ell (\nu, \nu^\prime) = N_\ell  \int_{-\frac{T_\Earth}{2}}^{\frac{T_\Earth}{2}} \frac{dt}{T_\Earth}  \sum_{bb^\prime} V^{\textrm{filt}*}_{b^\prime,\ell} (t) V^\textrm{filt}_{b,\ell} (t),
-\end{equation}
-where the de-noised visibility is defined as
-\begin{equation}
-V^\textrm{filt}_{b,\ell} (t)=  \sum_m \exp \left[i \frac{2 \pi m t}{T_\Earth}\right] w_{\ell m}^* \widetilde{V}_{b} (f_m).
-\end{equation}
-
-The final estimator calls for the formation of cross-power spectra between fringe-rate filtered visibilities from all baseline pairs, and then to average in time.  What this shows is that even though naive time integration is suboptimal for power spectrum estimation (just as it was suboptimal for imaging), it is possible to define a set of de-noised visibilities that do give an optimal power spectrum estimate when time-averaged.  Note that since Equation \eqref{eq:generalEst} is the 
-
-The ability to work simply and optimally with a de-noised set of visibilities can be advantageous over other approaches.  For instance, having a built-in way to optimally combine time-ordered data allows one to circumvent the mapmaking process, which can introduce gridding artifacts that are eventually propagated into a power spectrum.  In addition, while Equation \eqref{eq:mspaceEst} shows that it is possible to work entirely in fringe-rate space and therefore not strictly necessary to go back to the de-noised, time-domain visibilities, having data in the form a time series can be useful for dealing with potential systematics such as RFI [XXX: make sure we've defined the acronym by this point].
-
-Our definition of de-noised visibilities also makes it easier to see how 
-
-Also, the sensitivity benefits are transparent.
-
-Do stuff by simulations.
+[XXX: Need to find a place to talk about effective beams and how it affects power spectrum sensitivity.  Talk about how we will henceforth use simulated effective beams so that we don't have to make all the assumptions that went into the analytic work.  Should also credit Richard for the fringe-rate --> m-mode correspondence more throughout.]
 
 
-[XXX: Maybe discuss computational cost for narrow field telescopes vs. widefield?]
-
-[XXX: Since it originated from Equation \eqref{optEst}, our proposal of fringe-rate filtering is guaranteed to be lossless.]
-
-[XXX; Mention somewhere that this is very closely related to what Richard has.]
+%While we established in the previous section that Wiener-filtered visibilities would give biased estimates of the power spectrum, we can fortunately sidestep the problem by making a different assumption---that of isotropy.
+%
+%To pick a concrete example that will serve as the focus for the rest of the paper, consider the power spectrum $P(\mathbf{k})$ of highly redshifted $21\,\textrm{cm}$ emission.  At each instant, spatial fluctuations that are perpendicular to the line-of-sight are probed by the fringe-patterns of a baseline, while the spectral nature of the measurement means that structure along the line-of-sight is accessed by the frequency spectrum of the visibilities.  Specifically, if one performs a delay transform on a baseline's visibility by Fourier transforming its frequency spectrum (thus expressing the spectrum in delay space), the result is a probe of the Fourier mode with wavevector $\mathbf{k} \approx 2 \pi (b_x / \lambda X, b_y / \lambda X, \tau /Y)$, where $b_x$ and $b_y$ are the x- and y-components of the baseline vector, respectively, $\tau$ is the delay.  The scalars $X$ and $Y$ convert angles and frequency to comoving distances, respectively.  In the limit that the baseline in question is short (which is typical of many $21\,\textrm{cm}$ experiments such as PAPER), the approximation that the delay-transformed visibility probes a single Fourier mode on the sky becomes an excellent one, with the response of a baseline becoming sharply peaked at the $\mathbf{k}$ value quoted above \citep{P12b}.  Given this, an estimator $\widehat{P} (\mathbf{k})$ for the power spectrum can be computed from a single baseline and a single time instant:
+%\begin{equation}
+%\widehat{P} (\mathbf{k}) = \left( \frac{\lambda^2}{2 k_B} \right)^2 \frac{X^2 Y}{\Omega B} \big{|} \overline{V}_{\mathbf{b}}(\tau) \big{|}^2,
+%\end{equation}
+%where $B$ is the bandwidth, $k_B$ is Boltzmann's constant, $\overline{V}_{\mathbf{b}}$ is the delay-transformed visibility from baseline $\mathbf{b}$, and it is understood that the $\mathbf{k}$ mode being probed is the one corresponding to the values of $\mathbf{b}$ and $\tau$.
+%
+%To reduce errors on a measured power spectrum, one can take advantage of isotropy, summing together power spectrum estimates with the same wavenumber $k \equiv |\mathbf{k}|$.  With our assumption of short baselines, the wavenumber is dominated by the contribution from $\tau$, and changing the azimuthal Fourier number $m$ represents a negligible difference in the $k$ mode being probed.  We may therefore reduce errors in our power spectrum estimate by summing over estimates formed from treating different $m$ modes individually.  For a minimum-variance treatment, the input visibilities must be inverse covariance weighted prior to squaring, and more formally, one can write the estimator of an unnormalized power spectrum $q(k)$ as \citep{liu_tegmark2011}
+%\begin{equation}
+%q(k) = \vis^\dagger \mathbf{C}^{-1} \mathbf{Q}(k) \mathbf{C}^{-1} \vis,
+%\end{equation}
+%where $\mathbf{C}$ is the \emph{total} (signal + noise) covariance of the visibilities, given by
+%\begin{equation}
+%\mathbf{C} = \A \mathbf{S} \A^\dagger + \N,
+%\end{equation}
+%and $\mathbf{Q} (k)$ is the response of the covariance to the power spectrum at wavenumber $k$, i.e.
+%\begin{equation}
+%\mathbf{Q} (k) \equiv \frac{\partial \mathbf{C}}{\partial P(k)} = \A \frac{\partial \mathbf{S}}{\partial P(k)} \A^\dagger,
+%\end{equation}
+%where in the last equality we made use of the fact that neither the noise $\N$ nor the instrumental response $\A$ depend on the cosmological power spectrum.
+%
+%Explicitly, in spatial Fourier space the signal covariance $\mathbf{S}$ is diagonal with diagonal elements proportional to the power spectrum:
+%\begin{eqnarray}
+%\mathbf{S}_{\mathbf{k},\mathbf{k}^\prime} &=& \frac{\Omega B}{X^2Y} \left( \frac{2k_B}{\lambda^2}\right)^2 P(k) \delta_{\mathbf{k},\mathbf{k}^\prime} \nonumber \\
+%& \approx &  \frac{\Omega B}{X^2Y} \left( \frac{2k_B}{\lambda^2}\right)^2 P(k) \delta_{k,2\pi\tau/Y}  \delta_{k,k^\prime} \delta_{b b^\prime} \delta_{m m^\prime}, \qquad
+%\end{eqnarray}
+%where in the last equality we have made several assumptions.  First was the assumption stated previously, that $k$ is dominated by the contribution along the line-of-sight (i.e. from $\tau$).  For the wavenumber component perpendicular to the line of sight, $k_\perp$ 
+%Effective beams
+%
+%\subsection{De-noising data sets for power spectrum estimation}
+%Until now, our discussion of fringe-rate filtering has centered around the mapmaking problem.  However, our intuitive understanding of fringe-rate filtering---that it differentiates instrumental noise from celestial signals by identifying certain fringe rates as being too rapid to be physical sources on the sky---holds much more generally.  In this section, we consider fringe-rate filtering in the context of power spectrum estimation, and in particular show how fringe-rate filtering can be used as a preprocessing tool to de-noise data sets prior to power spectrum estimation.
+%
+%Our goal is to consider how an optimal estimator for a power spectrum (or any other two-point statistic) can be phrased in terms of a fringe-rate filtered data set.  As an example, we will consider the frequency-frequency angular cross-power spectrum $C_\ell (\nu, \nu^\prime)$.  This represents no loss of generality, even though most $21\,\textrm{cm}$ experiments seek to measure the spherically averaged power spectrum $P(k)$, as the two quantities are related by an invertible linear operation (which we show explicitly in Appendix XXX).  Thus, an optimal and lossless prescription for computing $C_\ell (\nu, \nu^\prime)$ can be easily translated into one for $P(k)$.  Here we deal with the former because it is a more natural quantity to consider when the flat-sky approximation does not hold.
+%
+%To form an optimal estimator for $C_\ell (\nu, \nu^\prime)$, one computes
+%\begin{equation}
+%\label{eq:generalEst}
+%\widehat{C}_\ell (\nu, \nu^\prime)  = N_\ell \vis^\dagger(\nu) \mathbf{C}^{-1} \mathbf{Q}^\ell \mathbf{C}^{-1} \vis(\nu^\prime),
+%\end{equation}
+%where $\mathbf{C} \equiv \langle \vis \vis^\dagger \rangle$ is the covariance matrix of measured visibilities, $\mathbf{Q}^\ell \equiv \partial \mathbf{C} / \partial C_\ell $ is the response of the covariance matrix to $C_\ell$, and $N_\ell$ is a normalization constant.  [XXX: cite stuff].  As usual, this matrix equation can be evaluated in any basis.  Like before, however, it will be particularly convenient to express the relevant measurements in a per-baseline, fringe-rate basis, and the true sky in terms of spherical harmonics so that $T(\rhat) = \sum_{\ell m} a_{\ell m} Y_{\ell m} (\rhat)$.  Re-expressing our measurement equation yet again, we have
+%\begin{equation}
+%\widetilde{V}_b (f_m) = \sum_\ell w_{\ell m} (b) a_{\ell m} + n_{m}
+%\end{equation}
+%where
+%\begin{eqnarray}
+%w_{\ell m} = \sum_n \int d\Omega && Y_{\ell n}^*(\rhat) e^{i \frac{2 \pi b_y}{\lambda} \cos \eta \cos \theta} e^{i m \varphi} B_\theta (\theta) \nonumber \\
+%&&\times \sum_q \widetilde{B}^*_q  J_{m-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right).
+%\end{eqnarray}
+%[XXX: Could be a complex conjugate in the last term.  Check.]  The covariance matrix is then
+%\begin{equation}
+%\mathbf{C}_{m,b;m^\prime,b^\prime} = \sum_\ell w_{\ell m}(b) w^*_{\ell m^\prime }(b^\prime) C_\ell \delta_{m m^\prime} + \sigma^2 \delta_{m m^\prime} \delta_{b b^\prime},
+%\end{equation}
+%where we used $\langle a_{\ell m} a^*_{\ell^\prime m^\prime} \rangle = C_\ell \delta_{\ell \ell^\prime} \delta_{m m^\prime}$ [XXX: Probably a normalization factor too.] and the noise covariance of Equation \eqref{eq:noiseCovar}.  Differentiating gives
+%\begin{equation}
+%\mathbf{Q}^\ell_{m,b;m^\prime,b^\prime} =  w_{\ell m}(b) w^*_{\ell m^\prime }(b^\prime) \delta_{m m^\prime}.
+%\end{equation}
+%Moving forward, we will assume that our observations are relatively low signal to noise, so that $\mathbf{C}$ is dominated by the noise covariance and $\mathbf{C}^{-1} \approx \sigma^{-2} \mathbf{I}$.  This will give a final estimator that effectively weights data samples by their signal-to-noise.  The generalization to a high signal-to-noise regime is straightforward, and results in data samples weighted by signal over signal-plus-noise.
+%
+%With the aforementioned assumptions, our optimal estimator becomes
+%\begin{equation}
+%\label{eq:mspaceEst}
+%\widehat{C}_\ell (\nu, \nu^\prime) = N_\ell \sum_{mbb^\prime} \widetilde{V}^*_b (f_m) w_{\ell m}(b) w^*_{\ell m}(b^\prime) \widetilde{V}_{b^\prime} (f_m),
+%\end{equation}
+%where we have absorbed the (constant) factors of $\sigma^2$ into the normalization $N_\ell$.  This expression can be applied as-is, but can also be interpreted in terms of time-ordered, filtered visibilities.  If we define
+%\begin{equation}
+%\widetilde{V}^\textrm{filt}_{b,\ell} (f_m) \equiv w^*_{\ell m}(b) \widetilde{V}_{b} (f_m)
+%\end{equation}
+%as a fringe-rate filtered set of visibilities, it becomes clear that the sum over $m$ is a dot product between the visibilities of two baselines in fringe-rate space.  Invoking Parseval's theorem to rewrite the sum over fringe-rate as an integral over time, we obtain
+%\begin{equation}
+%\widehat{C}_\ell (\nu, \nu^\prime) = N_\ell  \int_{-\frac{T_\Earth}{2}}^{\frac{T_\Earth}{2}} \frac{dt}{T_\Earth}  \sum_{bb^\prime} V^{\textrm{filt}*}_{b^\prime,\ell} (t) V^\textrm{filt}_{b,\ell} (t),
+%\end{equation}
+%where the de-noised visibility is defined as
+%\begin{equation}
+%V^\textrm{filt}_{b,\ell} (t)=  \sum_m \exp \left[i \frac{2 \pi m t}{T_\Earth}\right] w_{\ell m}^* \widetilde{V}_{b} (f_m).
+%\end{equation}
+%
+%The final estimator calls for the formation of cross-power spectra between fringe-rate filtered visibilities from all baseline pairs, and then to average in time.  What this shows is that even though naive time integration is suboptimal for power spectrum estimation (just as it was suboptimal for imaging), it is possible to define a set of de-noised visibilities that do give an optimal power spectrum estimate when time-averaged.  Note that since Equation \eqref{eq:generalEst} is the 
+%
+%The ability to work simply and optimally with a de-noised set of visibilities can be advantageous over other approaches.  For instance, having a built-in way to optimally combine time-ordered data allows one to circumvent the mapmaking process, which can introduce gridding artifacts that are eventually propagated into a power spectrum.  In addition, while Equation \eqref{eq:mspaceEst} shows that it is possible to work entirely in fringe-rate space and therefore not strictly necessary to go back to the de-noised, time-domain visibilities, having data in the form a time series can be useful for dealing with potential systematics such as RFI [XXX: make sure we've defined the acronym by this point].
 
 \section{Fringe-Rate Filtering}
 \label{sec:fringe_rate_filtering}

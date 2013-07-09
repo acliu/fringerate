@@ -11,24 +11,29 @@
 \newlabel{timeSubOpt}{{2.1}{1}{}{}{}}
 \newlabel{generalVis}{{6}{1}{}{}{}}
 \newlabel{simpVis}{{7}{2}{}{}{}}
+\newlabel{eq:noiseCovar}{{8}{2}{}{}{}}
 \newlabel{toyComb}{{9}{2}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}The special case where integrating in time is optimal}{2}{}}
 \newlabel{flatSkyVis}{{10}{2}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Fringe-rate filtering}{2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Fringe-rate filtering}{3}{}}
 \newlabel{fringeRateIntro}{{2.3}{3}{}{}{}}
 \newlabel{fringeVis}{{14}{3}{}{}{}}
 \newlabel{fringeBessel}{{18}{3}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Effective beam patterns}{3}{}}
-\newlabel{eq:cumulResponse}{{21}{3}{}{}{}}
-\newlabel{manifest}{{23}{4}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Denoising data sets}{5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Fringe-Rate Filtering}{5}{}}
-\newlabel{sec:fringe_rate_filtering}{{3}{5}{}{}{}}
-\newlabel{eq:fringe_rate}{{31}{5}{}{}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces  Left column: responses of selected fringe rate bins to different $\theta $ (and therefore different declinations). Right column: cumulative response integrated from $0$ to $\theta $, i.e. $I_n (\theta )$ as defined by Equation \textup  {\hbox {\mathsurround \z@ \normalfont  (\ignorespaces 21{}{}{}\hbox {}\unskip \@@italiccorr )}}. The top row shows the $n=5$ fringe-rate bin, while the bottom row shows the $n=50$ fringe-rate bin, with the $n^{th}$ bin defined to have a fringe rate of $f_n \equiv n / T_\oplus $. For these illustrative plots, the primary beam was ignored, and the baseline under consideration was a single $16\lambda $ baseline with an east-west orientation at the equator. From the right column, one sees that lower fringe rates derive most of their celestial signal from a narrow region in the sky, so low-pass fringe-rate filtering suggested in Section 2.3{}{}{}\hbox {} causes a narrowing of the effective primary beam. }}{6}{}}
-\newlabel{besselContributions}{{1}{6}{}{}{}}
-\newlabel{eq:pspec_cosmo}{{32}{6}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Crosstalk}{6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}The possibility of deconvolution}{3}{}}
+\newlabel{eq:convenientBasis}{{21}{3}{}{}{}}
+\newlabel{manifest}{{22}{4}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}De-noising visibilities without mapmaking}{4}{}}
+\newlabel{eq:denoiseweights}{{28}{4}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}De-noising visibilities from a single baseline}{5}{}}
+\newlabel{eq:WienerEst}{{30}{5}{}{}{}}
+\newlabel{eq:WienerWeights}{{32}{5}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.7}De-noising visibilities for power spectrum estimation}{5}{}}
+\newlabel{eq:C_Ell}{{33}{5}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Fringe-Rate Filtering}{6}{}}
+\newlabel{sec:fringe_rate_filtering}{{3}{6}{}{}{}}
+\newlabel{eq:fringe_rate}{{37}{6}{}{}{}}
+\newlabel{eq:pspec_cosmo}{{38}{7}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Crosstalk}{7}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Simulations}{7}{}}
 \newlabel{sec:sim}{{4}{7}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Point Source Simulations for Mapping Beam Response}{7}{}}
@@ -44,13 +49,13 @@
 \@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{7}{}}
 \newlabel{sec:conclusion}{{8}{7}{}{}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {9}Acknowledgment}{7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {10}On Calculating Beam Areas for Normalizing Power-Spectrum Measurements}{7}{}}
-\newlabel{app:beam_area}{{10}{7}{}{}{}}
-\newlabel{eq:v2_vs_pk}{{40}{7}{}{}{}}
-\newlabel{eq:beam_squared}{{41}{7}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces  The effective primary beam response of a baseline, as determined from the simulations in \S  4.1{}{}{}\hbox {}. Panels indicate reconstructions of PAPER's model beam response used in the simulation (left), the beam weighting that results from the application of a fringe-rate filter weighted to optimize SNR for a 30-m baseline with PAPER's beam response (center), and the effective primary beam response of the baseline after the application of the fringe-rate filter. }}{8}{}}
+\newlabel{fig:}{{1}{8}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {10}On Calculating Beam Areas for Normalizing Power-Spectrum Measurements}{8}{}}
+\newlabel{app:beam_area}{{10}{8}{}{}{}}
+\newlabel{eq:v2_vs_pk}{{46}{8}{}{}{}}
+\newlabel{eq:beam_squared}{{47}{8}{}{}{}}
+\newlabel{eq:beam_area}{{48}{8}{}{}{}}
 \bibdata{biblio}
 \bibstyle{apj}
-\newlabel{LastPage}{{}{7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  The effective primary beam response of a baseline, as determined from the simulations in \S  4.1{}{}{}\hbox {}. Panels indicate reconstructions of PAPER's model beam response used in the simulation (left), the beam weighting that results from the application of a fringe-rate filter weighted to optimize SNR for a 30-m baseline with PAPER's beam response (center), and the effective primary beam response of the baseline after the application of the fringe-rate filter. }}{8}{}}
-\newlabel{fig:}{{2}{8}{}{}{}}
-\newlabel{eq:beam_area}{{42}{8}{}{}{}}
+\newlabel{LastPage}{{}{8}}
