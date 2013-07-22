@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  8 JUL 2013 18:48
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  13 JUL 2013 10:09
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -374,186 +374,124 @@ Package natbib Warning: Citation `Shaw2013' on page 1 undefined on input line 1
 38.
 
 
-Overfull \hbox (115.5471pt too wide) detected at line 156
-\OML/cmm/m/it/10 V[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t\OT1/cmr/m/n/10 ) = [] \
-OML/cmm/m/it/10 d\OT1/cmr/m/n/10 
- \OML/cmm/m/it/10 B\OT1/cmr/m/n/10 ([]\OML/cmm/m/it/10 ; t\OT1/cmr/m/n/10 )\OML
-/cmm/m/it/10 T\OT1/cmr/m/n/10 ([]) [] [] + \OML/cmm/m/it/10 n\OT1/cmr/m/n/10 (\
-OML/cmm/m/it/10 t\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ;
+Overfull \hbox (9.90547pt too wide) in alignment at lines 153--157
+ [][][] []
  []
 
 [1{/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (74.86772pt too wide) detected at line 179
-\OML/cmm/m/it/10 V[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t\OT1/cmr/m/n/10 ) = [] \
-OML/cmm/m/it/10 d' B[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ' \OMS/cmsy/m/n/10 ^^@ 
-\OML/cmm/m/it/10 ![]t\OT1/cmr/m/n/10 ) [] [] \OML/cmm/m/it/10 T [] \OT1/cmr/m/n
-/10 + \OML/cmm/m/it/10 n\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t\OT1/cmr/m/n/10 )\OM
-L/cmm/m/it/10 :
+Overfull \hbox (5.14117pt too wide) detected at line 206
+[][]  \OT1/cmr/m/n/10 =  []   [] [] \OML/cmm/m/it/10 B[]\OT1/cmr/m/n/10 (\OML/c
+mm/m/it/10 ' \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 ![]t\OT1/cmr/m/n/10 ) \OML/c
+mm/m/it/10 e[]V[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t\OT1/cmr/m/n/10 )\OML/cmm/m
+/it/10 ;
  []
 
 
-Overfull \hbox (22.29028pt too wide) detected at line 204
-[][] \OT1/cmr/m/n/10 = [] [] [] \OML/cmm/m/it/10 dt B[]\OT1/cmr/m/n/10 (\OML/cm
-m/m/it/10 ' \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 ![]t\OT1/cmr/m/n/10 ) \OML/cm
-m/m/it/10 e[]V[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t\OT1/cmr/m/n/10 )\OML/cmm/m/
-it/10 ;
- []
-
-
-Overfull \hbox (119.72607pt too wide) detected at line 253
-\OML/cmm/m/it/10 V[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t\OT1/cmr/m/n/10 ) = [] \
-OML/cmm/m/it/10 d\OT1/cmr/m/n/10 
- \OML/cmm/m/it/10 B\OT1/cmr/m/n/10 ([])\OML/cmm/m/it/10 T\OT1/cmr/m/n/10 ([]) [
-] [] + \OML/cmm/m/it/10 n\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t\OT1/cmr/m/n/10 )\O
-ML/cmm/m/it/10 ;
- []
-
-
-Overfull \hbox (120.68802pt too wide) detected at line 259
-[][] [][] \OT1/cmr/m/n/10 = []\OML/cmm/m/it/10 e[] [] [] dt  e[]V[]\OT1/cmr/m/n
-/10 (\OML/cmm/m/it/10 t\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :
- []
-
-
-Overfull \hbox (107.6226pt too wide) detected at line 269
-[][] [][] \OT1/cmr/m/n/10 = []\OML/cmm/m/it/10 e[] [] [] dt V[]\OT1/cmr/m/n/10 
-(\OML/cmm/m/it/10 t\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ;
- []
-
-[2]
-Overfull \hbox (168.43271pt too wide) detected at line 303
-[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 f[]\OT1/cmr/m/n/10 ) = [] \OML/cmm/m/it/10 
-d\OT1/cmr/m/n/10 
- \OML/cmm/m/it/10 T\OT1/cmr/m/n/10 ([])\OML/cmm/m/it/10 e[] [][] [] B\OT1/cmr/m
-/n/10 ([]\OML/cmm/m/it/10 ; t\OT1/cmr/m/n/10 ) [] [] \OML/cmm/m/it/10 ;
- []
-
-
-Overfull \hbox (135.73315pt too wide) detected at line 323
-[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 f[]\OT1/cmr/m/n/10 ) = [] \OML/cmm/m/it/10 
-d\OT1/cmr/m/n/10 
- \OML/cmm/m/it/10 T\OT1/cmr/m/n/10 ([])\OML/cmm/m/it/10 B[]\OT1/cmr/m/n/10 (\OM
-L/cmm/m/it/10 ^^R\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 e[] [] [] [][] d  e[]:
- []
-
-
-Overfull \hbox (76.15219pt too wide) detected at line 335
-[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 f[]\OT1/cmr/m/n/10 ) = [] [] \OML/cmm/m/it/
-10 T\OT1/cmr/m/n/10 ([])\OML/cmm/m/it/10 B[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^
-^R\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 e[]e[] [] []J[] [] :
- []
-
-
-Overfull \hbox (117.9156pt too wide) detected at line 359
-[][] \OT1/cmr/m/n/10 = [] [] \OML/cmm/m/it/10 e[]e[] [] []J[] [] []\OT1/cmr/m/n
-/10 (\OML/cmm/m/it/10 f[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :
- []
-
-
-Underfull \hbox (badness 3158) in paragraph at lines 359--366
-\OT1/cmr/m/n/10 In words, this recipe in-structs us to move into
- []
-
-
-Underfull \hbox (badness 1168) in paragraph at lines 359--366
-\OT1/cmr/m/n/10 con-cen-trated in $\OML/cmm/m/it/10 f[]$\OT1/cmr/m/n/10 ) and t
-o fur-ther down-weight by
- []
-
-
-Overfull \hbox (108.29393pt too wide) detected at line 421
-[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 f[]\OT1/cmr/m/n/10 ) = [] [] \OML/cmm/m/it/
-10 d^^R B[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^R\OT1/cmr/m/n/10 ) [] \OML/cmm/m
-/it/10 ^^R e[] [] []J[] [] ^^N[]a[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^R\OT1/cm
-r/m/n/10 )\OML/cmm/m/it/10 :
- []
-
-
-Package natbib Warning: Citation `Shaw2013' on page 3 undefined on input line 4
-25.
-
-[3]
-Overfull \hbox (24.00262pt too wide) in alignment at lines 433--437
+Overfull \hbox (4.12962pt too wide) in alignment at lines 252--256
  [][][] []
  []
 
 
-Overfull \hbox (54.7254pt too wide) detected at line 482
-[][] \OT1/cmr/m/n/10 = [][] = \OML/cmm/m/it/10 ^^[[]^^N[] [] [] h[]\OT1/cmr/m/n
-/10 (\OML/cmm/m/it/10 ^^R; m\OT1/cmr/m/n/10 ) \OML/cmm/m/it/10 h[]\OT1/cmr/m/n/
-10 (\OML/cmm/m/it/10 ^^R[]; m[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :
+Overfull \hbox (6.29056pt too wide) in alignment at lines 260--263
+ [][][] []
  []
+
+[2]
+Overfull \hbox (2.0153pt too wide) in alignment at lines 305--309
+ [][][] []
+ []
+
+
+Overfull \hbox (14.4853pt too wide) in alignment at lines 326--329
+ [][][] []
+ []
+
+
+Underfull \hbox (badness 3158) in paragraph at lines 366--373
+\OT1/cmr/m/n/10 In words, this recipe in-structs us to move into
+ []
+
+
+Underfull \hbox (badness 1168) in paragraph at lines 366--373
+\OT1/cmr/m/n/10 con-cen-trated in $\OML/cmm/m/it/10 f[]$\OT1/cmr/m/n/10 ) and t
+o fur-ther down-weight by
+ []
+
+[3]
+
+Package natbib Warning: Citation `Shaw2013' on page 4 undefined on input line 4
+33.
 
 [4]
 
 Package natbib Warning: Citation `Tegmark97' on page 5 undefined on input line 
-583.
+593.
 
 [5]
 
 Package natbib Warning: Citation `bhatnagar_et_al2008' on page 6 undefined on i
-nput line 718.
+nput line 728.
 
 
 Package natbib Warning: Citation `morales_matejek2009' on page 6 undefined on i
-nput line 718.
+nput line 728.
 
 
 Package natbib Warning: Citation `cornwell_et_al2003' on page 6 undefined on in
-put line 719.
+put line 729.
 
 
 Package natbib Warning: Citation `sullivan_et_al2012' on page 6 undefined on in
-put line 720.
+put line 730.
 
 
 Package natbib Warning: Citation `morales_matejek2009' on page 6 undefined on i
-nput line 720.
+nput line 730.
 
 
 Package natbib Warning: Citation `hazelton_et_al2013' on page 6 undefined on in
-put line 737.
+put line 747.
 
 
 LaTeX Warning: Reference `app:data_compression' on page 6 undefined on input li
-ne 738.
+ne 748.
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 751.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 761.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 751.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 761.
 
 
 LaTeX Warning: Reference `sec:dspec_crossmult' on page 6 undefined on input lin
-e 751.
+e 761.
 
 
 Package natbib Warning: Citation `morales_matejek2009' on page 6 undefined on i
-nput line 763.
+nput line 773.
 
 
 Package natbib Warning: Citation `shaw_et_al2013' on page 6 undefined on input 
-line 764.
-
-
-LaTeX Warning: Reference `sec:dspec_crossmult' on page 6 undefined on input lin
-e 780.
-
-
-LaTeX Warning: Reference `sec:preprocessing' on page 6 undefined on input line 
-785.
+line 774.
 
 [6]
 
-Package natbib Warning: Citation `parsons_et_al2010' on page 7 undefined on inp
-ut line 843.
+LaTeX Warning: Reference `sec:dspec_crossmult' on page 7 undefined on input lin
+e 790.
 
 
 LaTeX Warning: Reference `sec:preprocessing' on page 7 undefined on input line 
-850.
+795.
+
+
+Package natbib Warning: Citation `parsons_et_al2010' on page 7 undefined on inp
+ut line 853.
+
+
+LaTeX Warning: Reference `sec:preprocessing' on page 7 undefined on input line 
+860.
 
 <plots/beam_raw.png, id=39, 578.16pt x 433.62pt>
 File: plots/beam_raw.png Graphic file (type png)
@@ -565,36 +503,36 @@ File: plots/beam_wgt.png Graphic file (type png)
 File: plots/beam_fng.png Graphic file (type png)
  <use plots/beam_fng.png>
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 877.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 887.
 
-Underfull \hbox (badness 10000) in paragraph at lines 877--877
+Underfull \hbox (badness 10000) in paragraph at lines 887--887
 $[]$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 877--877
+Underfull \hbox (badness 10000) in paragraph at lines 887--887
 
  []
 
 
 Package natbib Warning: Citation `parsons_backer2009' on page 7 undefined on in
-put line 897.
-
-
-Package natbib Warning: Citation `parsons_backer2009' on page 7 undefined on in
-put line 915.
+put line 907.
 
 [7]
 
+Package natbib Warning: Citation `parsons_backer2009' on page 8 undefined on in
+put line 925.
+
+
 LaTeX Warning: Reference `fig:ddr_compression' on page 8 undefined on input lin
-e 942.
+e 952.
 
 
 LaTeX Warning: Reference `sec:preprocessing' on page 8 undefined on input line 
-946.
+956.
 
 
-Overfull \hbox (75.78403pt too wide) in paragraph at lines 965--965
+Overfull \hbox (75.78403pt too wide) in paragraph at lines 975--975
 [] 
  []
 
@@ -613,10 +551,10 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right .
 
  ) 
 Here is how much of TeX's memory you used:
- 4444 strings out of 493747
- 56725 string characters out of 3143546
- 139677 words of memory out of 3000000
- 7648 multiletter control sequences out of 15000+200000
+ 4442 strings out of 493747
+ 56693 string characters out of 3143546
+ 139663 words of memory out of 3000000
+ 7646 multiletter control sequences out of 15000+200000
  15705 words of font info for 63 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  39i,10n,28p,1491b,325s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -643,7 +581,7 @@ mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2010/texmf
 ist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2010/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2010/texmf-dist
 /fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on fringe_filter.pdf (9 pages, 647444 bytes).
+Output written on fringe_filter.pdf (9 pages, 646998 bytes).
 PDF statistics:
  133 PDF objects out of 1000 (max. 8388607)
  92 compressed objects within 1 object stream

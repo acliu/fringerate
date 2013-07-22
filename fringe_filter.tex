@@ -67,7 +67,7 @@ Further details are supplied in Appendices A and B of \citet{parsons_et_al2013}.
 \end{equation}
 
 
-\section{The mapmaking problem: combining time-ordered data in an optimal way}
+\section{Combining time-ordered data in an optimal way for mapmaking}
 
 [XXX: Say somewhere that unless otherwise stated, considering a drift-scan telescope.]
 
@@ -150,10 +150,11 @@ interferometer.
 We begin by showing that it is suboptimal to make maps by integrating in time.
 Consider the visibility response $V_b(t)$  of an interferometer baseline $b$ at
 time $t$ to the sky $T(\rhat)$:
-\begin{equation}
+\begin{eqnarray}
 \label{generalVis}
-V_b(t) = \int  d\Omega \,B(\rhat, t) T(\rhat) \exp \left[ -i 2 \pi \left( \frac{b_0}{\lambda} \sin \theta \sin(\varphi - \omega_\Earth t )+ \frac{b_y}{\lambda} \cos \eta \cos \theta \right) \right] +n(t),
-\end{equation}
+V_b(t) &&= \int B(\rhat, t) T(\rhat) \exp \left[ -i 2 \pi \left( \frac{b_y}{\lambda} \cos \eta \cos \theta \right) \right] \nonumber \\
+&& \times  \exp \left[ -i 2 \pi \left( \frac{b_0}{\lambda} \sin \theta \sin(\varphi - \omega_\Earth t ) \right) \right]  d\Omega +n(t), \qquad
+\end{eqnarray}
 where $n(t)$ is the instrumental noise, $\theta$ and $\varphi$ are polar and
 azimuthal angles fixed to the celestial sphere, respectively, $B(\rhat,t)$ is
 the primary beam, $\lambda$ is the wavelength, $\omega_\Earth$ is the angular
@@ -173,10 +174,11 @@ primary beam, suppose we have a beam that is extremely narrow in the polar
 direction, so that $B(\rhat, t) \equiv \delta(\theta - \pi / 2)
 B_\varphi(\varphi-\omega_\Earth t)$.  Plugging these into restrictions into our
 equation, we obtain
-\begin{equation}
+\begin{eqnarray}
 \label{simpVis}
-V_b (t) = \int d\varphi \, B_\varphi(\varphi-\omega_\Earth t) \exp \left[ -i 2 \pi  \frac{b_x}{\lambda} \sin(\varphi - \omega_\Earth t ) \right] T \left( \theta = \frac{\pi}{2}, \varphi \right) + n(t).
-\end{equation}
+V_b (t) && = \int  \, B_\varphi(\varphi-\omega_\Earth t)  T \left( \theta = \frac{\pi}{2}, \varphi \right) \nonumber \\
+&&\times \exp \left[ -i 2 \pi  \frac{b_x}{\lambda} \sin(\varphi - \omega_\Earth t ) \right] d\varphi+ n(t).
+\end{eqnarray}
 Now suppose we have a large number of different baselines, so that we have
 multiple copies of this equation, representing a time series for each baseline.
 Grouping these time series into a vector gives the continuous version of
@@ -200,7 +202,7 @@ beam once the time series have already been combined.  In our toy model, we
 have
 \begin{equation}
 \label{toyComb}
-\left( \A^\dagger \N^{-1} \vis \right)_{\varphi} = \frac{1}{\sigma^2}\sum_b  \int dt \,  B_\varphi(\varphi-\omega_\Earth t) \, e^{ i 2 \pi  \frac{b_x}{\lambda} \sin(\varphi - \omega_\Earth t ) } V_b(t),
+\left( \A^\dagger \N^{-1} \vis \right)_{\varphi} \! = \! \sum_b \!\!  \int \frac{dt}{\sigma^2} \,  B_\varphi(\varphi-\omega_\Earth t) \, e^{ i 2 \pi  \frac{b_x}{\lambda} \sin(\varphi - \omega_\Earth t ) } V_b(t),
 \end{equation}
 where the $\varphi$ variable serves as the continuous version of a discrete
 vector index.  This expression shows that the optimal, minimum variance
@@ -247,16 +249,18 @@ time-dependent way, essentially tracking the center of the patch as it moves
 across the sky.  Putting this all together and assuming that the primary beam
 is narrow enough to justify a flat-sky approximation, the measurement equation
 becomes
-\begin{equation}
+\begin{eqnarray}
 \label{flatSkyVis}
-V_b(t) = \int  d\Omega \,B(\rhat) T(\rhat) \exp \left[ -i 2 \pi \left( \frac{b_0}{\lambda}  \sin(\varphi - \omega_\Earth t )+ \frac{b_y}{\lambda} \cos \eta \sin \theta \right) + i \psi(t) \right] +n(t),
-\end{equation}
+V_b(t) &&= \int B(\rhat) T(\rhat) \exp \left[ -i 2 \pi \left( \frac{b_0}{\lambda}  \sin(\varphi - \omega_\Earth t )\right) \right] \nonumber\\
+&&\!\!\! \times \exp \left[-i 2 \pi \left( \frac{b_y}{\lambda} \cos \eta \sin \theta \right) + i \psi(t) \right] d\Omega +n(t), \qquad
+\end{eqnarray}
 where we have assumed for simplicity that the center of our small field is
 directly above the equator, and that a time-dependent phase $\psi(t)$ has been
 applied.  With this, the optimal combination of time-ordered data becomes
-\begin{equation}
-\left( \A^\dagger \N^{-1} \vis \right)_{(\theta,\varphi)}\Bigg{|}_{\textrm{flat sky}} = \frac{B(\theta, \varphi)}{\sigma^2} e^{i 2 \pi \frac{b_y}{\lambda} \cos \eta \sin \theta} \sum_b   \int  dt \,\,e^{ i 2 \pi  \frac{b_x}{\lambda} \sin(\varphi - \omega_\Earth t ) -i \psi (t) } V_b(t).
-\end{equation}
+\begin{eqnarray}
+\left( \A^\dagger \N^{-1} \vis \right)_{(\theta,\varphi)}^\textrm{flat} &&  = \frac{B(\theta, \varphi)}{\sigma^2} e^{i 2 \pi \frac{b_y}{\lambda} \cos \eta \sin \theta}  \nonumber  \\
+&&\!\!\! \times \sum_b \int  dt \,\,e^{ i 2 \pi  \frac{b_x}{\lambda} \sin(\varphi - \omega_\Earth t ) -i \psi (t) } V_b(t). \qquad
+\end{eqnarray}
 This is still not quite a simple average in time because there is no choice of
 $\psi(t)$ that can cancel out the time-dependence of $\sin (\varphi -
 \omega_\Earth t)$ for all $\varphi$ and all $t$.  Another way to phrase the
@@ -264,9 +268,10 @@ problem is to note that even in the flat-sky approximation, one cannot expand
 Taylor expand $\sin (\varphi - \omega_\Earth t)$ over long observation times.
 With short observations, however, an expansion is justified, and picking
 $\psi(t) = 2 \pi \frac{b_x}{\lambda} \omega_\Earth t$ gives
-\begin{equation}
-\left( \A^\dagger \N^{-1} \vis \right)_{(\theta,\varphi)}\Bigg{|}_{\textrm{flat sky, short obs.}} = \frac{B(\theta, \varphi)}{\sigma^2} e^{i 2 \pi \left( \frac{b_y}{\lambda} \cos \eta \sin \theta + \frac{b_x}{\lambda} \sin\varphi \right)} \sum_b   \int  dt \, V_b(t),
-\end{equation}
+\begin{eqnarray}
+\left( \A^\dagger \N^{-1} \vis \right)_{(\theta,\varphi)}^\textrm{flat,short} =  &&\frac{B(\theta, \varphi)}{\sigma^2} e^{i 2 \pi \left( \frac{b_y}{\lambda} \cos \eta \sin \theta + \frac{b_x}{\lambda} \sin\varphi \right)} \nonumber \\
+&& \times \sum_b   \int  dt \, V_b(t),
+\end{eqnarray}
 which is a simple averaging in time.  In short, then, integrating in time is an
 optimal way to combine time-ordered data only if a number of criteria are met:
 the flat-sky approximation must hold, the primary beam must track the field,
@@ -297,10 +302,11 @@ where $f$ is the fringe-rate, and $T_\Earth = 2 \pi / \omega_\Earth$ is the
 Earth's rotation period.  It is natural to work in fringe-rate bins such that
 the $n^{th}$ bin is given by $f_n \equiv n / T_\Earth$, where $n$ is an
 integer.  The measurement in the $n^{th}$ bin is then given by
-\begin{equation}
+\begin{eqnarray}
 \label{fringeVis}
-\widetilde{V}_b (f_n) = \int d\Omega \, T(\rhat) e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \cos \theta}   \int_{-\frac{T_\Earth}{ 2}}^{\frac{T_\Earth}{2}} \frac{dt}{T_\Earth} \, B(\rhat, t) \exp \left[ -i  \frac{2 \pi n t}{T_\Earth} +i  \frac{2\pi b_0}{\lambda} \sin \theta \sin \left( \omega_\Earth t - \varphi \right)\right],
-\end{equation}
+\widetilde{V}_b (f_n) &&= \int d\Omega \, T(\rhat) e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \cos \theta} \nonumber \\
+&& \!\!\!\times  \int_{-\frac{T_\Earth}{ 2}}^{\frac{T_\Earth}{2}} \frac{dt}{T_\Earth} \, B(\rhat, t) e^{ -i  \frac{2 \pi n t}{T_\Earth} +i  \frac{2\pi b_0}{\lambda} \sin \theta \sin \left( \omega_\Earth t - \varphi \right)}, \qquad
+\end{eqnarray}
 where we have temporarily omitted the additive noise term to avoid mathematical
 clutter.  To proceed, we make some simplifying assumptions (although only some
 of which are absolutely required).  First, assume that we are once again
@@ -317,22 +323,22 @@ where $\widetilde{B}_q \equiv \int \frac{d\varphi}{2\pi} B_\varphi(\varphi)
 e^{i q\varphi}$ is the $q^{th}$ Fourier coefficient.  Plugging this into
 Equation \eqref{fringeVis} and making the substitution $\psi \equiv
 \omega_\Earth t - \varphi$, one obtains
-\begin{equation}
-\widetilde{V}_b (f_n) = \int d\Omega \, T(\rhat) B_\theta (\theta) e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \cos \theta}
-\sum_q \frac{\widetilde{B}_q e^{-i n \varphi}}{2 \pi} \int_{-\pi -\varphi}^{\pi+\varphi} d\psi \, e^{i (q-n) \psi +i \frac{2 \pi b_0}{\lambda} \sin \theta \sin \psi}.
-\end{equation}
+\begin{eqnarray}
+\widetilde{V}_b (f_n) &&= \int d\Omega \, T(\rhat) B_\theta (\theta) e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \cos \theta} \nonumber \\
+&& \times \sum_q \frac{\widetilde{B}_q e^{-i n \varphi}}{2 \pi} \int_{-\pi -\varphi}^{\pi+\varphi} d\psi \, e^{i (q-n) \psi +i \frac{2 \pi b_0}{\lambda} \sin \theta \sin \psi}. \qquad
+\end{eqnarray}
 Now, note that the integral over $\psi$ is of a periodic function over one
 period.  We may therefore freely shift the limits of the integral by a constant
 amount without affecting the result.  In particular, we may remove the
-$+\varphi$ terms in the limits (the only restriction being that as a $\varphi$
-dependent shift, it is no longer legal to permute the various integrals), and
+$+\varphi$ terms in the limits (the only restriction being that having performed a $\varphi$-dependent shift, it is no longer legal to permute the various integrals), and
 the result is a standard integral form for a Bessel function $J$ of the first
 kind:
-\begin{equation}
+\begin{eqnarray}
 \label{fringeBessel}
-\widetilde{V}_b (f_n) = \int \frac{d\Omega}{2 \pi}\, T(\rhat) B_\theta (\theta) e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \cos \theta}
-e^{-i n \varphi} \sum_q \widetilde{B}_q  J_{n-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right).
-\end{equation}
+\widetilde{V}_b (f_n) =&& \int \frac{d\Omega}{2 \pi}\, T(\rhat) B_\theta (\theta) e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \cos \theta}
+e^{-i n \varphi} \nonumber \\ 
+&& \times \sum_q \widetilde{B}_q  J_{n-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right).
+\end{eqnarray}
 Several features are of note here.  For wide primary beams, $\widetilde{B}_q$
 is sharply peaked around $q=0$, so the terms following the sum over $q$
 essentially amount to $J_n ( 2 \pi b_0 \sin \theta / \lambda )$.  Now, notice
@@ -354,9 +360,10 @@ goals of time integration) by Fourier transforming the data into fringe-rate
 space and downweighting (or discarding) high fringe-rate modes.  This is
 confirmed by constructing the optimal prescription as we did above, which
 yields
-\begin{equation}
-\left( \A^\dagger \N^{-1} \vis \right)_{\theta,\varphi} = \frac{B_\theta^* (\theta)  \sin \theta}{2\pi \sigma^2} \sum_{b,n} e^{i n \varphi} e^{i 2 \pi  \frac{b_y}{\lambda} \cos \eta \cos \theta} \sum_{q} \widetilde{B}_q^* J_{n-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right) \widetilde{V}_b (f_n).
-\end{equation}
+\begin{eqnarray}
+\left( \A^\dagger \N^{-1} \vis \right)_{\theta,\varphi} && = \frac{B_\theta^* (\theta)  \sin \theta}{2\pi \sigma^2} \sum_{b,n} e^{i n \varphi} e^{i 2 \pi  \frac{b_y}{\lambda} \cos \eta \cos \theta} \nonumber \\
+&& \times \sum_{q} \widetilde{B}_q^* J_{n-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right) \widetilde{V}_b (f_n).
+\end{eqnarray}
 In words, this recipe instructs us to move into fringe-rate space (where the
 sky emission is already concentrated in $f_n$) and to further downweight by
 $\sum_{q} \widetilde{B}_q^* J_{n-q} \left( \frac{2 \pi b_0}{\lambda} \sin
@@ -415,10 +422,11 @@ out the beam is most easily answered by writing $\A$ and $\A^\dagger \N^{-1}
 that it expresses a given baseline's fringe-rate measurements in terms of
 azimuthal Fourier modes $a_m(\theta)$ of the sky $T(\theta, \varphi) = \sum_m
 a_m(\theta) e^{i m \varphi}$.  The measurement equation becomes
-\begin{equation}
+\begin{eqnarray}
 \label{eq:convenientBasis}
-\widetilde{V}_b (f_n) = \sum_m \int d\theta \, B_\theta (\theta) \sin \theta  \, e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \cos \theta}  \sum_q \widetilde{B}_q  J_{n-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right) \delta_{mn} a_m (\theta).
-\end{equation}
+\widetilde{V}_b (f_n) && = \sum_m \int d\theta \, B_\theta (\theta) \sin \theta  \, e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \cos \theta} \nonumber \\
+&& \times \sum_q \widetilde{B}_q  J_{n-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right) \delta_{mn} a_m (\theta).
+\end{eqnarray}
 The Kronecker delta function appears because for a drift-scan telescope, the
 time coordinate uniformly maps to the azimuthal angle $\varphi$ (or
 equivalently, the Fourier index $m$ uniformly maps to fringe-rate bin), as
@@ -431,9 +439,10 @@ results in
 \end{equation}
 where we have once again taken $\N$ to be diagonal, with entries $\sigma^2$, and have made the definitions
 \begin{eqnarray}
-g_b(\theta, m) &\equiv& B_\theta^*(\theta) \sin \theta e^{i 2 \pi  \frac{b_y}{\lambda} \cos \eta \cos \theta}  \sum_q \widetilde{B}^*_q  J_{m-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right) \\
-h_b ( \theta, m) &\equiv& \frac{g_b (\theta, m)}{\sqrt{\lambda_b^m}} \\
-\lambda_b^m &\equiv&  \int_0^\pi |g_b (\gamma, m) |^2 d\gamma .
+&& g_b(\theta, m) \equiv B_\theta^*(\theta) \sin \theta \exp \left(i 2 \pi  \frac{b_y}{\lambda} \cos \eta \cos \theta\right) \nonumber \\
+&& \qquad \qquad \quad \times \sum_q \widetilde{B}^*_q  J_{m-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right) \\
+&&  h_b ( \theta, m) \equiv \frac{g_b (\theta, m)}{\sqrt{\lambda_b^m}} \\
+&& \lambda_b^m \equiv  \int_0^\pi |g_b (\theta, m) |^2 d\theta .
 \end{eqnarray}
 
 Whether or not $\A^\dagger \N^{-1} \A$ is invertible for a given baseline
@@ -463,7 +472,7 @@ $i^{th}$ eigenvector (satisfying the normalization condition
 $\mathbf{w}_i^\dagger \cdot \mathbf{w}_i = 1$).  To ensure invertibility, the
 number of eigenvectors must equal the side length of the matrix.  For us, this
 requirement corresponds to having the number of unique baselines be equal to or
-greater than the number of angular resolution element in the $\theta$
+greater than the number of angular resolution elements in the $\theta$
 direction.  Intuitively, the same declinations map to different fringe-rates
 for different baselines, and thus with enough baselines, one is able to take
 the appropriate linear combination of different baselines to select a specific
@@ -477,9 +486,10 @@ be acquired by combining fringe rates appropriately.
 Having derived an expression for $\A^\dagger \N^{-1} \A$, we can also compute
 the error covariance $\boldsymbol \Sigma$ of our maps.  If we have enough
 baselines for invertibility, Equation \eqref{eq:sigma} says that
-\begin{equation}
-\boldsymbol \Sigma_{m, \theta ; m^\prime \theta^\prime} = \left[ \A^\dagger \N^{-1} \A \right]^{-1}_{m, \theta ; m^\prime \theta^\prime} =  \sigma^2 \delta_{m m^\prime} \sum_b \frac{1}{\lambda_b^m} \, h_b(\theta, m) \, h_{b}^*(\theta^\prime, m^\prime).
-\end{equation} 
+\begin{eqnarray}
+\boldsymbol \Sigma_{m, \theta ; m^\prime \theta^\prime} &=& \left[ \A^\dagger \N^{-1} \A \right]^{-1}_{m, \theta ; m^\prime \theta^\prime} \nonumber \\
+&=&  \sigma^2 \delta_{m m^\prime} \sum_b \frac{1}{\lambda_b^m} \, h_b(\theta, m) \, h_{b}^*(\theta^\prime, m^\prime).
+\end{eqnarray} 
 As expected, azimuthal modes corresponding to low fringe-rate bins can be
 measured with high signal-to-noise.
 %
@@ -551,7 +561,7 @@ measured with high signal-to-noise.
 %\label{besselContributions}
 %\end{figure*}
 
-\subsection{De-noising visibilities without mapmaking}
+\section{Combining time-ordered data without mapmaking}
 Until now, our discussion of fringe-rate filtering has centered around the mapmaking problem.  However, our intuitive understanding of fringe-rate filtering---that it differentiates instrumental noise from celestial signals by identifying high fringe-rates as being noise-dominated---holds much more generally.    In this section, we show how fringe-rate filtering can be used a de-noising tool for visibilities, bypassing the image domain entirely.  This allows one to take advantage an important benefit of mapmaking, namely, the reduction of instrumental noise through the coherent combination of time-ordered data, while avoiding some of its drawbacks such as the introduction of curved-sky or gridding artifacts.  Moreover, for many applications (such as power spectrum estimation), it is more natural to work with interferometric visibilities directly, provided they can be de-noised.
 
 To de-noise our visibilities, suppose (for a brief moment) that one did in fact produce an estimator $\xhat$ of the sky in the image domain.  One could then transform this estimator back into time-ordered visibilities $\vis_\textrm{filt}$ by simply computing $\vis_\textrm{filt} \equiv \A \xhat$.  Such a set of visibilities would represent de-noised visibilities since Equation \eqref{optEst} is essentially a best-fit solution based on noisy data, which means that $\A \xhat$ is simply the predicted measurements from the best-fit model.  Now, if these predicted measurements were actually generated by first forming a map, one would still incur all the difficulties in imaging that one had hoped to avoid.  To deal with this issue, we note that the relationship between the original visibilities and the de-noised ones are given by
@@ -616,7 +626,7 @@ where
 \begin{equation}
 V_\textrm{filt}(\nu,t)=  \sum_m \exp \left[i \frac{2 \pi m t}{T_\Earth}\right] w_m v_m (\nu).
 \end{equation}
-Written in this way, it is clear that the optimal power spectrum estimator reduces to averaging together estimators that are formed at every instant in time---provided that one uses the fringe-rate filtered visibilities instead of the original, unprocessed visibilities.  Ordinarily, forming power spectra at every instant is suboptimal because it involves the squaring of visibilities, resulting in the loss of coherent phase information.  In other words, one cannot coherently add together constraints on the same sky information from different time slices, and errors in the power spectrum average down as $1/\sqrt{t}$.  Traditionally, coherent integration can be implemented by first forming a map of the sky (in whatever basis one desires), and then to estimate the power spectrum from maps.  The final errors on the power spectrum then decrease as $1/t$.  What has been shown here is that fringe-rate filtered visibilities are visibilities that have effectively already been coherently integrated in time, and estimating the power spectrum time-slice-by-time-slice with them represents no loss of sensitivity.  Working in a time basis can be preferable to using Equation \eqref{eq:C_Ell} directly because many systematics can be more easily isolated by examining time-series data.  Our analytic expressions allow fringe-rate filtering to be performed without mapmaking, reducing the possibility of image-domain artifacts and curved-sky complications.
+Written in this way, it is clear that the optimal power spectrum estimator reduces to averaging together estimators that are formed at every instant in time---provided that one uses the fringe-rate filtered visibilities instead of the original, unprocessed visibilities.  Ordinarily, forming power spectra at every instant is suboptimal because it involves the squaring of visibilities, resulting in the loss of coherent phase information.  In other words, one cannot coherently add together constraints on the same sky information from different time slices, and errors in the power spectrum average down as $1/\sqrt{t}$.  Traditionally, coherent integration is implemented by first forming a map of the sky (in whatever basis one desires), and then to estimate the power spectrum from the maps.  The final errors on the power spectrum then decrease as $1/t$.  What has been shown here is that fringe-rate filtered visibilities are visibilities that have effectively already been coherently integrated in time, and estimating the power spectrum time-slice-by-time-slice with them represents no loss of sensitivity.  Working in a time basis can be preferable to using Equation \eqref{eq:C_Ell} directly because many systematics can be more easily isolated by examining time-series data.  Our analytic expressions allow fringe-rate filtering to be performed without mapmaking, reducing the possibility of image-domain artifacts and curved-sky complications.
 
 [XXX: Need to find a place to talk about effective beams and how it affects power spectrum sensitivity.  Talk about how we will henceforth use simulated effective beams so that we don't have to make all the assumptions that went into the analytic work.  Should also credit Richard for the fringe-rate --> m-mode correspondence more throughout.]
 
