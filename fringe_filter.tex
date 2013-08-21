@@ -57,8 +57,34 @@ Adrian Liu\altaffilmark{1},
 % XXX fringe weighting profile
 % XXX delay spectrum not violated by freq-dependent fringe rate weights
 
+
+
+
 \section{Introduction}
 
+[XXX: Rework intro to make connection to 21cm more explicit.]
+
+In any observation of the sky, integrating in time results in increased sensitivity.  Such increased sensitivity is particularly important in applications where instrumental noise levels are expected to be high compared to the faint signals that one seeks to measure.  As an example of this, in recent years multiple instruments have been built in an attempt to detect the redshifted $21\,\textrm{cm}$ line from the Epoch of Reionization\footnote{In this paper, we will frequently use $21\,\textrm{cm}$ interferometric arrays as example instruments with which to focus our discussion, and indeed, Sections XXX pertain only to such arrays.  However, we emphasize that the central idea of this paper---that fringe-rate filtering can be used to combine time-ordered data in a way that maximizes sensitivity---is one that should be widely applicable to any interferometer.}.  At the relevant redshifts ($z\sim 6$ to $20$), theoretical models suggest that this cosmological signal will be faint, on the order of $1\,\textrm{mK}$ in brightness temperature, while a typical instrument's system temperature is typically $\sim 100\,\textrm{K}$.  Long time-integrations are therefore crucial, and as a practical matter, this is often accomplished by accumulating time-samples, either in the image domain or in Fourier space.  In both cases, one is essentially making maps, which can be shown to be in principle a lossless method of data compression, and therefore an attractive method for realizing the increased sensitivity that time-integration provides.
+
+The quest for increased sensitivity, however, has often led to instrumental designs that have made mapmaking algorithms rather unwieldy.  Consider first the possibility of accumulating time-samples in the image domain, again for the special case of a $21\,\textrm{cm}$ interferometer array.  To increase sensitivity, such arrays typically have wide fields-of-view and are configured to yield a large number of redundant baselines.  Over long time-integrations, imaging wide fields-of-view requires careful attention to curved-sky artifacts, which can become computationally expensive to control, particularly if the pixelization is taken to be extremely fine to avoid artifacts from gridding.  While a fine pixelization is necessary for mapmaking to be lossless (XXX: cite], this can become wasteful for interferometers with a large number of redundant baselines, in the sense that a large number of pixels are needed to store information about a small number of Fourier modes. [XXX: Make the connection in this last sentence a little clearer.]
+
+Mapmaking in Fourier space (or more precisely, on the $uv$-plane) alleviates some of these problems.  Fourier space is a natural space for the accumulation of interferometric data, for there each baseline probes a relatively localized region.  It is therefore a particularly economical basis for accumulating interferometric data, especially if the final goal is to produce a spatial power spectrum, or other quantities that are ``native" to Fourier space.  However, gridding artifacts remain, and are even more troublesome when power spectrum estimation is considered in the context of rotation synthesis.  As the Earth rotates, baselines sample a series of points along tracks on the $uv$-plane.  Nearby points are almost perfectly correlated, and ought to be integrated coherently prior to the squaring step of any power spectrum measurement, while faraway points can only be combined statistically after squaring.  Unless one is willing to keep track of the level of correlation of every $uv$-point with every other $uv$-point, an arbitrary choice must be made as to how far away from each other two points can lie before they are considered incoherent.  Often, this choice is encapsulated by the $uv$-pixel size (particularly in calculations of power spectrum sensitivity XXX: cite), with samples falling in the same cells labeled as coherent, and those in different cells labeled as incoherent.  However, this can potentially lead to a loss of sensitivity in combining samples that straddle pixel boundaries.  While these obstacles can in principle be overcome, it is clear that extreme care must be taken in the mapmaking process to ensure that the full sensitivity of an interferometer array is realized.
+
+In this paper, we introduce a new method for combining time-ordered data---fringe-rate filtering---that avoids the aforementioned pitfalls while affording one the advantages traditionally reserved only when mapmaking.  The essential idea is that for an interferometer operating in a drift-scan observing mode, celestial sources of emission have predictable fringe-rates 
+
+\begin{itemize}
+\item For any instrument, important to integrate in time.  This is how you get sensitivity.
+\item Historically (and what is conceptually the easiest) is to make a map and to bin there.
+\item However, mapmaking is i) difficult, especially with the widefield instruments, ii) subject to artifacts and systematics such as gridding artifacts, iii) ``wasteful" for an interferometer array with high redundancy, since the image basis is not efficient if you're only measuring a small number of modes, iv) unnecessary if you're using an interferometer to measure a power spectrum.
+\item For interferometers trying to measure a power spectrum, it'd be nice to be able to stay in the natural ``Fourier" space defined by an interferometer.
+\item On the other hand, there are advantages to mapmaking that we want: i) coherent integrations in time, ii) the mitigation of systematics (such as polarization leakage), iii) the ability to down-weight data towards the edge of the primary beam (the instrument has already done that once, but an optimal inverse-variance weighted estimator needs to do it once again).  Not clear how to do that if one doesn't go to the image-domain.
+\item In this paper, we introduce a method---fringe-rate filtering---that allows one to stay in visibility space but still get all the advantages of mapmaking.  The paper is geared towards drift-scan telescopes, although some of the lessons are also applicable to tracking telescopes.  The central idea is to Fourier-transform the time-series in order to sort the observations by fringe-rate, and then to enact a low-pass filter.  Since different parts of the sky have different interferometer fringe-rates, a careful tailoring of the filter can downweight different parts of the sky, allowing one to perform the downweightings towards the edge of the primary beam.
+\item Fringe-rate space is particularly good for identifying high versus low signal-to-noise modes, because certain fringe-modes are physically impossible for true celestial emission (mention the super high azimuthal mode caveat here).  We can eliminate those modes.  This also makes it clear that time-averaging visibilities is not good.  Because it's a sinc in fringe-rate space, which has some high fringe-rate components.
+
+\item Fringe-rate filters can be optimized to maximize sensitivity, assuming a noise power spectrum.  But they can also be used to help fight systematics.  As an example, 21cm arrays suffer from polarization leakage.  This can be particularly hard to fight because of the redundancy in the arrays.  Beam-sculpting, though, helps reduce this.  Specific to 21cm arrays, also show that we don't mess up delay-spectrum.
+\item Other similar things in literature.  Richard's $m$-mode formalism made more explicit.  Optimal mapmaking.  Delay/DDR paper.  Also look at Andre's stuff.
+\item Outline the paper.
+\end{itemize}
 Further details are supplied in Appendices A and B of \citet{parsons_et_al2013}.
 
 \begin{equation}
@@ -70,7 +96,7 @@ Further details are supplied in Appendices A and B of \citet{parsons_et_al2013}.
 \section{Combining time-ordered data in an optimal way for mapmaking}
 
 [XXX: Say somewhere that unless otherwise stated, considering a drift-scan telescope.]
-
+[XXX: Don't forget to define hats as estimators, once and for all.]
 In this section, our goal is to examine how time-ordered visibilities from an
 interferometer should be best combined into information about the sky (such as
 an image-domain map).  Contrary to expectations, we will find that it is
@@ -361,6 +387,7 @@ space and downweighting (or discarding) high fringe-rate modes.  This is
 confirmed by constructing the optimal prescription as we did above, which
 yields
 \begin{eqnarray}
+\label{eq:AdagNinvv}
 \left( \A^\dagger \N^{-1} \vis \right)_{\theta,\varphi} && = \frac{B_\theta^* (\theta)  \sin \theta}{2\pi \sigma^2} \sum_{b,n} e^{i n \varphi} e^{i 2 \pi  \frac{b_y}{\lambda} \cos \eta \cos \theta} \nonumber \\
 && \times \sum_{q} \widetilde{B}_q^* J_{n-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right) \widetilde{V}_b (f_n).
 \end{eqnarray}
@@ -601,33 +628,130 @@ As an example, suppose the sky consisted of a continuum of unresolved and unclus
 \end{equation}
 Each element of this diagonal matrix specifies a weighting for a fringe-rate bin.  The integral quantifies the response of the baseline to the particular fringe-rate bin, and when multiplied by $\sigma_s^2$, gives the signal in the bin.  (Note that $\sigma_s$ and $\sigma_n$ have different units, so that $\mathbf{W}^\textrm{Wiener}$ is dimensionless).  With $\sigma_n^2$ in the denominator, the Wiener filter enacts a signal-to-noise weighting in fringe-rate space.  Given that $ | g_b (\theta, n) |^2$ decays rapidly at high $n$ (as discussed in previous sections), the Wiener filter does precisely what we intuitively expect it to do: it down-weights high fringe-rates that are likely noise-dominated.  Our placement of a flat signal prior essentially precluded the possibility that a strong signal in high azimuthal Fourier modes could result in a signal-dominated measurement at high fringe-rate bins, allowing us to safely downweight those bins without sacrificing signal.
 
-Care must be taken, however, when using a set of visibilities that have been Wiener-filtered.  Because fringe-rate filtering is effectively a way to enact time-integration, the resulting time-series of filtered visibilities will possess correlated errors and will no longer be independent.  This is expected and desirable in the sense that it is what allows the Wiener filter to minimize errors.  However, this comes at a cost.  Recall that fringe-rates map directly to azimuthal Fourier mode numbers.  Thus, if one were to use the Wiener-filtered data to measure (say) a power spectrum, the result would be biased low, as Equation \eqref{eq:WienerWeights} gives fringe-rate weights that are all less than one.
+Care must be taken, however, when using a set of visibilities that have been Wiener-filtered.  Because fringe-rate filtering is effectively a way to enact time-integration, the resulting time-series of filtered visibilities will possess correlated errors and will no longer be independent.  This is expected and desirable in the sense that it is what allows the Wiener filter to minimize errors.  However, this comes at a cost.  Recall that fringe-rates map directly to azimuthal Fourier mode numbers.  Thus, if one were to use the Wiener-filtered data to measure (say) a power spectrum, the result would be biased low, as Equation \eqref{eq:WienerWeights} gives fringe-rate weights that are all less than one.  Instead, we envision the Wiener-filtered visibilities as one where the lower noise levels allow systematics to be more clearly identified.\footnote{It is admittedly possible to construct an unbiased power spectrum estimator from Wiener-filtered visibilities: one simply renormalizes any fringe-rate bins that were biased low by the Wiener-filter.  The only subtlety is that this renormalization cannot be performed individually on different fringe-rate bins, since the diagonal nature of $\mathbf{W}^\textrm{Wiener}$ would result in the identity matrix.  Instead, we must make the observation that a typical power spectrum estimator takes advantage of statistical isotropy to sum together the power estimates of individual azimuthal modes (or equivalently, fringe rates) to form power estimates on a particular angular scale.  As long as the final estimate on each angular scale is properly normalized, the result will be unbiased.  However, it will not be \emph{optimal} (unlike the estimator that we will derive in Section \ref{sec:OptPower}) in the sense that the error bars will not be as small as can be possibly achieved by the data set.}
 
-\subsection{De-noising visibilities for power spectrum estimation}
+\section{Power Spectrum Estimation with Fringe-Rate Filtering}
+\label{sec:OptPower}
+We now discuss the problem of power spectrum estimation given time-ordered data.  The primary challenge, again, is to ensure that the benefits of a long time-integration (i.e. increased sensitivity) can be realized without explicitly making maps.  For example, one cannot simply average over power spectrum estimates formed from every time instant of some time-ordered visibilities.  Doing so would reduce the sensitivity of the final power spectrum, as coherent information between time-samples would be lost.  However, it would be desirable to be able to optimally include coherent information while remaining in a time-ordered basis where systematic effects are transparent.  In this section, we will show that the techniques of fringe-rate filtering make it possible to construct a power spectrum estimator that satisfies these requirements.
 
-To avoid incurring a multiplicative bias in power spectrum estimator, it is necessary to appropriately normalize the weights derived in the previous section.  This normalization cannot be done on a fringe-rate-by-fringe-rate basis, since the diagonal nature of $\mathbf{W}^\textrm{Wiener}$ would result in the identity matrix.  (This follows immediately from the arguments that led us to impose a prior on the signal covariance matrix, namely that each fringe-rate bin probes unique information on the sky).  However, a typical power spectrum estimator takes advantage of statistical isotropy to sum together the power estimates of individual azimuthal modes (or equivalently, fringe rates).  To arrive at a power-conserving normalization, then, we simply require that the summed power estimates are properly normalized.  This allows different fringe rates to retain their relative normalization, preserving the de-noising ability of our filter.
-
-As an example, suppose one were to form an estimator of the angular cross-power spectrum $C_\ell$ between the sky at two frequencies:
+We start with the estimator $\hat{p}_\alpha$ for the $\alpha$th band of the power spectrum:
 \begin{equation}
-\label{eq:C_Ell}
-\widehat{C}_\ell (\nu, \nu^\prime) \propto \frac{1}{2\ell + 1} \sum_{m=-\ell}^{\ell} \vis^*_m (\nu) \vis_m (\nu^\prime),
+\label{eq:GenFormPowEst}
+\hat{p}_\alpha = N_\alpha \hat{\x}^\dagger \mathbf{C}^{-1} \mathbf{Q}_\alpha \mathbf{C}^{-1} \hat{\x},
 \end{equation}
-where $K=...$ [XXX: put in a conversion factor for Jy to K etc. Need to be better about the distinction between xhat and v].  If one makes the assumption that a given baseline's response is strongly peaked at the specific angular mode $\ell \sim 2 \pi \sqrt{b_x^2+ b_y^2} / \lambda$, we will only need to consider the estimator on a baseline-by-baseline basis.  If the input visibilities are chosen to be the Wiener-filtered ones, this estimator can be shown to be an optimal, minimum-variance estimator [XXX: need to dig up Ue-Li and Uros' paper references].  Now, isotropy dictates that all azimuthal Fourier modes contribute the same power.  To ensure that the power spectrum estimate is properly normalized, we therefore require the \emph{square} of the weights given by Equation \eqref{eq:WienerWeights} sum to unity.  In other words, for the purposes of power spectrum estimation one weights the $n^\textrm{th}$ fringe-rate bin by
+where $\mathbf{C} \equiv \langle \hat{\x} \hat{\x}^\dagger \rangle = \mathbf{S} + \boldsymbol \Sigma$ is the \emph{total} (signal plus noise) covariance matrix of the sky map, and $N_\alpha$ is a normalization factor, given by\footnote{More sophisticated normalization schemes involving matrix normalization constants are possible [XXX: cite Josh MWA paper], but for simplicity (and no loss of generality as far as our present discussion is concerned) we do not consider them here.}
 \begin{equation}
-w_n = \frac{ \int_0^{\pi}  | g_b (\theta, n) |^2 d\theta}{\sum_m \left( \int_0^{\pi}  | g_b (\theta^\prime, m) |^2 d\theta^\prime \right)^2 },
+N_\alpha = \textrm{tr} \left[ \mathbf{C}^{-1} \mathbf{Q}_\alpha \mathbf{C}^{-1} \mathbf{Q}_\alpha \right].
 \end{equation}
-with filtered visibilities given by $v^\textrm{filt}_n = w_n v_n$.
-
-Equation \eqref{eq:C_Ell} can be written in terms of a time-series by the nothing the following.  Since the interferometer response decays rapidly for large fringe-rate bins, we can extend the sum over $m$ to go from $-\infty$ to $+\infty$.  Then recalling that $m$ doubles as the fringe-rate index, which is the Fourier dual to time, one can use Parseval's theorem to write
+[XXX: grr...the Fisher matrix isn't diagonal here, so it's a little more annoying when it comes to normalization.  Need to decide which norm convention to use].  Written in this general form, our estimator can be used to estimate any power spectrum, be it an angular power spectrum $C_\ell$ (in which case $\hat{p}_\alpha \equiv \hat{C}_\ell$ and $\alpha$ would index the $\ell$ value), or a three-dimensional power spectrum $P(\mathbf{k} )$ (in which case $\hat{p}_\alpha \equiv \hat{P}(\mathbf{k}_\alpha)$).  The type of power spectrum under consideration is encoded by the form of the $\mathbf{Q}_\alpha$ matrices.  They are defined as the linear response of the covariance matrix $\mathbf{C}$ to the power spectrum:
 \begin{equation}
-\widehat{C}_\ell \propto \frac{1}{2\ell +1}  \int_{-\frac{T_\Earth}{2}}^{\frac{T_\Earth}{2}} \frac{dt}{T_\Earth}   V_{\textrm{filt}}^* (\nu,t) V_\textrm{filt} (\nu^\prime,t),
+\mathbf{Q}_\alpha \equiv \frac{\partial \mathbf{C}}{\partial p_\alpha}.
+\end{equation}
+The inverse-covariance weighting enacted by $\mathbf{C}^{-1}$ makes Equation \eqref{eq:GenFormPowEst} a minimum-variance estimator \citep{liu_tegmark2011}.  For notational cleanliness we have omitted any corrections to \emph{additive} biases in the estimator, implicitly assuming that such biases have already been removed.
+
+As it stands, our estimator is written explicitly in terms of the estimated sky maps $\hat{\x}$.  These are related to the visibilities via Equation \eqref{optEst}, which states that $\xhat = \left[ \A^\dagger \N^{-1} \A \right]^{-1} \A^\dagger \N^{-1} \vis$.  If we assume that our measurements are noise-dominated, then $\mathbf{C} \approx \boldsymbol \Sigma = [ \mathbf{A}^\dagger \mathbf{N}^{-1} \mathbf{A} ]^{-1}$, so $\mathbf{C}^{-1} \approx [ \mathbf{A}^\dagger \mathbf{N}^{-1} \mathbf{A} ]$.  Inserting these into Equation \eqref{eq:GenFormPowEst}, we obtain
+\begin{equation}
+\label{eq:VisBasedPowEst}
+\hat{p}_\alpha = N_\alpha \hat{\vis}^\dagger \N^{-1} \A  \mathbf{Q}_\alpha \A^\dagger \N^{-1} \vis
+\end{equation}
+as our visibility-based estimator.
+
+To see how fringe-rate filters relate to this expression, consider the specific example of measuring the angular power spectrum $C_\ell$.  In this case, we parameterize the signal covariance in terms of spherical harmonics, so that
+\begin{equation}
+\mathbf{C}_{\hat{\r}, \hat{\r}^\prime} = [ \mathbf{A}^\dagger \mathbf{N}^{-1} \mathbf{A} ]^{-1} + \sum_{\ell m} Y_{\ell m} ( \hat{\r}) Y^*_{\ell m} (\hat{\r}^\prime) C_\ell,
+\end{equation}
+and thus
+\begin{equation}
+\label{eq:CEllQ}
+\mathbf{Q}_\ell \equiv \frac{\partial \mathbf{C}}{\partial C_\ell} = \sum_{m} Y_{\ell m} ( \hat{\r}) Y^*_{\ell m} (\hat{\r}^\prime),
+\end{equation}
+where we have renamed the index $\alpha$ to $\ell$ as a reminder that we are considering the angular power spectrum.  Note that since the noise covariance does not depend on the power spectrum $C_\ell$, it is necessary to include the signal covariance when deriving $\mathbf{Q}_\ell$, even though this was unnecessary for $\mathbf{C}^{-1}$.
+
+Substituting Equations \eqref{eq:AdagNinvv} and \eqref{eq:CEllQ} into Equation \eqref{eq:VisBasedPowEst}, we obtain
+\begin{equation}
+\label{eq:StillFringe}
+\widehat{C}_\ell \propto \sum _{m=-\infty}^\infty \Bigg{|} \sum_b w_{\ell m}^b \widetilde{V}_b (f_m) \Bigg{|}^2,
 \end{equation}
 where
 \begin{equation}
-V_\textrm{filt}(\nu,t)=  \sum_m \exp \left[i \frac{2 \pi m t}{T_\Earth}\right] w_m v_m (\nu).
+w_{\ell m}^b \equiv
+\begin{cases}
+2 \pi \int d(\cos \theta) N_{\ell}^m P_{\ell}^{m} (\cos \theta) g_b(\theta,m),& \textrm{for} -\ell \leq m \leq \ell \\
+0, & \textrm{otherwise,}
+\end{cases}
 \end{equation}
-Written in this way, it is clear that the optimal power spectrum estimator reduces to averaging together estimators that are formed at every instant in time---provided that one uses the fringe-rate filtered visibilities instead of the original, unprocessed visibilities.  Ordinarily, forming power spectra at every instant is suboptimal because it involves the squaring of visibilities, resulting in the loss of coherent phase information.  In other words, one cannot coherently add together constraints on the same sky information from different time slices, and errors in the power spectrum average down as $1/\sqrt{t}$.  Traditionally, coherent integration is implemented by first forming a map of the sky (in whatever basis one desires), and then to estimate the power spectrum from the maps.  The final errors on the power spectrum then decrease as $1/t$.  What has been shown here is that fringe-rate filtered visibilities are visibilities that have effectively already been coherently integrated in time, and estimating the power spectrum time-slice-by-time-slice with them represents no loss of sensitivity.  Working in a time basis can be preferable to using Equation \eqref{eq:C_Ell} directly because many systematics can be more easily isolated by examining time-series data.  Our analytic expressions allow fringe-rate filtering to be performed without mapmaking, reducing the possibility of image-domain artifacts and curved-sky complications.
+with $P_\ell^m$ being the associated Legendre polynomial of order [XXX: insert proper name here], and
+\begin{equation}
+N_\ell^m = \sqrt{\frac{2\ell + 1}{4 \pi} \frac{(\ell-m)!}{(\ell + m )!}}
+\end{equation}
+is the normalization constant for spherical harmonics.  Since we can equivalently interpret $m$ not as the azimuthal Fourier mode number but as the fringe-rate bin index, it is the Fourier dual to time, our estimator can be rewritten using Parseval's theorem:
+\begin{equation}
+\label{eq:FinalTimeEst}
+\widehat{C}_\ell \propto  \int_{-T_\Earth / 2}^{T_\Earth /2} \frac{dt}{T_\Earth} \Bigg{|} \sum_b V^\textrm{filt}_{\ell b} (t) \Bigg{|}^2,
+\end{equation}
+where
+\begin{equation}
+\label{eq:FinalFilt}
+V^\textrm{filt}_{\ell b} (t) \equiv  \sum_m \exp \left[i \frac{2 \pi m t}{T_\Earth}\right]  w_{\ell m}^b \widetilde{V}_b (f_m).
+\end{equation}
+Together, Equations \ref{eq:FinalTimeEst} and \ref{eq:FinalFilt} suggest a method for estimating power spectra.  First, time-ordered visibilities are Fourier-transformed into a fringe-rate basis.  Different fringe-rate bins are then weighted by the $w_{\ell m}^b$ weights, which essentially encode the ``dot product" between a baseline's response in the fringe-rate bin and the angular mode in question.  The result is then transformed back into a set of fringe-rate filtered visibility time series.  A power spectrum is computed for every time instant before averaging together different times.  Since this procedure was derived from a minimum-variance estimator of the power spectrum, it is guaranteed to produce the smallest possible error bars.
 
+We have thus accomplished our goal of writing down an optimal estimator for the power spectrum that works directly with visibilities.  Conveniently, the integration of coherent information takes place via a fringe-rate filter, which operates on independently for different baselines.  Moreover, since it returns data in its original format---a time-series---systematics localized to certain baselines and certain times can be easily isolated.  Note that while the filtering is performed per-baseline, information from multiple baselines regarding the same $\ell$ mode is coherently included before squaring to form the power spectrum.  This is most clearly seen in Equation \eqref{eq:StillFringe}, where visibilities from different baselines are simply added together, except that they are weighted by different amounts depending on how much overlap they have with the mode in question.  Traditionally, taking advantage of coherent information between non-identical baselines requires imaging (whether in the image basis or as a Fourier-transformed image in the form of, say, $uv$-plane data).  With our approach, imaging (and its attendant artifacts) are completely avoided without sacrificing sensitivity.
+[XXX: JUST REALIZED THIS IS FAR MORE ALGORITHMICALLY EFFICIENT THAN MAPMAKING!!!]
+
+[XXX: Maybe also consider $l \sim 2 \pi b / \lambda$ approx.]
+[XXX: Perhaps make connection to thingy more clear.]
+[XXX: Consider also playing up the weights as the ``dot product" of the thing you're interested in and the fringe-rate-space visibilities to emphasize how different baselines just need to combined based on their overlap.]
+%
+%One approach to forming an estimate of the power spectrum would be to start from the Wiener-filtered visibilities from the previous section.  As mentioned above, however, doing so would result in a power spectrum that contained a multiplicative bias.  A straightforward fix to this problem would be to appropriately normalize the Wiener weights derived in Equation \eqref{eq:WienerWeights}.  Roughly speaking, those fringe-rates that were biased low by the Wiener filter can simply be renormalized to the appropriate level.  We caution, however, that this renormalization cannot be done on a fringe-rate-by-fringe-rate basis, since the diagonal nature of $\mathbf{W}^\textrm{Wiener}$ would result in the identity matrix.  (This follows immediately from the arguments that led us to impose a prior on the signal covariance matrix, namely that each fringe-rate bin probes unique information on the sky).  However, a typical power spectrum estimator takes advantage of statistical isotropy to sum together the power estimates of individual azimuthal modes (or equivalently, fringe rates).  To arrive at a power-conserving normalization, then, we simply require that the summed power estimates are properly normalized.  This allows different fringe rates to retain their relative normalization, preserving the de-noising ability of our filter.   [	XXX: should we explicitly construct the sub-optimal Wiener-filter-based estimator?]
+%
+%While the aforementioned procedure will indeed result in an unbiased power spectrum estimator, 
+%
+%Before deriving the correct normalization factors, we first pause to discuss the optimality of this procedure.   At first glance, the normalized Wiener-filter that we just described is not guaranteed to be an optimal way to estimate the power spectrum (in the sense of producing minimum-variance power spectrum estimates), since the Wiener filter was constructed only to minimize errors in images.  We will now show, however, that in the low signal-to-noise regime discussed above, the procedure is in fact optimal, and is derivable from an optimal power spectrum estimator.  We start with the estimator $\hat{p}_\alpha$ for $P(k_\alpha)$:
+%\begin{equation}
+%\hat{p}_\alpha = N_\alpha \hat{\x}^\dagger \mathbf{C}^{-1} \mathbf{Q}_\alpha \mathbf{C}^{-1} \hat{\x},
+%\end{equation}
+%where $\mathbf{C} \equiv \langle \hat{\x} \hat{\x}^\dagger \rangle = \mathbf{S} + \boldsymbol \Sigma$ is the \emph{total} (signal plus noise) covariance matrix of the sky map, and $N_\alpha$ is a normalization factor.  The inverse-covariance weighting enacted by $\mathbf{C}^{-1}$ makes this a minimum-variance estimator \citep{liu_tegmark2011}, and for notational cleanliness we have omitted any corrections to \emph{additive} biases in the estimator, implicitly assuming that such biases have already been removed.  \cite{seljak1998} showed that this estimator can easily rewritten in terms of the Wiener-filtered estimator for the sky:
+%\begin{eqnarray}
+%\label{eq:WienerPowerEst}
+%\hat{p}_\alpha &=& N_\alpha \hat{\x}^\dagger_\textrm{Wiener} \mathbf{S}^{-1} \mathbf{Q}_\alpha \mathbf{S}^{-1} \hat{\x}_\textrm{Wiener} \nonumber \\
+%&=& N_\alpha \hat{\x}^\dagger_\textrm{Wiener}  \mathbf{Q}_\alpha \hat{\x}_\textrm{Wiener},
+%\end{eqnarray}
+%where in the second equality we assumed, like before, that $\mathbf{S} = \sigma_s^2 \mathbf{I}$ and absorbed the $\sigma_s^2$ into the normalization.  As it currently stands, the power spectrum estimator takes maps (whether Wiener filtered or not) as input.  In a similar spirit to the previous section, we would prefer to evade imaging artifacts by working directly from visibilities.  To rewrite Equation \eqref{eq:WienerPowerEst}, we make use of the following trick.  Working from Equation \eqref{manifest}, it is clear that
+%\begin{equation}
+%(\mathbf{A}^\dagger \mathbf{A} )_{m, \theta ; m^\prime \theta^\prime} = \delta_{mm^\prime} g_b(\theta, m) g_b^*(\theta^\prime, m^\prime).
+%\end{equation}
+%Suppose we apply this operator to $\hat{\x}_\textrm{Wiener}$ (the motivation for this will become clear momentarily), which we can express as 
+%\begin{equation}
+%\xhat_\textrm{Wiener} = \frac{\sigma_s^2}{\sigma_n^2} \mathbf{A}^\dagger  \vis,
+%\end{equation}
+%
+%
+%This process---first Wiener-filtering and then 
+%
+%[XXX: Discuss the assumptions made.]
+%
+%As an example, suppose one were to form an estimator of the angular cross-power spectrum $C_\ell$ between the sky at two frequencies:
+%\begin{equation}
+%\label{eq:C_Ell}
+%\widehat{C}_\ell (\nu, \nu^\prime) \propto \frac{1}{2\ell + 1} \sum_{m=-\ell}^{\ell} \vis^*_m (\nu) \vis_m (\nu^\prime),
+%\end{equation}
+%where $K=...$ [XXX: put in a conversion factor for Jy to K etc. Need to be better about the distinction between xhat and v].  If one makes the assumption that a given baseline's response is strongly peaked at the specific angular mode $\ell \sim 2 \pi \sqrt{b_x^2+ b_y^2} / \lambda$, we will only need to consider the estimator on a baseline-by-baseline basis.  If the input visibilities are chosen to be the Wiener-filtered ones, this estimator can be shown to be an optimal, minimum-variance estimator [XXX: need to dig up Ue-Li and Uros' paper references].  Now, isotropy dictates that all azimuthal Fourier modes contribute the same power.  To ensure that the power spectrum estimate is properly normalized, we therefore require the \emph{square} of the weights given by Equation \eqref{eq:WienerWeights} sum to unity.  In other words, for the purposes of power spectrum estimation one weights the $n^\textrm{th}$ fringe-rate bin by
+%\begin{equation}
+%w_n = \frac{ \int_0^{\pi}  | g_b (\theta, n) |^2 d\theta}{\sum_m \left( \int_0^{\pi}  | g_b (\theta^\prime, m) |^2 d\theta^\prime \right)^2 },
+%\end{equation}
+%with filtered visibilities given by $v^\textrm{filt}_n = w_n v_n$.
+%
+%Equation \eqref{eq:C_Ell} can be written in terms of a time-series by the nothing the following.  Since the interferometer response decays rapidly for large fringe-rate bins, we can extend the sum over $m$ to go from $-\infty$ to $+\infty$.  Then recalling that $m$ doubles as the fringe-rate index, which is the Fourier dual to time, one can use Parseval's theorem to write
+%\begin{equation}
+%\widehat{C}_\ell \propto \frac{1}{2\ell +1}  \int_{-\frac{T_\Earth}{2}}^{\frac{T_\Earth}{2}} \frac{dt}{T_\Earth}   V_{\textrm{filt}}^* (\nu,t) V_\textrm{filt} (\nu^\prime,t),
+%\end{equation}
+%where
+%\begin{equation}
+%V_\textrm{filt}(\nu,t)=  \sum_m \exp \left[i \frac{2 \pi m t}{T_\Earth}\right] w_m v_m (\nu).
+%\end{equation}
+%Written in this way, it is clear that the optimal power spectrum estimator reduces to averaging together estimators that are formed at every instant in time---provided that one uses the fringe-rate filtered visibilities instead of the original, unprocessed visibilities.  Ordinarily, forming power spectra at every instant is suboptimal because it involves the squaring of visibilities, resulting in the loss of coherent phase information.  In other words, one cannot coherently add together constraints on the same sky information from different time slices, and errors in the power spectrum average down as $1/\sqrt{t}$.  Traditionally, coherent integration is implemented by first forming a map of the sky (in whatever basis one desires), and then to estimate the power spectrum from the maps.  The final errors on the power spectrum then decrease as $1/t$.  What has been shown here is that fringe-rate filtered visibilities are visibilities that have effectively already been coherently integrated in time, and estimating the power spectrum time-slice-by-time-slice with them represents no loss of sensitivity.  Working in a time basis can be preferable to using Equation \eqref{eq:C_Ell} directly because many systematics can be more easily isolated by examining time-series data.  Our analytic expressions allow fringe-rate filtering to be performed without mapmaking, reducing the possibility of image-domain artifacts and curved-sky complications.
+%
 [XXX: Need to find a place to talk about effective beams and how it affects power spectrum sensitivity.  Talk about how we will henceforth use simulated effective beams so that we don't have to make all the assumptions that went into the analytic work.  Should also credit Richard for the fringe-rate --> m-mode correspondence more throughout.]
 
 

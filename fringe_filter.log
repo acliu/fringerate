@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  13 JUL 2013 10:09
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  21 AUG 2013 11:24
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -335,51 +335,59 @@ e
 Class revtex4 Warning: Assuming \noaffiliation for  Aaron R. Parsons\textsupers
 cript {1,2}, Adrian Liu\textsuperscript {1}, .
 
-LaTeX Font Info:    Try loading font information for U+lasy on input line 60.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 63.
 (/usr/local/texlive/2010/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 60.
+LaTeX Font Info:    Try loading font information for U+msa on input line 63.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 60.
+LaTeX Font Info:    Try loading font information for U+msb on input line 63.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 76.
 
-Package natbib Warning: Citation `parsons_et_al2013' on page 1 undefined on inp
-ut line 62.
+(/usr/local/texlive/2010/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 76.
+ [1{/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+
+Package natbib Warning: Citation `parsons_et_al2013' on page 2 undefined on inp
+ut line 88.
 
 
-Package natbib Warning: Citation `Tegmark97' on page 1 undefined on input line 
-104.
+Package natbib Warning: Citation `Tegmark97' on page 2 undefined on input line 
+130.
 
 
-Package natbib Warning: Citation `Morales2009' on page 1 undefined on input lin
-e 104.
+Package natbib Warning: Citation `Morales2009' on page 2 undefined on input lin
+e 130.
 
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <7> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 122.
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 148.
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <5> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 122.
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 148.
 
-Package natbib Warning: Citation `Tegmark97' on page 1 undefined on input line 
-125.
-
-
-Package natbib Warning: Citation `Shaw2013' on page 1 undefined on input line 1
-38.
+Package natbib Warning: Citation `Tegmark97' on page 2 undefined on input line 
+151.
 
 
-Overfull \hbox (9.90547pt too wide) in alignment at lines 153--157
+Package natbib Warning: Citation `Shaw2013' on page 2 undefined on input line 1
+64.
+
+[2]
+Overfull \hbox (9.90547pt too wide) in alignment at lines 179--183
  [][][] []
  []
 
-[1{/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (5.14117pt too wide) detected at line 206
+
+Overfull \hbox (5.14117pt too wide) detected at line 232
 [][]  \OT1/cmr/m/n/10 =  []   [] [] \OML/cmm/m/it/10 B[]\OT1/cmr/m/n/10 (\OML/c
 mm/m/it/10 ' \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 ![]t\OT1/cmr/m/n/10 ) \OML/c
 mm/m/it/10 e[]V[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t\OT1/cmr/m/n/10 )\OML/cmm/m
@@ -387,161 +395,163 @@ mm/m/it/10 e[]V[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t\OT1/cmr/m/n/10 )\OML/cmm/m
  []
 
 
-Overfull \hbox (4.12962pt too wide) in alignment at lines 252--256
+Overfull \hbox (4.12962pt too wide) in alignment at lines 278--282
+ [][][] []
+ []
+
+[3]
+Overfull \hbox (6.29056pt too wide) in alignment at lines 286--289
  [][][] []
  []
 
 
-Overfull \hbox (6.29056pt too wide) in alignment at lines 260--263
- [][][] []
- []
-
-[2]
-Overfull \hbox (2.0153pt too wide) in alignment at lines 305--309
+Overfull \hbox (2.0153pt too wide) in alignment at lines 331--335
  [][][] []
  []
 
 
-Overfull \hbox (14.4853pt too wide) in alignment at lines 326--329
+Overfull \hbox (14.4853pt too wide) in alignment at lines 352--355
  [][][] []
  []
 
-
-Underfull \hbox (badness 3158) in paragraph at lines 366--373
+[4]
+Underfull \hbox (badness 3158) in paragraph at lines 393--400
 \OT1/cmr/m/n/10 In words, this recipe in-structs us to move into
  []
 
 
-Underfull \hbox (badness 1168) in paragraph at lines 366--373
+Underfull \hbox (badness 1168) in paragraph at lines 393--400
 \OT1/cmr/m/n/10 con-cen-trated in $\OML/cmm/m/it/10 f[]$\OT1/cmr/m/n/10 ) and t
 o fur-ther down-weight by
  []
 
-[3]
 
-Package natbib Warning: Citation `Shaw2013' on page 4 undefined on input line 4
-33.
-
-[4]
-
-Package natbib Warning: Citation `Tegmark97' on page 5 undefined on input line 
-593.
+Package natbib Warning: Citation `Shaw2013' on page 5 undefined on input line 4
+60.
 
 [5]
 
-Package natbib Warning: Citation `bhatnagar_et_al2008' on page 6 undefined on i
-nput line 728.
-
-
-Package natbib Warning: Citation `morales_matejek2009' on page 6 undefined on i
-nput line 728.
-
-
-Package natbib Warning: Citation `cornwell_et_al2003' on page 6 undefined on in
-put line 729.
-
-
-Package natbib Warning: Citation `sullivan_et_al2012' on page 6 undefined on in
-put line 730.
-
-
-Package natbib Warning: Citation `morales_matejek2009' on page 6 undefined on i
-nput line 730.
-
-
-Package natbib Warning: Citation `hazelton_et_al2013' on page 6 undefined on in
-put line 747.
-
-
-LaTeX Warning: Reference `app:data_compression' on page 6 undefined on input li
-ne 748.
-
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 761.
-
-(/usr/local/texlive/2010/texmf-dist/tex/latex/base/omscmr.fd
-File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 761.
-
-
-LaTeX Warning: Reference `sec:dspec_crossmult' on page 6 undefined on input lin
-e 761.
-
-
-Package natbib Warning: Citation `morales_matejek2009' on page 6 undefined on i
-nput line 773.
-
-
-Package natbib Warning: Citation `shaw_et_al2013' on page 6 undefined on input 
-line 774.
+Package natbib Warning: Citation `Tegmark97' on page 6 undefined on input line 
+620.
 
 [6]
 
-LaTeX Warning: Reference `sec:dspec_crossmult' on page 7 undefined on input lin
-e 790.
+Package natbib Warning: Citation `liu_tegmark2011' on page 7 undefined on input
+ line 650.
 
 
-LaTeX Warning: Reference `sec:preprocessing' on page 7 undefined on input line 
-795.
+Overfull \hbox (24.38353pt too wide) detected at line 682
+\OML/cmm/m/it/10 w[] \OMS/cmsy/m/n/10 ^^Q []
+ []
+
+[7]
+
+Package natbib Warning: Citation `bhatnagar_et_al2008' on page 8 undefined on i
+nput line 852.
 
 
-Package natbib Warning: Citation `parsons_et_al2010' on page 7 undefined on inp
-ut line 853.
+Package natbib Warning: Citation `morales_matejek2009' on page 8 undefined on i
+nput line 852.
 
 
-LaTeX Warning: Reference `sec:preprocessing' on page 7 undefined on input line 
-860.
+Package natbib Warning: Citation `cornwell_et_al2003' on page 8 undefined on in
+put line 853.
 
-<plots/beam_raw.png, id=39, 578.16pt x 433.62pt>
+
+Package natbib Warning: Citation `sullivan_et_al2012' on page 8 undefined on in
+put line 854.
+
+
+Package natbib Warning: Citation `morales_matejek2009' on page 8 undefined on i
+nput line 854.
+
+
+Package natbib Warning: Citation `hazelton_et_al2013' on page 8 undefined on in
+put line 871.
+
+
+LaTeX Warning: Reference `app:data_compression' on page 8 undefined on input li
+ne 872.
+
+
+LaTeX Warning: Reference `sec:dspec_crossmult' on page 8 undefined on input lin
+e 885.
+
+
+Package natbib Warning: Citation `morales_matejek2009' on page 8 undefined on i
+nput line 897.
+
+
+Package natbib Warning: Citation `shaw_et_al2013' on page 8 undefined on input 
+line 898.
+
+[8]
+
+LaTeX Warning: Reference `sec:dspec_crossmult' on page 9 undefined on input lin
+e 914.
+
+
+LaTeX Warning: Reference `sec:preprocessing' on page 9 undefined on input line 
+919.
+
+
+Package natbib Warning: Citation `parsons_et_al2010' on page 9 undefined on inp
+ut line 977.
+
+
+LaTeX Warning: Reference `sec:preprocessing' on page 9 undefined on input line 
+984.
+
+<plots/beam_raw.png, id=48, 578.16pt x 433.62pt>
 File: plots/beam_raw.png Graphic file (type png)
  <use plots/beam_raw.png>
-<plots/beam_wgt.png, id=41, 590.4459pt x 445.9059pt>
+<plots/beam_wgt.png, id=50, 590.4459pt x 445.9059pt>
 File: plots/beam_wgt.png Graphic file (type png)
  <use plots/beam_wgt.png>
-<plots/beam_fng.png, id=42, 590.4459pt x 445.9059pt>
+<plots/beam_fng.png, id=51, 590.4459pt x 445.9059pt>
 File: plots/beam_fng.png Graphic file (type png)
  <use plots/beam_fng.png>
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 887.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1011.
 
-Underfull \hbox (badness 10000) in paragraph at lines 887--887
+
+Underfull \hbox (badness 10000) in paragraph at lines 1011--1011
 $[]$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 887--887
+Underfull \hbox (badness 10000) in paragraph at lines 1011--1011
 
  []
 
 
-Package natbib Warning: Citation `parsons_backer2009' on page 7 undefined on in
-put line 907.
-
-[7]
-
-Package natbib Warning: Citation `parsons_backer2009' on page 8 undefined on in
-put line 925.
+Package natbib Warning: Citation `parsons_backer2009' on page 9 undefined on in
+put line 1031.
 
 
-LaTeX Warning: Reference `fig:ddr_compression' on page 8 undefined on input lin
-e 952.
+Package natbib Warning: Citation `parsons_backer2009' on page 9 undefined on in
+put line 1049.
+
+[9]
+
+LaTeX Warning: Reference `fig:ddr_compression' on page 10 undefined on input li
+ne 1076.
 
 
-LaTeX Warning: Reference `sec:preprocessing' on page 8 undefined on input line 
-956.
+LaTeX Warning: Reference `sec:preprocessing' on page 10 undefined on input line
+ 1080.
 
 
-Overfull \hbox (75.78403pt too wide) in paragraph at lines 975--975
+Overfull \hbox (75.78403pt too wide) in paragraph at lines 1099--1099
 [] 
  []
 
-[8 <./plots/beam_raw.png> <./plots/beam_wgt.png> <./plots/beam_fng.png>]
+[10 <./plots/beam_raw.png> <./plots/beam_wgt.png> <./plots/beam_fng.png>]
 No file fringe_filter.bbl.
 
 Package natbib Warning: There were undefined citations.
 
-[9] (./fringe_filter.aux)
+[11] (./fringe_filter.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -551,13 +561,13 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right .
 
  ) 
 Here is how much of TeX's memory you used:
- 4442 strings out of 493747
- 56693 string characters out of 3143546
- 139663 words of memory out of 3000000
- 7646 multiletter control sequences out of 15000+200000
+ 4461 strings out of 493747
+ 56972 string characters out of 3143546
+ 141774 words of memory out of 3000000
+ 7665 multiletter control sequences out of 15000+200000
  15705 words of font info for 63 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 39i,10n,28p,1491b,325s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 39i,10n,28p,1895b,325s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb><
 /usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></u
@@ -581,10 +591,10 @@ mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2010/texmf
 ist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2010/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2010/texmf-dist
 /fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on fringe_filter.pdf (9 pages, 646998 bytes).
+Output written on fringe_filter.pdf (11 pages, 663208 bytes).
 PDF statistics:
- 133 PDF objects out of 1000 (max. 8388607)
- 92 compressed objects within 1 object stream
+ 139 PDF objects out of 1000 (max. 8388607)
+ 96 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
