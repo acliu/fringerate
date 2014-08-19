@@ -987,6 +987,12 @@ in \S\ref{sec:preprocessing}.
 \section{Simulations}
 \label{sec:sim}
 
+\begin{figure}\centering
+\includegraphics[width=.9\columnwidth]{plots/fringe_wgts.png}
+\caption{
+}\label{fig:fringe_wgts}
+\end{figure}
+
 \subsection{Point Source Simulations for Mapping Beam Response}
 \label{sec:sim_pnt}
 
@@ -1011,12 +1017,38 @@ baseline after the application of the fringe-rate filter.
 }\label{fig:}
 \end{figure*}
 
+\begin{figure*}\centering
+\includegraphics[width=.6\columnwidth]{plots/beam_fng.png}
+\caption{
+The effective primary beam response of a baseline, as determined from the simulations in \S\ref{sec:sim_pnt}.
+Panels indicate reconstructions of PAPER's model beam response used in the simulation (left), the 
+beam weighting that results from the application of a fringe-rate filter weighted to optimize SNR for
+a 30-m baseline with PAPER's beam response (center), and the effective primary beam response of the
+baseline after the application of the fringe-rate filter.
+}\label{fig:}
+\end{figure*}
+
 
 \section{Matching Polarization Beams}
 \label{sec:polbeams}
 
+\begin{figure*}\centering
+\includegraphics[width=.9\columnwidth]{plots/fringe_beam_wgts.png}
+\caption{
+}\label{fig:fringe_beam_wgts}
+\end{figure*}
+
+\section{Implementation}
+
+FIR filter.  Analytic form for smoothness vs. frequency.
+Desireability of a compact footprint.  Data gaps and edge issues.
+
 \section{Results and Discussion}
 \label{sec:results}
+
+Before/after power spectrum plot.
+FR transform of real data.
+Application of FR filter to waterfall.  
 
 \section{Conclusion}
 \label{sec:conclusion}
