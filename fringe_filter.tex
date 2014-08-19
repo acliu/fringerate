@@ -70,6 +70,7 @@ The quest for increased sensitivity, however, has often led to instrumental desi
 
 Mapmaking in Fourier space (or more precisely, on the $uv$-plane) alleviates some of these problems.  Fourier space is a natural space for the accumulation of interferometric data, for there each baseline probes a relatively localized region.  It is therefore a particularly economical basis for accumulating interferometric data, especially if the final goal is to produce a spatial power spectrum, or other quantities that are ``native" to Fourier space.  However, gridding artifacts remain, and are even more troublesome when power spectrum estimation is considered in the context of rotation synthesis.  As the Earth rotates, baselines sample a series of points along tracks on the $uv$-plane.  Nearby points are almost perfectly correlated, and ought to be integrated coherently prior to the squaring step of any power spectrum measurement, while faraway points can only be combined statistically after squaring.  Unless one is willing to keep track of the level of correlation of every $uv$-point with every other $uv$-point, an arbitrary choice must be made as to how far away from each other two points can lie before they are considered incoherent.  Often, this choice is encapsulated by the $uv$-pixel size (particularly in calculations of power spectrum sensitivity XXX: cite), with samples falling in the same cells labeled as coherent, and those in different cells labeled as incoherent.  However, this can potentially lead to a loss of sensitivity in combining samples that straddle pixel boundaries.  While these obstacles can in principle be overcome, it is clear that extreme care must be taken in the mapmaking process to ensure that the full sensitivity of an interferometer array is realized.
 
+% XXX "new method" was actually in Parsons Backer 2009.
 In this paper, we introduce a new method for combining time-ordered data---fringe-rate filtering---that avoids the aforementioned pitfalls while affording one the advantages traditionally reserved only when mapmaking.  The essential idea is that for an interferometer operating in a drift-scan observing mode, celestial sources of emission have predictable fringe-rates 
 
 \begin{itemize}
@@ -91,6 +92,20 @@ Further details are supplied in Appendices A and B of \citet{parsons_et_al2013}.
 \tilde{V}(\tau)=\int{W(\nu)\cdot S(\nu)\cdot V(\nu)e^{-2\pi i\nu\tau}~d\nu},
 \label{eq:dtransform}
 \end{equation}
+
+\section{Overview of principle of fringe-rate filtering}
+
+\begin{figure}
+\includegraphics[width=.9\columnwidth]{plots/ew_fringe.png}
+\caption{
+}\label{fig:ew_fringe}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=.9\columnwidth]{plots/fringe_contours.png}
+\caption{
+}\label{fig:fringe_contours}
+\end{figure}
 
 
 \section{Combining time-ordered data in an optimal way for mapmaking}
@@ -996,7 +1011,13 @@ in \S\ref{sec:preprocessing}.
 \subsection{Point Source Simulations for Mapping Beam Response}
 \label{sec:sim_pnt}
 
-\subsection{Noise Simulations for Estimating Signal Loss}
+\begin{figure*}\centering
+\includegraphics[width=1.8\columnwidth]{plots/src_track.png}
+\caption{
+}\label{fig:src_track}
+\end{figure*}
+
+\subsection{Noise Simulations for Determining Effective Volume}
 \label{sec:sim_nos}
 
 Describe the simulations here.
