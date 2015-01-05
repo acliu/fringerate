@@ -70,7 +70,8 @@ The quest for increased sensitivity, however, has often led to instrumental desi
 
 Mapmaking in Fourier space (or more precisely, on the $uv$-plane) alleviates some of these problems.  Fourier space is a natural space for the accumulation of interferometric data, for there each baseline probes a relatively localized region.  It is therefore a particularly economical basis for accumulating interferometric data, especially if the final goal is to produce a spatial power spectrum, or other quantities that are ``native" to Fourier space.  However, gridding artifacts remain, and are even more troublesome when power spectrum estimation is considered in the context of rotation synthesis.  As the Earth rotates, baselines sample a series of points along tracks on the $uv$-plane.  Nearby points are almost perfectly correlated, and ought to be integrated coherently prior to the squaring step of any power spectrum measurement, while faraway points can only be combined statistically after squaring.  Unless one is willing to keep track of the level of correlation of every $uv$-point with every other $uv$-point, an arbitrary choice must be made as to how far away from each other two points can lie before they are considered incoherent.  Often, this choice is encapsulated by the $uv$-pixel size (particularly in calculations of power spectrum sensitivity XXX: cite), with samples falling in the same cells labeled as coherent, and those in different cells labeled as incoherent.  However, this can potentially lead to a loss of sensitivity in combining samples that straddle pixel boundaries.  While these obstacles can in principle be overcome, it is clear that extreme care must be taken in the mapmaking process to ensure that the full sensitivity of an interferometer array is realized.
 
-% XXX "new method" was actually in Parsons Backer 2009.
+% XXX "new method" was actually in Parsons Backer 2009.  
+% XXX Might want to capture a more detailed working definition of fringe-rate filtering before starting to use the term
 In this paper, we introduce a new method for combining time-ordered data---fringe-rate filtering---that avoids the aforementioned pitfalls while affording one the advantages traditionally reserved only when mapmaking.  The essential idea is that for an interferometer operating in a drift-scan observing mode, celestial sources of emission have predictable fringe-rates 
 
 \begin{itemize}
@@ -93,7 +94,51 @@ Further details are supplied in Appendices A and B of \citet{parsons_et_al2013}.
 \label{eq:dtransform}
 \end{equation}
 
+
+
 \section{Overview of principle of fringe-rate filtering}
+
+Generally, the interferometric response, $V$, for two antennas in a radio interferometer is described
+by the measurement equation
+\begin{equation}
+V_\nu(t)=\int{I_\nu(\hat s, t)\cdot A_\nu(\hat s)\cdot e^{-2\pi i\nu \vec b\cdot \hat s/c}},
+\end{equation}
+where $I$ is the specific intensity of the sky in the direction of the topocentric unit vector $\hat s$,
+$A$ is the geometric mean of the primary beam power patterns of the constituent antennas,
+$\vec b$ is the baseline vector separating the two antennas in question, and $\nu$ is the spectral
+frequency.  Interferometric responses (visibilities) for ground-based instruments are generally 
+a function of time, $t$, even for a static sky because the Earth's rotation makes the expression of $I$ 
+in topocentric coordinates a time-dependent quantity.
+
+Assuming that antenna positions are fixed to the Earth, the fringe pattern of an interferometer ---
+the variation in phase response across the sky --- is fixed in topocentric coordinates.  Hence, time
+variation in $V_\nu(t)$ can be regarded as resulting from the motion of spatial structures in $I$ through
+the fringe pattern and primary beam response pattern.  Moreover, for interferometers such as PAPER, CHIME, and HERA 
+% XXX others? cite here or before?
+that do not point, but instead drift-scan the sky as it rotates by, the primary beam response pattern and the
+phase response pattern are locked to one another, and may together be considered the fringe pattern that gives rise
+to time variation in $V_\nu(t)$ as the Earth rotates.
+
+The rate at which angular structure in $I$ moves through a fringe pattern depends both on declination
+and hour angle.  As an example, Figure \ref{fig:ew_fringe} illustrates the real component of the phase
+variation in the fringe pattern of a 30-m east-west baseline deployed at -30$^\circ$ latitude.
+Though fringes are evenly spaced in $l\equiv\sin\theta_x$, the distance a source that is locked to the celestial
+sphere travels through the fringe pattern depends on its position on the sphere. This is illustrated in Figure
+\ref{fig:ew_fringe} by arrows that indicate the motion of sources at differing declinations over the course
+of two hours near transit.  The movement of a source through the fringe pattern causes $V_\nu(t)$ to oscillate
+with an amplitude that is determined by the strength of the source and the amplitude of the beam response,
+and a frequency that corresponds to the number of fringe periods traversed in a given time interval.  Hence,
+as illustrated in Figure \ref{fig:fringe_contours}, the frequency or {\it fringe-rate} of oscillations in $V_\nu(t)$
+ranges from a maximum at $\delta=0^\circ$ to zero at $\delta=-90^\circ$, and can even become negative
+for emission from the far side of the celestial pole.
+% XXX is there a name for the far side of the celestial pole?
+
+
+
+
+
+
+\citep{parsons_backer2009}, \citep{shaw_et_al2013}, 
 
 \begin{figure}
 \includegraphics[width=.9\columnwidth]{plots/ew_fringe.png}
@@ -1025,6 +1070,115 @@ Describe the simulations here.
 \section{Beam Sculpting}
 \label{sec:bmsculpt}
 
+So far, we have motivated fringe-rate filtering as a method for optimally weighting noisy data baseline by baseline.
+As we examined in \S XXX, fringe rates map to declinations, giving fringe-rate filters an alternate interpretation
+as a spatial filter that modifies beam response on a per-baseline basis.  The choice for this spatial filter that we
+have examined so far optimizes the SNR by weighting according to the beam response within fringe rate (declination) bins.  
+However, this is not the only choice available.  More generally, fringe-rate filters can be chosen to optimize
+any metric that varies spatially by re-weighting the interferometric response as a function of declination.  In this
+sense, fringe-rate filtering can be regarded as a ``beam sculpting'' operation that can be used to tailor an interferometer's
+spatial response.
+
+As we will discuss below, fringe-rate filtering as a beam sculpting operation is a powerful tool.  However, it
+is fundamentally limited in that it can only perform a one-dimensional re-weighting (in declination) of 
+the two-dimensional sky response\footnote{It is worth noting that, as described in \citet{parsons_backer2009},
+signal delay can be used for re-weighting beam response along a second axis.  However, delay filtering can only
+be used as a spatial filter for smooth-spectrum emission, fundamentally limit its application in this
+context for 21cm cosmological applications}.  Moreover, the spatial resolution of the weighting function is limited by
+the temporal resolution of the fringe-rate filter as it interacts with the extent of the sky in fringe-rate space.
+As the presence of $b_y$ in the expression for the spatial response of a fringe-rate bin in Equation \ref{eq:XXX} indicates,
+baselines with longer east-west extents discriminate between declinations with finer resolution than do shorter
+baselines.
+
+Recognizing these limitations, we now explore the application of fringe-rate filters for sculpting beam response.
+In addition to the signal-to-noise metric addressed previously, we will explore two other metrics that fringe-rate
+filters can be chosen to optimize: polarization response and contamination from celestial emission outside the field of
+interest (a.k.a. off-axis foregrounds).
+
+\subsection{Polarization Response}
+\label{sec:polbeams}
+\def\VXX{{V_{\rm XX}}}
+\def\VYY{{V_{\rm YY}}}
+\def\VI{{V_{\rm I}}}
+\def\VQ{{V_{\rm Q}}}
+
+Minimizing cross-contamination between Stokes terms in interferometric polarization measurements
+is of paramount importance for 21cm cosmology experiments that rely on
+the spectral axis to probe the line-of-sight direction at cosmological distances.  For these
+experiments, Faraday rotation combines
+with a spurious coupling between Stokes terms (typically Q to I) to produce polarization leakage whose 
+spectral structure poses a worrisome foreground
+to the cosmological signal \citep{jelic_et_al2008,bernardi,moore_et_al2013,moore_et_al2015}.  Current interferometers
+targeting the 21cm signal at cosmological distances (LOFAR, MWA, PAPER, HERA, CHIME, LEDA) all employ linearly
+polarized feeds, primarily because of their ease of construction and ability to co-locate elements sensitive to
+orthogonal polarizations.  However, orthogonal linearly polarized feeds in practice have primary beam responses
+that do not match.  As described in \citet{moore_et_al2013}, if left uncorrected, the unmatched beam response 
+between visibilities $\VXX$ and $\VYY$ measuring the XX and YY polarization products, respectively, is the 
+dominant source of polarization leakage in the Stokes I measurement $\VI\equiv(\VXX+\VYY)/2$ for
+linearly polarized feeds.
+
+With an accurate beam model, it is trivial to rescale $\VXX$ and $\VYY$ 
+so that the XX and YY beam responses match in a chosen (typically, zenith) direction.  Their sum, $\VI$, then
+represents a perfect probe of the Stoke I parameter in that chosen direction, but will contain contamination
+from $\VQ\equiv(\VXX-\VYY)/2$ in directions where the XX and YY beam responses do not match.
+The heart of the problem is the impossibility of creating a match between a pair of two-dimensional functions (the
+XX and YY beam responses) with a single degree of freedom (the amplitude of $\VXX$ relative to $\VYY$).  In order
+to improve the match between polarization beams in interferometric measurements, many interferometric measurements
+from distinct points in the UV plane will have to be combined with appropriate weights to effect a reweighting
+of the sky along two dimensions.
+
+The typical technique for correcting the mismatch between the XX and YY polarization beams is to separately
+image these polarization products, correct each pixel in each image using modeled beam responses,
+and then to sum the corrected images together to form a Stokes I map 
+(e.g. \citealt{sullivan,lofar,bernardi}).  Mathematically, this technique is identical to convolving the sampled
+UV plane by the Fourier transform of the directionally-dependent correction applied in image domain, and for an ideal
+array that samples the UV plane at scales significantly finer than the aperture of a single element, this technique can
+in principle perfectly correct mismatches between the XX and YY polariation beams.
+However, the success that can be achieved with this technique depends strongly on an array's UV sampling pattern.
+
+Take, for example, the case of a sparsely sampled UV plane where the spacing between UV samples is much greater than
+the aperture scale of a single element.  In this case, the beam correction described above 
+convolves each UV sample with a kernel kernel whose size scales roughly as the size of the aperture of a
+single element in wavelengths.  Since this kernel is much smaller than the spacing between UV samples, 
+each point in the convolved UV plane is dominated by the product of a kernel weight and a single visibility measurement.
+As such, for a chosen UV coordinate, the level of leakage in the Stokes I UV plane can
+be no better than what can be achieved by using a single number to rescale $\VXX$ and $\VYY$ before summing.  
+
+For cases where UV sampling falls somewhere between the sparse and the oversampled cases described above, the level
+of primary beam correction that can be realized is more complicated.  Ultimately, the Fourier relationship between
+the UV plane and the image dictates that samples that are nearby to one
+another in the UV plane enable primary beam corrections on the largest angular scales, while samples that are farther
+apart contribute to corrections on finer angular scales, with the orientation of the samples relative to one another
+dictating the axis along which such corrections take effect in image domain.  Typically, earth-rotation synthesis
+is required to sample the UV plane densely enough to allow for effective beam correction, although some array
+configurations are not dense enough to fully correct the beam even then.  One particularly relevant case that falls
+in this last category are many of the maximum redundancy configurations currently favored by several 21cm cosmology experiments
+for their sensitivity benefits \citep{parsons_et_al2012a,parsons_et_al2014}.
+
+However, even in the single-baseline case, earth-rotation synthesis provides dense UV sampling along one direction --- the
+direction the baseline traverses in the UV plane as its project toward the phase center changes.  The appropriate
+convolution kernel can combine samples along this track so as to correct the primary beam mismatch along one axis.
+It should not surprise the reader that what we have just described --- a convolution kernel acting along a time series
+of samples from a single baseline --- is an alternate description of fringe-rate filtering.  Through the correct
+choice of fringe-rate filter, it is possible to improve the match between the XX and YY polarization beams, and
+in the case of sparse array sampling, the result will be identical to the best that can be achieved by independently
+imaging the polarization products.  While this is not as effective at mitigating polarization leakage as can be achieved
+through imaging in the dense sampling case, we show in \S\ref{sec:XXX} that it nonetheless represents a substantial improvement
+over the naive summing of XX and YY visibility measurements.
+
+% XXX do we discuss results here or later?
+
+\begin{figure*}\centering
+\includegraphics[width=.9\columnwidth]{plots/fringe_beam_wgts.png}
+\caption{
+}\label{fig:fringe_beam_wgts}
+\end{figure*}
+
+\subsection{Off-Axis Foregrounds}
+\label{sec:foregrounds}
+
+
+
 \begin{figure*}\centering
 \includegraphics[width=.6\columnwidth]{plots/beam_raw.png}
 \includegraphics[width=.6\columnwidth]{plots/beam_wgt.png}
@@ -1049,15 +1203,6 @@ baseline after the application of the fringe-rate filter.
 }\label{fig:}
 \end{figure*}
 
-
-\section{Matching Polarization Beams}
-\label{sec:polbeams}
-
-\begin{figure*}\centering
-\includegraphics[width=.9\columnwidth]{plots/fringe_beam_wgts.png}
-\caption{
-}\label{fig:fringe_beam_wgts}
-\end{figure*}
 
 \section{Implementation}
 
