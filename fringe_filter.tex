@@ -141,14 +141,24 @@ for emission from the far side of the celestial pole.
 \citep{parsons_backer2009}, \citep{shaw_et_al2013}, 
 
 \begin{figure}
-\includegraphics[width=.9\columnwidth]{plots/ew_fringe.png}
+\includegraphics[width=.9\columnwidth]{plots/ew_fringe}
 \caption{
+The fringe pattern at 150 MHz of a 30-m east-west baseline, overlaid with arrows indicating
+the distance traversed by sources at various declinations over a two-hour span centered at transit.
+In a fixed time interval, sources near $\delta=0^\circ$ traverse more 
+fringe periods than sources nearer to the celestial poles, giving rise to different
+fringe rates that can be used to distinguish these sources in a timeseries measured with a single baseline.
 }\label{fig:ew_fringe}
 \end{figure}
 
 \begin{figure}
-\includegraphics[width=.9\columnwidth]{plots/fringe_contours.png}
+\includegraphics[width=.9\columnwidth]{plots/fringe_contours}
 \caption{
+Fringe rate as a function of sky position, corresponding to the fringe pattern illustrated in
+Figure \ref{fig:ew_fringe}.  Fringe rates peak at XXX mHz at $\delta=0^\circ$, hit zero at
+the south celestial pole, and become negative on the far side of the pole.  Grey shading indicates
+the approximate angular regions that correspond to alternating fringe-rate bins, assuming a
+fringe-rate transform taken over a two-hour time series.
 }\label{fig:fringe_contours}
 \end{figure}
 
@@ -1056,11 +1066,19 @@ in \S\ref{sec:preprocessing}.
 \subsection{Point Source Simulations for Mapping Beam Response}
 \label{sec:sim_pnt}
 
-\begin{figure*}\centering
-\includegraphics[width=1.8\columnwidth]{plots/src_track.png}
+\begin{figure}\centering
+\includegraphics[width=0.9\columnwidth]{plots/src_track.png}
 \caption{
+Fringe amplitude before (black) and after (red) the application
+of the fringe-rate filter described in \S\ref{sec:sim}.  From top to bottom,
+the panels illustrate the real component of the visibility measured by
+a 30-m east-west baseline deployed at a latitude of $-30^\circ$ 
+for point sources 
+passing through the fringe pattern at declinations of $0^\circ$,
+$-30^\circ$, and $-60^\circ$, respectively.  In this simulation,
+antenna elements have isotropic primary beams.
 }\label{fig:src_track}
-\end{figure*}
+\end{figure}
 
 \subsection{Noise Simulations for Determining Effective Volume}
 \label{sec:sim_nos}
@@ -1092,8 +1110,7 @@ baselines.
 
 Recognizing these limitations, we now explore the application of fringe-rate filters for sculpting beam response.
 In addition to the signal-to-noise metric addressed previously, we will explore two other metrics that fringe-rate
-filters can be chosen to optimize: polarization response and contamination from celestial emission outside the field of
-interest (a.k.a. off-axis foregrounds).
+filters can be chosen to optimize: polarization response and instrumental systematics.
 
 \subsection{Polarization Response}
 \label{sec:polbeams}
@@ -1174,9 +1191,48 @@ over the naive summing of XX and YY visibility measurements.
 }\label{fig:fringe_beam_wgts}
 \end{figure*}
 
-\subsection{Off-Axis Foregrounds}
+\subsection{Instrumental Systematics and Off-Axis Foregrounds}
 \label{sec:foregrounds}
 
+% XXX cite ellingson somewhere?  what does his paper say?
+
+A final application of beam sculpting with fringe-rate filters targets the suppression of systematics in data.
+We will consider two systematics: additive phase terms associated with instrumental crosstalk, and sidelobes
+associated with celestial emission outside of the primary field of interest.  Both of these applications are 
+closely aligned with the original application of fringe-rate filters described in \citet{parsons_backer2009}.
+
+For the purposes of this discussion, we consider instrumental crosstalk to be a spurious 
+correlation introduced between otherwise uncorrelated signals
+as a result of electromagnetic coupling in the instrument (typically between adjacent, unshielded signal lines)
+or because a non-celestial source has injected a correlated signal (e.g. switching noise on power supplies).
+Although crosstalk can be suppressed using Walsh switching (XXX cite), it is always present at some level
+in interferometric observations.  If it is temporally stable, however, it is possible to significantly
+suppress crosstalk in data by averaging visibilities over a long period (so that the fringing celestial
+signal washes out) and then subtracting the average complex additive offset from the data.  This 
+technique has
+long been applied to, e.g., PAPER observations \citep{parsons_et_al2010,jacobs_et_al,pober_et_al,parsons_et_al2014}.
+
+As a time-domain filter, this crosstalk removal technique can also naturally be understood as a notch filter
+for removing signals with zero fringe-rate.  Because crosstalk removal uses a finite time interval for computing
+the average, applying this notch fringe-rate filter has the effect of removing emission from the region of
+sky corresponding to the zero fringe-rate bin.  As illustrated in Figure \ref{fig:fringe_contours}, for
+a 30-m baseline observing at 150 MHz, this corresponds to the unshaded region intersecting the south celestial pole.
+For PAPER, this region is sufficiently low in the beam that its removal has little impact, but in general, 
+subsequent analysis of crosstalk-removed data may require accounting for the beam-sculpting effects of
+the crosstalk removal filter.
+
+Thus, when considering instrumental systematics, there may be additional criteria that influence one's
+choice of fringe-rate filter besides optimizing signal-to-noise; one may choose to excise the zero fringe-rate
+bin to improve data quality at a very modest cost to sensitivity.  Similarly, it is common to encounter situations
+where celestial emission that is low in the primary beam is bright enough to introduce undesireable 
+sidelobe structure or other systematics in observations targeting an area nearer to beam center.  In this case,
+one may again find it desireable to depart from optimal SNR weighting in a fringe-rate filter
+% XXX check SNR is defined
+by further down-weighting regions of low sensitivity in order to gain improvements in foreground systematics.
+This application of fringe-rate filtering is particularly relevant for 21cm cosmology experiments where approximately
+Gaussian signals are overlaid with highly non-Gaussian foregrounds.  Fringe-rate filters that are informed by 
+the angular structure in foreground models can substantially suppress foreground systematics while having little
+impact on a statistically isotropic Gaussian signal.
 
 
 \begin{figure*}\centering

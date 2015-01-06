@@ -37,6 +37,8 @@ bmxx = n.where(tz > 0, _bmx**2, 0)
 #bl = n.array([100, 0, 0])
 bl = aa.get_baseline(0,16,'r') * FQ
 
+fig = p.figure(figsize=(5,5))
+fig.subplots_adjust(left=.05, top=.95, bottom=.05, right=0.95)
 m = Basemap(projection='ortho', lat_0=lat, lon_0=180, rsphere=1.)
 
 def plot_hmap(dat, mode='log', mx=0, drng=3):
@@ -52,7 +54,7 @@ m.drawmeridians(n.arange(0, 360, 30), linewidth=2)
 m.drawparallels(n.arange(-90,90,30), linewidth=2)
 
 span = 30.
-lons = n.arange(180-span/2,180+span/2, .01)
+lons = n.arange(180-span/2-.005,180+span/2, .01)
 for lt in n.arange(-90, 90, 10):
     lats = n.ones_like(lons) * lt
     x,y = m(lons,lats)

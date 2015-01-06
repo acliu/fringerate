@@ -18,6 +18,8 @@ if False:
 if False: aa.lat = '0:00'; aa.update()
 lat = aa.lat
 print lat
+fig = p.figure(figsize=(5,5))
+fig.subplots_adjust(left=.05, top=.95, bottom=.05, right=0.95)
 m = Basemap(projection='ortho', lat_0=lat, lon_0=180, rsphere=1.)
 h = a.healpix.HealpixMap(nside=128)
 DIM = 400
@@ -61,6 +63,7 @@ bm = n.where(tz > 0, bm, 0)
 def nos(dat, t):
     pwr_bm = beam_area(bm)
     pwr2_bm = beam_area(dat**2)
+    print pwr2_bm, pwr_bm, t
     return pwr_bm**2 / pwr2_bm / t
 
 #print beam_area(bm), beam_area(bm**2), nos(bm, 1.), nos(bm,1.) / n.sqrt(NBINS)
