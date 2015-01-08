@@ -38,7 +38,7 @@
 Aaron R. Parsons\altaffilmark{1,2},
 Adrian Liu\altaffilmark{1},
 %James E. Aguirre\altaffilmark{3},
-%Zaki S. Ali\altaffilmark{1},
+Zaki S. Ali\altaffilmark{1},
 %David R. DeBoer\altaffilmark{2},
 %Daniel C. Jacobs\altaffilmark{8},
 %David F. Moore\altaffilmark{3},
@@ -48,8 +48,8 @@ Adrian Liu\altaffilmark{1},
 
 \altaffiltext{1}{Astronomy Dept., U. California, Berkeley, CA}
 \altaffiltext{2}{Radio Astronomy Lab., U. California, Berkeley, CA}
-\altaffiltext{3}{Dept. of Physics and Astronomy, U. Pennsylvania, Philadelphia, PA}
-\altaffiltext{8}{School of Earth and Space Exploration, Arizona State U., Tempe, AZ}
+%\altaffiltext{3}{Dept. of Physics and Astronomy, U. Pennsylvania, Philadelphia, PA}
+%\altaffiltext{8}{School of Earth and Space Exploration, Arizona State U., Tempe, AZ}
 
 \begin{abstract}
 \end{abstract}
@@ -57,7 +57,7 @@ Adrian Liu\altaffilmark{1},
 % XXX fringe weighting profile
 % XXX delay spectrum not violated by freq-dependent fringe rate weights
 
-
+% XXX Shorten introduction and move rest of material into a Background/FR filter basics section
 
 
 \section{Introduction}
@@ -133,7 +133,32 @@ ranges from a maximum at $\delta=0^\circ$ to zero at $\delta=-90^\circ$, and can
 for emission from the far side of the celestial pole.
 % XXX is there a name for the far side of the celestial pole?
 
+% XXX might need to move some text from "Beam Sculpting/Applications" section here.
 
+% XXX edit text below here to fit this section, cut rest.
+One way of handling this additional integration is via gridding in the $uv$-plane.
+Each measured visibility in a wide-field interferometer represents the integral over a kernel in
+the $uv$-plane that reflects the primary beam of the elements \citep{bhatnagar_et_al2008,morales_matejek2009} and the $w$ component 
+of the baseline \citep{cornwell_et_al2003}.  As noted in
+\citet{sullivan_et_al2012} and \citet{morales_matejek2009},
+in order to optimally account for the mode-mixing introduced by these kernels, gridding kernels must be
+used that correctly distribute each measurement among the sampled $uv$-modes, such that, in the ensemble average
+over many measurements by many baselines, each $uv$-mode becomes an optimally weighted estimator of the actual
+value given the set of measurements.
+
+However, this approach has a major shortcoming when applied to maximum-redundancy array configurations.
+In order
+to maximize sensitivity, such
+configurations are set up to deliberately sample identical visibilities that reflect the same 
+combinations of modes in the $uv$ plane, with few nearby measurements (P12a).  As a result,
+such array configurations tend to lack enough measurements of different combinations of $uv$ modes
+to permit the ensemble average to converge on the true value.  Said differently, maximum-redundancy
+array configurations tend to produce measurement sets that, when expressed as linear combinations
+of $uv$-modes of interest, are singular.
+
+Our alternative approach avoids this and many of the difficulties outlined
+in \citet{hazelton_et_al2013} by applying a carefully tailored
+fringe-rate filter to each time series of visibility spectra.  
 
 
 
@@ -906,8 +931,90 @@ We have thus accomplished our goal of writing down an optimal estimator for the 
 %
 %The ability to work simply and optimally with a de-noised set of visibilities can be advantageous over other approaches.  For instance, having a built-in way to optimally combine time-ordered data allows one to circumvent the mapmaking process, which can introduce gridding artifacts that are eventually propagated into a power spectrum.  In addition, while Equation \eqref{eq:mspaceEst} shows that it is possible to work entirely in fringe-rate space and therefore not strictly necessary to go back to the de-noised, time-domain visibilities, having data in the form a time series can be useful for dealing with potential systematics such as RFI [XXX: make sure we've defined the acronym by this point].
 
-\section{Fringe-Rate Filtering}
-\label{sec:fringe_rate_filtering}
+\section{Applications}
+\label{sec:bmsculpt}
+
+So far, we have motivated fringe-rate filtering as a method for optimally weighting noisy data baseline by baseline.
+As we examined in \S XXX, fringe rates map to declinations, giving fringe-rate filters an alternate interpretation
+as a spatial filter that modifies beam response on a per-baseline basis.  The choice for this spatial filter that we
+have examined so far optimizes the SNR by weighting according to the beam response within fringe rate (declination) bins.  
+However, this is not the only choice available.  More generally, fringe-rate filters can be chosen to optimize
+any metric that varies spatially by re-weighting the interferometric response as a function of declination.  In this
+sense, fringe-rate filtering can be regarded as a ``beam sculpting'' operation that can be used to tailor an interferometer's
+spatial response.
+
+As we will discuss below, fringe-rate filtering as a beam sculpting operation is a powerful tool.  However, it
+is fundamentally limited in that it can only perform a one-dimensional re-weighting (in declination) of 
+the two-dimensional sky response\footnote{It is worth noting that, as described in \citet{parsons_backer2009},
+signal delay can be used for re-weighting beam response along a second axis.  However, delay filtering can only
+be used as a spatial filter for smooth-spectrum emission, fundamentally limit its application in this
+context for 21cm cosmological applications}.  Moreover, the spatial resolution of the weighting function is limited by
+the temporal resolution of the fringe-rate filter as it interacts with the extent of the sky in fringe-rate space.
+As the presence of $b_y$ in the expression for the spatial response of a fringe-rate bin in Equation \ref{eq:XXX} indicates,
+baselines with longer east-west extents discriminate between declinations with finer resolution than do shorter
+baselines.
+
+Recognizing these limitations, we now explore the application of fringe-rate filters for sculpting beam response.
+In addition to the signal-to-noise metric addressed previously, we will explore two other metrics that fringe-rate
+filters can be chosen to optimize: polarization response and instrumental systematics.
+
+%\subsection{Simulations}
+%\label{sec:sim}
+\subsection{Implementation}
+
+\begin{figure}\centering
+\includegraphics[width=.9\columnwidth]{plots/fringe_wgts.png}
+\caption{
+}\label{fig:fringe_wgts}
+\end{figure}
+
+In order to illustrate the applications of fringe-rate filters in this section, we make use of
+simulated observations at 150 MHz with the fiducial instrument described in \S\ref{sec:fidinst}.
+
+FIR filter.  Analytic form for smoothness vs. frequency.
+Desireability of a compact footprint.  Data gaps and edge issues.
+
+\subsection{Point Source Simulations for Mapping Beam Response}
+\label{sec:sim_pnt}
+
+\begin{figure}\centering
+\includegraphics[width=0.9\columnwidth]{plots/src_track.png}
+\caption{
+Fringe amplitude before (black) and after (red) the application
+of the fringe-rate filter described in \S\ref{sec:sim}.  From top to bottom,
+the panels illustrate the real component of the visibility measured by
+a 30-m east-west baseline deployed at a latitude of $-30^\circ$ 
+for point sources 
+passing through the fringe pattern at declinations of $0^\circ$,
+$-30^\circ$, and $-60^\circ$, respectively.  In this simulation,
+antenna elements have isotropic primary beams.
+}\label{fig:src_track}
+\end{figure}
+
+\begin{figure*}\centering
+\includegraphics[width=.6\columnwidth]{plots/beam_raw.png}
+\includegraphics[width=.6\columnwidth]{plots/beam_wgt.png}
+\includegraphics[width=.6\columnwidth]{plots/beam_fng.png}
+\caption{
+The effective primary beam response of a baseline, as determined from the simulations in \S\ref{sec:sim_pnt}.
+Panels indicate reconstructions of PAPER's model beam response used in the simulation (left), the 
+beam weighting that results from the application of a fringe-rate filter weighted to optimize SNR for
+a 30-m baseline with PAPER's beam response (center), and the effective primary beam response of the
+baseline after the application of the fringe-rate filter.
+}\label{fig:}
+\end{figure*}
+
+\subsection{Optimizing the Signal-to-Noise Ratio in Power Spectral Measurements}
+\label{sec:sim_nos}
+
+Specific application for statistically isotropic Gaussian random signals.
+Noise Simulations for Determining Effective Volume.
+
+Discuss beam area as normalization that keeps signal level constant.
+Refer to \citet{parsons_et_al2014} Appendix A.
+
+Describe simulation, refer to figures, compare results to analytic prediction.
+
 %fringe_rate_filter.py -C psa898_v002 -a cross --clean=1e-2 --minfr=-1 --fr_frac=1.2 
 
 In the last step prior to forming power spectra,
@@ -917,29 +1024,7 @@ using the effective time interval that a baseline measures a single $k$-mode to 
 as $\sqrt{t}$, in units of mK), before measurements at different times represent independent modes
 that must be squared before further integration (with noise now decreasing as $\sqrt{t}$, in units of mK$^2$).
 
-One way of handling this additional integration is via gridding in the $uv$-plane.
-Each measured visibility in a wide-field interferometer represents the integral over a kernel in
-the $uv$-plane that reflects the primary beam of the elements \citep{bhatnagar_et_al2008,morales_matejek2009} and the $w$ component 
-of the baseline \citep{cornwell_et_al2003}.  As noted in
-\citet{sullivan_et_al2012} and \citet{morales_matejek2009},
-in order to optimally account for the mode-mixing introduced by these kernels, gridding kernels must be
-used that correctly distribute each measurement among the sampled $uv$-modes, such that, in the ensemble average
-over many measurements by many baselines, each $uv$-mode becomes an optimally weighted estimator of the actual
-value given the set of measurements.
-
-However, this approach has a major shortcoming when applied to maximum-redundancy array configurations.
-In order
-to maximize sensitivity, such
-configurations are set up to deliberately sample identical visibilities that reflect the same 
-combinations of modes in the $uv$ plane, with few nearby measurements (P12a).  As a result,
-such array configurations tend to lack enough measurements of different combinations of $uv$ modes
-to permit the ensemble average to converge on the true value.  Said differently, maximum-redundancy
-array configurations tend to produce measurement sets that, when expressed as linear combinations
-of $uv$-modes of interest, are singular.
-
-Our alternative approach avoids this and many of the difficulties outlined
-in \citet{hazelton_et_al2013} by applying a carefully tailored
-fringe-rate filter to each time series of visibility spectra.  As outlined in Appendix \ref{app:data_compression}
+As outlined in Appendix \ref{app:data_compression}
 in the context of data compression, we
 take the Fourier transform of the time series in each channel and apply a low-pass filter that preserves
 fringe-rates that geometrically correspond to sources rotating on the celestial sphere.  
@@ -1040,77 +1125,6 @@ we are free to average the power spectrum estimates for each integration, even t
 do not have statistically independent noise, understanding that noise will decrease according to the number
 of underlying independent samples.
 
-\subsection{Crosstalk}
-
-Crosstalk removal proceeds by subtracting the
-1-hr time-average of the visibilities for each baseline from each integration.  This process,
-described in \citet{parsons_et_al2010}, distinguishes oscillating fringes associated with 
-celestial emission from the static phase bias associated with crosstalk. This crosstalk-removal
-filter essentially constitutes a high-pass fringe-rate filter, as described in \S\ref{sec:fringe_rate_filtering}.
-The width of the stop-band of the crosstalk filter is much narrower than low-pass fringe-rate filters described in
-that section.
-Nighttime data are averaged in LST over the 55-day observation using 43-second
-time bins matching the integration interval of the data after the compression step described
-in \S\ref{sec:preprocessing}.
-
-
-\section{Simulations}
-\label{sec:sim}
-
-\begin{figure}\centering
-\includegraphics[width=.9\columnwidth]{plots/fringe_wgts.png}
-\caption{
-}\label{fig:fringe_wgts}
-\end{figure}
-
-\subsection{Point Source Simulations for Mapping Beam Response}
-\label{sec:sim_pnt}
-
-\begin{figure}\centering
-\includegraphics[width=0.9\columnwidth]{plots/src_track.png}
-\caption{
-Fringe amplitude before (black) and after (red) the application
-of the fringe-rate filter described in \S\ref{sec:sim}.  From top to bottom,
-the panels illustrate the real component of the visibility measured by
-a 30-m east-west baseline deployed at a latitude of $-30^\circ$ 
-for point sources 
-passing through the fringe pattern at declinations of $0^\circ$,
-$-30^\circ$, and $-60^\circ$, respectively.  In this simulation,
-antenna elements have isotropic primary beams.
-}\label{fig:src_track}
-\end{figure}
-
-\subsection{Noise Simulations for Determining Effective Volume}
-\label{sec:sim_nos}
-
-Describe the simulations here.
-
-\section{Beam Sculpting}
-\label{sec:bmsculpt}
-
-So far, we have motivated fringe-rate filtering as a method for optimally weighting noisy data baseline by baseline.
-As we examined in \S XXX, fringe rates map to declinations, giving fringe-rate filters an alternate interpretation
-as a spatial filter that modifies beam response on a per-baseline basis.  The choice for this spatial filter that we
-have examined so far optimizes the SNR by weighting according to the beam response within fringe rate (declination) bins.  
-However, this is not the only choice available.  More generally, fringe-rate filters can be chosen to optimize
-any metric that varies spatially by re-weighting the interferometric response as a function of declination.  In this
-sense, fringe-rate filtering can be regarded as a ``beam sculpting'' operation that can be used to tailor an interferometer's
-spatial response.
-
-As we will discuss below, fringe-rate filtering as a beam sculpting operation is a powerful tool.  However, it
-is fundamentally limited in that it can only perform a one-dimensional re-weighting (in declination) of 
-the two-dimensional sky response\footnote{It is worth noting that, as described in \citet{parsons_backer2009},
-signal delay can be used for re-weighting beam response along a second axis.  However, delay filtering can only
-be used as a spatial filter for smooth-spectrum emission, fundamentally limit its application in this
-context for 21cm cosmological applications}.  Moreover, the spatial resolution of the weighting function is limited by
-the temporal resolution of the fringe-rate filter as it interacts with the extent of the sky in fringe-rate space.
-As the presence of $b_y$ in the expression for the spatial response of a fringe-rate bin in Equation \ref{eq:XXX} indicates,
-baselines with longer east-west extents discriminate between declinations with finer resolution than do shorter
-baselines.
-
-Recognizing these limitations, we now explore the application of fringe-rate filters for sculpting beam response.
-In addition to the signal-to-noise metric addressed previously, we will explore two other metrics that fringe-rate
-filters can be chosen to optimize: polarization response and instrumental systematics.
 
 \subsection{Polarization Response}
 \label{sec:polbeams}
@@ -1118,6 +1132,13 @@ filters can be chosen to optimize: polarization response and instrumental system
 \def\VYY{{V_{\rm YY}}}
 \def\VI{{V_{\rm I}}}
 \def\VQ{{V_{\rm Q}}}
+
+\begin{figure*}\centering
+\includegraphics[width=.9\columnwidth]{plots/fringe_beam_wgts.png}
+\caption{
+}\label{fig:fringe_beam_wgts}
+\end{figure*}
+
 
 Minimizing cross-contamination between Stokes terms in interferometric polarization measurements
 is of paramount importance for 21cm cosmology experiments that rely on
@@ -1183,13 +1204,7 @@ imaging the polarization products.  While this is not as effective at mitigating
 through imaging in the dense sampling case, we show in \S\ref{sec:XXX} that it nonetheless represents a substantial improvement
 over the naive summing of XX and YY visibility measurements.
 
-% XXX do we discuss results here or later?
-
-\begin{figure*}\centering
-\includegraphics[width=.9\columnwidth]{plots/fringe_beam_wgts.png}
-\caption{
-}\label{fig:fringe_beam_wgts}
-\end{figure*}
+% XXX discuss results here 
 
 \subsection{Instrumental Systematics and Off-Axis Foregrounds}
 \label{sec:foregrounds}
@@ -1234,48 +1249,71 @@ Gaussian signals are overlaid with highly non-Gaussian foregrounds.  Fringe-rate
 the angular structure in foreground models can substantially suppress foreground systematics while having little
 impact on a statistically isotropic Gaussian signal.
 
+%XXX add a simulation for this?
 
-\begin{figure*}\centering
-\includegraphics[width=.6\columnwidth]{plots/beam_raw.png}
-\includegraphics[width=.6\columnwidth]{plots/beam_wgt.png}
-\includegraphics[width=.6\columnwidth]{plots/beam_fng.png}
-\caption{
-The effective primary beam response of a baseline, as determined from the simulations in \S\ref{sec:sim_pnt}.
-Panels indicate reconstructions of PAPER's model beam response used in the simulation (left), the 
-beam weighting that results from the application of a fringe-rate filter weighted to optimize SNR for
-a 30-m baseline with PAPER's beam response (center), and the effective primary beam response of the
-baseline after the application of the fringe-rate filter.
-}\label{fig:}
-\end{figure*}
-
-\begin{figure*}\centering
-\includegraphics[width=.6\columnwidth]{plots/beam_fng.png}
-\caption{
-The effective primary beam response of a baseline, as determined from the simulations in \S\ref{sec:sim_pnt}.
-Panels indicate reconstructions of PAPER's model beam response used in the simulation (left), the 
-beam weighting that results from the application of a fringe-rate filter weighted to optimize SNR for
-a 30-m baseline with PAPER's beam response (center), and the effective primary beam response of the
-baseline after the application of the fringe-rate filter.
-}\label{fig:}
-\end{figure*}
+%\begin{figure*}\centering
+%\includegraphics[width=.6\columnwidth]{plots/beam_fng.png}
+%\caption{
+%The effective primary beam response of a baseline, as determined from the simulations in \S\ref{sec:sim_pnt}.
+%Panels indicate reconstructions of PAPER's model beam response used in the simulation (left), the 
+%beam weighting that results from the application of a fringe-rate filter weighted to optimize SNR for
+%a 30-m baseline with PAPER's beam response (center), and the effective primary beam response of the
+%baseline after the application of the fringe-rate filter.
+%}\label{fig:}
+%\end{figure*}
 
 
-\section{Implementation}
+%\section{Discussion}
+%\label{sec:results}
 
-FIR filter.  Analytic form for smoothness vs. frequency.
-Desireability of a compact footprint.  Data gaps and edge issues.
-
-\section{Results and Discussion}
-\label{sec:results}
-
-Before/after power spectrum plot.
-FR transform of real data.
-Application of FR filter to waterfall.  
+%Before/after power spectrum plot.
+%FR transform of real data.
+%Application of FR filter to waterfall.  
 
 \section{Conclusion}
 \label{sec:conclusion}
 
+In this paper, we have revisited the concept of filtering the visibility time-series
+measured by an interferometric baseline that was presented in \citet{parsons_backer2009}.
+Using a mapping between the timescale of variation in visibility data and position
+on the sky for a chosen baseline, we show that the rectangular time windows typically
+used when integrating visibilities are almost always sub-optimal, and motivate 
+filtering on the basis of fringe rate
+as step for optimally combining time-ordered visibility data.  In \S\ref{sec:XXX}, we show 
+that fringe-rate filtering indeed can represent a computationally efficient first step
+for optimal mapmaking, particularly for telescopes with sparsely sampled apertures, or
+for interferometers with wide fields of view where gridding in the UV plane incurs a significant
+computational cost.
+
+We also show that fringe-rate filtering can alternately be interpreted as a per-baseline
+operation for sculpting the primary beam along the declination direction.  Using analytic
+derivations and simulations, we highlight several important applications of such beam
+sculpting.  One key application for 21cm cosmological experiments starved for sensitivity
+is the ability to re-weight visibility data according to the SNR in each fringe-rate bin.
+This operation, which is effectively a one-dimensional case of the optimal beam
+weighting described in \citet{morales_majetek2009} and \citet{bhatnagar_et_al2009}, 
+can improve the sensitivity achieved in a per-baseline power spectral analysis by a factor
+of several % XXX check
+while avoiding many of the systematics associated with gridding data in the UV plane.
+Other important application include improving the match between polarization beam to
+reduce polarization leakage, and down-weighting areas low in the primary beam
+to reduce systematics from off-axis foregrounds.
+
+In \citet{ali_et_al2015}, the fringe-rate filtering techniques presented here are applied to
+observations from the PAPER array as part of their power-spectrum analysis pipeline.  The
+results highlight the power of fringe-rate filtering in 21cm cosmology applications.
+Given its efficiency, flexibility, and close alignment with the natural observing
+basis of radio interferometers, we anticipate that fringe-rate filtering is likely to be
+an important analysis tool for current 21cm experiments, as well as future instruments
+such as the Hydrogen Epoch of Reionization Array (HERA; \citealt{pober_et_al2014}) and
+the Square Kilometre Array (SKA; \citealt{XXX}).
+
+
 \section{Acknowledgment}
+
+It gives us great pleasure to thank James Aguirre, David Moore, Danny Jacobs, 
+Miguel Morales, and Jonathan Pober for helpful discussions.  This research
+was supported by the National Science Foundation, award \#1129258.
 
 % ---------------------------------------------------------------------
 % ---------------------------------------------------------------------
