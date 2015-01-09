@@ -89,10 +89,10 @@ In this paper, we introduce a new method for combining time-ordered data---fring
 \end{itemize}
 Further details are supplied in Appendices A and B of \citet{parsons_et_al2013}.
 
-\begin{equation}
-\tilde{V}(\tau)=\int{W(\nu)\cdot S(\nu)\cdot V(\nu)e^{-2\pi i\nu\tau}~d\nu},
-\label{eq:dtransform}
-\end{equation}
+%\begin{equation}
+%\tilde{V}(\tau)=\int{W(\nu)\cdot S(\nu)\cdot V(\nu)e^{-2\pi i\nu\tau}~d\nu},
+%\label{eq:dtransform}
+%\end{equation}
 
 
 
@@ -100,8 +100,9 @@ Further details are supplied in Appendices A and B of \citet{parsons_et_al2013}.
 
 Generally, the interferometric response, $V$, for two antennas in a radio interferometer is described
 by the measurement equation
+% XXX make this agree with Eq 2
 \begin{equation}
-V_\nu(t)=\int{I_\nu(\hat s, t)\cdot A_\nu(\hat s)\cdot e^{-2\pi i\nu \vec b\cdot \hat s/c}},
+V_\nu(t)=\int{I_\nu(\rhat, t) A_\nu(\rhat) \exp \left[-2\pi i\nu \vec b\cdot \hat s/c\right]},
 \end{equation}
 where $I$ is the specific intensity of the sky in the direction of the topocentric unit vector $\hat s$,
 $A$ is the geometric mean of the primary beam power patterns of the constituent antennas,
@@ -133,6 +134,22 @@ ranges from a maximum at $\delta=0^\circ$ to zero at $\delta=-90^\circ$, and can
 for emission from the far side of the celestial pole.
 % XXX is there a name for the far side of the celestial pole?
 
+% XXX describe how eq above permutes to this, including some new terms.
+\begin{eqnarray}
+\label{generalVis}
+V_b(t) &&= \int B(\rhat, t) T(\rhat) \exp \left[ -i 2 \pi \left( \frac{b_y}{\lambda} \cos \eta \cos \theta \right) \right] \nonumber \\
+&& \times  \exp \left[ -i 2 \pi \left( \frac{b_0}{\lambda} \sin \theta \sin(\varphi - \omega_\Earth t ) \right) \right]  d\Omega +n(t), \qquad
+\end{eqnarray}
+where $n(t)$ is the instrumental noise, $\theta$ and $\varphi$ are polar and
+azimuthal angles fixed to the celestial sphere, respectively, $B(\rhat,t)$ is
+the primary beam, $\lambda$ is the wavelength, $\omega_\Earth$ is the angular
+frequency of the Earth's rotation, $\eta$ is the geographic latitude of the
+array, and $b_0 \equiv \sqrt{b_x^2 + b_y^2 \sin^2 \eta}$, where $b_x$ and $b_y$
+are the east-west and north-south baseline lengths, respectively.  With this
+measurement equation, we are assuming that the primary beam is fixed with
+respect to local coordinates and translates azimuthally on the celestial
+sphere.  We additionally assume that the baseline is phased to zenith.  In
+
 % XXX might need to move some text from "Beam Sculpting/Applications" section here.
 
 % XXX edit text below here to fit this section, cut rest.
@@ -159,6 +176,60 @@ of $uv$-modes of interest, are singular.
 Our alternative approach avoids this and many of the difficulties outlined
 in \citet{hazelton_et_al2013} by applying a carefully tailored
 fringe-rate filter to each time series of visibility spectra.  
+
+% XXX edit and cut below here
+Similar geometric limits apply to the variation of visibilities in the time dimension.  As
+described in Equation 7 of \citet{parsons_backer2009}, the rate of change of the geometric delay versus
+time --- that is, delay-rate --- is given by
+\begin{equation}
+\frac{d\tau_g}{dt}=-\omega_\oplus\left(\frac{b_x}{c}\sin H + \frac{b_y}{c}\cos H\right)\cos\delta,
+\end{equation}
+where $\b=(b_x,b_y,b_z)$ is the baseline vector expressed in equatorial
+coordinates, $\omega_\oplus$ is the angular frequency of the earth's rotation, and $H,\delta$ are the
+hour-angle and declination of a point on the celestial sphere, respectively.  As a result, there exists a maximum
+rate of change based on the length of a baseline projected to the $z=0$ equatorial plane.
+For arrays not deployed near the poles, $|b_y|\gg|b_x|$ (i.e.,
+they are oriented more along the east-west direction than radially from the polar axis),
+and the maximum rate of change corresponds to $H=0$ and $\delta=0$, where we have
+\begin{equation}
+-\omega_\oplus\frac{|b_y|}{c}\le\frac{d\tau_g}{dt}\le\omega_\oplus\frac{|b_y|}{c}.
+\end{equation}
+For a maximum east-west baseline length in the PAPER array of 300m, $\omega_\oplus|b_y|/c$ is approximately
+0.07 ns/s.  
+To better elucidate the meaning of this bound, we take the Fourier transform 
+along the time axis (see Equation 8 in \citealt{parsons_backer2009}) for a model visibility
+consisting of a single point source located at the point of maximum delay-rate, which gives us
+\begin{align}
+\Vt(\nu,f)&\approx\At(\nu,f) * \tilde{S}(\nu) * \int{e^{2\pi i\omega_\oplus\frac{b_y\nu}{c}t}e^{-2\pi ift}dt}\nonumber\\
+&\approx\At(\nu,f) * \tilde{S}(\nu) * \delta_{\rm D}(\frac{b_y}{c}\omega_\oplus \nu - f),
+\end{align}
+where $f$ is the fringe-rate of the 
+source\footnote{Delay rate is equivalent to the frequency-integrated fringe rate.}, 
+$\At(\nu,f)$ indicates the Fourier transform of the antenna response along the time direction,
+and approximation is
+indicated because we assume $|b_y|\gg|b_x|$, and because the Fourier transform must involve
+a discrete length of time, during which our assumption that $\cos H\approx1$ breaks down at second order.
+The delta function above gives rise to the expression for the maximum fringe rate in Equation \ref{eq:fringe_rate}.
+
+This example of a source with a maximal fringe-rate serves to show that a 
+filter may be applied in delay-rate domain, using the fact that the maximum
+delay-rate is bounded by the maximum fringe rate within the band (i.e. evaluating Equation \ref{eq:fringe_rate}
+at the maximum $\nu$ involved in the delay transform), to remove emission that exceeds the variation
+dictated by array geometry for sources locked to the celestial sphere.  As in the delay filtering case, assuming
+the geometric bounds on delay rate implicitly assumes that $\At$ and $\tilde{S}$ are compact in $f$, which
+is to say that instrumental responses and celestial emission must be smooth in time; variable
+emission from, e.g., fast-transients will be heavily suppressed by such delay-rate filters.
+For PAPER, with a maximum baseline length of 300m and a maximum observing frequency of 200 MHz, 
+the maximum delay-rate has a period of 68.5s.  As described in \S\ref{sec:fringe_rate_filtering}, at PAPER's
+latitude, delay-rates range from -$f_{\rm max}/2$ to $f_{\rm max}$.  Filtering delay-rates to this
+range corresponds in sensitivity to an effective integration time of 45.2 s.
+An example of the bounds of a delay filter in DDR space is given
+by the shaded magenta region in Figure \ref{fig:ddr_compression}.  As in the delay filtering case,
+filtering along the delay-rate axis permits substantial down-sampling of the signal, which is
+the basis for the reduction in data volume along the time axis.
+We note that for the analysis
+in \S\ref{sec:preprocessing}, we choose to use a slightly wider delay-rate filter to be conservative in
+our first application of this technique, corresponding to an integration time of 43 seconds.
 
 
 
@@ -934,6 +1005,7 @@ We have thus accomplished our goal of writing down an optimal estimator for the 
 \section{Applications}
 \label{sec:bmsculpt}
 
+In this section, we discuss the use of fringe-rate filtering in several applications in low-frequency radio interferometry.
 So far, we have motivated fringe-rate filtering as a method for optimally weighting noisy data baseline by baseline.
 As we examined in \S XXX, fringe rates map to declinations, giving fringe-rate filters an alternate interpretation
 as a spatial filter that modifies beam response on a per-baseline basis.  The choice for this spatial filter that we
@@ -968,11 +1040,51 @@ filters can be chosen to optimize: polarization response and instrumental system
 }\label{fig:fringe_wgts}
 \end{figure}
 
-In order to illustrate the applications of fringe-rate filters in this section, we make use of
-simulated observations at 150 MHz with the fiducial instrument described in \S\ref{sec:fidinst}.
+In order to demonstrate fringe-rate filtering in the applications discussed below, we will make
+repeated use of simulated data.  In keeping with its origins targeting observations from the
+PAPER array, we choose for our simulations a model array based on PAPER, deployed at a latitude $-30^\circ$
+and featuring the beam response pattern characteristic of PAPER dipole elements \citep{parsons_et_al2008,pober_et_al2012}.
+For these simulations, we also choose a specific baseline to examine: a pair of antennas separated by 30 m in the 
+east-west direction, observing at 150 MHz.  This baseline corresponds to the most repeated (and hence,
+most sensitive) baseline length measured by the PAPER array in the maximum-redundancy array configuration it uses
+for power spectral measurements \citep{parsons_et_al2012a,parsons_et_al2014,ali_et_al2015}.  As such, this simulation
+serves to demonstrate the performance of fringe-rate filtering in the context of the specific instrument configuration
+that has been used to place the current best upper limits on 21cm emission from cosmic reionization.
 
-FIR filter.  Analytic form for smoothness vs. frequency.
-Desireability of a compact footprint.  Data gaps and edge issues.
+To implement
+the fringe-rate filters described below, we begin with the ideal filter shape in fringe-rate space.  In the case 
+of the beam-weighted fringe-rate filter described in \S\ref{sec:sim_nos}, this ideal filter shape takes a
+truncated Gaussian form where the peak and width have been fit to the projection of the beam model in fringe-rate space,
+as illustrated in Figure \ref{fig:fringe_weights}.  
+The beam model projection is obtainted
+by binning the beam power along fringe-rate contours, as illustrated for coarse fringe-rate bins
+in Figure \ref{fig:XXX}.  The analytic Gaussian form is then truncated at the maximum fringe rate to obtain a fringe-rate
+filter profile that matches the beam-weighted profile to within a power-averaged RMS of XXX\%.  While it would be possible
+to use the beam-weighted profile directly as the ideal fringe-rate filter profile, having an analytic form allows filters
+to be rapidly generated as a function of baseline length and observing frequency.  Since optimal SNR weighting is relatively
+insensitive small weighting errors (XXX back this up), this level of match between the computed and analytic forms of the
+desired fringe-rate filter is acceptable.
+
+The next step in implementing the fringe-rate filter is translating the analytic filter profile in fringe-rate space into 
+a time-domain kernel that can be used to convolve the simulated time series of visibilities.  In effect, we implement
+the fringe-rate filter as a finite impulse response (FIR) filter.  Applying the fringe-rate filter as an FIR filter in
+the time domain, as opposed directly multiplying the desired filter to Fourier-transformed visibilities, has the advantage 
+that flagged or missing data can be naturally excluded from the filter by neglecting
+FIR taps (coefficient multiplies) that target the missing data. The summed output of the FIR filter are then renormalized to
+account for the missing samples.  Another advantage of the FIR implementation of the fringe-rate filter is the potential for
+windowing the time-domain filter profile.  While time-domain windowing causes further deviations from the ideal
+fringe-rate filter profile, it can be used to produce a more compact time-domain kernel.
+Reducing the number of time-domain samples used in the FIR filter improves the computational efficiency of the filter and
+helps limit the number of samples potentially corrupted by spurious systematics such as RFI.
+
+To summarize, the simulations are based on a 30-m PAPER baseline observing at 150 MHz.  While the shape of the fringe-rate
+filter is application-specific, we generally implement them as FIR filters, with time-domain kernels using coefficients that
+are spaced to match the 43-second integrations recorded in our simulated observations.  Finally, we apply an window function to
+truncate the wings of this time-domain kernel to increase its compactness in time.  As demonstrated in Figure \ref{fig:fringe_weights},
+% XXX add this part to the plot
+this windowing increases the power-averaged RMS deviation from the ideal filter to XXX\%, but the improvement in computational cost,
+the reduction in impact for any spurious systematics, and the relative insensitivity of the applications described below on the specific
+filter shape, make this an advantageous trade-off.
 
 \subsection{Point Source Simulations for Mapping Beam Response}
 \label{sec:sim_pnt}
@@ -1012,6 +1124,71 @@ Noise Simulations for Determining Effective Volume.
 
 Discuss beam area as normalization that keeps signal level constant.
 Refer to \citet{parsons_et_al2014} Appendix A.
+
+We begin by examining the integrated volume, $\mathbb{V}$, used to normalize the 3D Fourier transform in
+Equation 3 of P12a. We express this volume in observing coordinates as
+\begin{equation}
+    \mathbb{V} = \Omega B\cdot X^2Y,
+\end{equation}
+where $B$ is the bandwidth, $\Omega$ is the angular area, and $X,Y$ are redshift-dependent
+scalars relating angle and frequency to spatial scales, respectively.
+$\Omega$ arises from the bounds set by $A(l,m,\nu)$, the antenna power response, on the 
+angular extent in the integral
+\begin{align}
+    \Vt^2(u,v,\eta)=&\left(\frac{2k_{\rm B}}{\lambda^2}\right)^2
+        \left[\int{dl~dm~d\nu A(l,m,\nu)T(l,m,\nu)e^{-2\pi i(ul+vm+\eta\nu)}}\right]\times\nonumber\\
+        &\left[\int{dl^\prime~dm^\prime~d\nu^\prime A^*(l^\prime,m^\prime,\nu^\prime)T^*(l^\prime,m^\prime,\nu^\prime)e^{2\pi i(ul^\prime+vm^\prime+\eta\nu^\prime)}}\right],
+\end{align}
+which is a slightly modified version of Equation 6 of P12a relating the delay-transformed visibility
+$\Vt$, sampled at wavemodes $u,v$ (the Fourier complements of angular coordinates $l,m$) and $\eta$ (the Fourier
+complement of spectral frequency $\nu$), to a temperature field $T$.
+As shown in XXX, this reduces to
+\begin{equation}
+    {\tilde V}_{21}^2(u,v,\eta)\approx\left(\frac{2k_{\rm B}}{\lambda^2}\right)^2\frac{B}{X^2Y}
+        \widehat P(\k)\int{dl~dm\left|A(l,m)\right|^2}.
+\end{equation}
+
+We compare this result with the relation between the delay-transformed visibility,
+${\tilde V}$, to the three-dimensional power spectrum of reionization, $P_{21}(\k)$ 
+(P12a):
+\begin{equation}
+    {\tilde V}_{21}^2(u,v,\eta)\approx\left(\frac{2k_{\rm B}}{\lambda^2}\right)^2\frac{\Omega\,B}{X^2Y} \widehat P_{21}(\k).
+    \label{eq:v2_vs_pk}
+\end{equation}
+As this shows, the relevant beam area in Equation \ref{eq:v2_vs_pk} is the
+power-square beam, $\Omega_{\rm PP}$, given by
+\begin{equation}
+\Omega_{\rm PP}\equiv\int{dl~dm\left|A(l,m)\right|^2}.
+\label{eq:beam_squared}
+\end{equation}
+This contrasts with the standard metric for beam area --- the integrated
+power beam --- which we will call $\Omega_{\rm P}$, and is given by
+\begin{equation}
+\Omega_{\rm P}\equiv\int{dl~dm A(l,m)},
+\label{eq:beam_area}
+\end{equation}
+This beam area metric is used to convert visibility measurements from Jy units to mK,
+but is incorrect for normalizing power spectra that relate to 
+the two-point correlation function of a temperature field.
+
+For equations that relate power-spectrum sensitivity to a system temperature
+(e.g. Equations 15 and 16 in P12a)
+\begin{equation}
+\Omega^\prime\equiv\Omega_{\rm P}^2/\Omega_{\rm PP}
+\end{equation}
+should be used in lieu of $\Omega$, as
+these equations pick up two factors of $\Omega_{\rm P}$ in the conversion from Jy$^2$ to mK$^2$, along with
+the a factor of $\Omega_{\rm PP}$ in the denominator relating to the integrated volume.
+For equations that relate a measured visibility (in units of brightness
+temperature, e.g. Equation \ref{eq:pspec_cosmo}) to $\widehat P(\k)$, the factor of 
+$\Omega_{\rm P}^2$ is already 
+applied in the conversion from units of Jy to mK, 
+and $\Omega$ corresponds to the remaining factor of $\Omega_{\rm PP}$. 
+
+For PAPER, $\Omega_{\rm P}\approx0.72$ sr, while $\Omega_{\rm PP}$ is 0.31 sr.  Following the definition
+above, $\Omega^\prime\approx1.69$.  These beam areas are calculated numerically from
+a beam model, but typically, $\Omega^\prime$ is about a factor of two larger than $\Omega_{\rm P}$.
+
 
 Describe simulation, refer to figures, compare results to analytic prediction.
 
@@ -1291,7 +1468,7 @@ derivations and simulations, we highlight several important applications of such
 sculpting.  One key application for 21cm cosmological experiments starved for sensitivity
 is the ability to re-weight visibility data according to the SNR in each fringe-rate bin.
 This operation, which is effectively a one-dimensional case of the optimal beam
-weighting described in \citet{morales_majetek2009} and \citet{bhatnagar_et_al2009}, 
+weighting described in \citet{morales_matejek2009} and \citet{bhatnagar_et_al2008}, 
 can improve the sensitivity achieved in a per-baseline power spectral analysis by a factor
 of several % XXX check
 while avoiding many of the systematics associated with gridding data in the UV plane.
@@ -1318,126 +1495,6 @@ was supported by the National Science Foundation, award \#1129258.
 % ---------------------------------------------------------------------
 % ---------------------------------------------------------------------
 % ---------------------------------------------------------------------
-
-Similar geometric limits apply to the variation of visibilities in the time dimension.  As
-described in Equation 7 of \citet{parsons_backer2009}, the rate of change of the geometric delay versus
-time --- that is, delay-rate --- is given by
-\begin{equation}
-\frac{d\tau_g}{dt}=-\omega_\oplus\left(\frac{b_x}{c}\sin H + \frac{b_y}{c}\cos H\right)\cos\delta,
-\end{equation}
-where $\b=(b_x,b_y,b_z)$ is the baseline vector expressed in equatorial
-coordinates, $\omega_\oplus$ is the angular frequency of the earth's rotation, and $H,\delta$ are the
-hour-angle and declination of a point on the celestial sphere, respectively.  As a result, there exists a maximum
-rate of change based on the length of a baseline projected to the $z=0$ equatorial plane.
-For arrays not deployed near the poles, $|b_y|\gg|b_x|$ (i.e.,
-they are oriented more along the east-west direction than radially from the polar axis),
-and the maximum rate of change corresponds to $H=0$ and $\delta=0$, where we have
-\begin{equation}
--\omega_\oplus\frac{|b_y|}{c}\le\frac{d\tau_g}{dt}\le\omega_\oplus\frac{|b_y|}{c}.
-\end{equation}
-For a maximum east-west baseline length in the PAPER array of 300m, $\omega_\oplus|b_y|/c$ is approximately
-0.07 ns/s.  
-To better elucidate the meaning of this bound, we take the Fourier transform 
-along the time axis (see Equation 8 in \citealt{parsons_backer2009}) for a model visibility
-consisting of a single point source located at the point of maximum delay-rate, which gives us
-\begin{align}
-\Vt(\nu,f)&\approx\At(\nu,f) * \tilde{S}(\nu) * \int{e^{2\pi i\omega_\oplus\frac{b_y\nu}{c}t}e^{-2\pi ift}dt}\nonumber\\
-&\approx\At(\nu,f) * \tilde{S}(\nu) * \delta_{\rm D}(\frac{b_y}{c}\omega_\oplus \nu - f),
-\end{align}
-where $f$ is the fringe-rate of the 
-source\footnote{Delay rate is equivalent to the frequency-integrated fringe rate.}, 
-$\At(\nu,f)$ indicates the Fourier transform of the antenna response along the time direction,
-and approximation is
-indicated because we assume $|b_y|\gg|b_x|$, and because the Fourier transform must involve
-a discrete length of time, during which our assumption that $\cos H\approx1$ breaks down at second order.
-The delta function above gives rise to the expression for the maximum fringe rate in Equation \ref{eq:fringe_rate}.
-
-This example of a source with a maximal fringe-rate serves to show that a 
-filter may be applied in delay-rate domain, using the fact that the maximum
-delay-rate is bounded by the maximum fringe rate within the band (i.e. evaluating Equation \ref{eq:fringe_rate}
-at the maximum $\nu$ involved in the delay transform), to remove emission that exceeds the variation
-dictated by array geometry for sources locked to the celestial sphere.  As in the delay filtering case, assuming
-the geometric bounds on delay rate implicitly assumes that $\At$ and $\tilde{S}$ are compact in $f$, which
-is to say that instrumental responses and celestial emission must be smooth in time; variable
-emission from, e.g., fast-transients will be heavily suppressed by such delay-rate filters.
-For PAPER, with a maximum baseline length of 300m and a maximum observing frequency of 200 MHz, 
-the maximum delay-rate has a period of 68.5s.  As described in \S\ref{sec:fringe_rate_filtering}, at PAPER's
-latitude, delay-rates range from -$f_{\rm max}/2$ to $f_{\rm max}$.  Filtering delay-rates to this
-range corresponds in sensitivity to an effective integration time of 45.2 s.
-An example of the bounds of a delay filter in DDR space is given
-by the shaded magenta region in Figure \ref{fig:ddr_compression}.  As in the delay filtering case,
-filtering along the delay-rate axis permits substantial down-sampling of the signal, which is
-the basis for the reduction in data volume along the time axis.
-We note that for the analysis
-in \S\ref{sec:preprocessing}, we choose to use a slightly wider delay-rate filter to be conservative in
-our first application of this technique, corresponding to an integration time of 43 seconds.
-
-\section{On Calculating Beam Areas for Normalizing Power-Spectrum Measurements}
-\label{app:beam_area}
-
-We begin by examining the integrated volume, $\mathbb{V}$, used to normalize the 3D Fourier transform in
-Equation 3 of P12a. We express this volume in observing coordinates as
-\begin{equation}
-    \mathbb{V} = \Omega B\cdot X^2Y,
-\end{equation}
-where $B$ is the bandwidth, $\Omega$ is the angular area, and $X,Y$ are redshift-dependent
-scalars relating angle and frequency to spatial scales, respectively.
-$\Omega$ arises from the bounds set by $A(l,m,\nu)$, the antenna power response, on the 
-angular extent in the integral
-\begin{align}
-    \Vt^2(u,v,\eta)=&\left(\frac{2k_{\rm B}}{\lambda^2}\right)^2
-        \left[\int{dl~dm~d\nu A(l,m,\nu)T(l,m,\nu)e^{-2\pi i(ul+vm+\eta\nu)}}\right]\times\nonumber\\
-        &\left[\int{dl^\prime~dm^\prime~d\nu^\prime A^*(l^\prime,m^\prime,\nu^\prime)T^*(l^\prime,m^\prime,\nu^\prime)e^{2\pi i(ul^\prime+vm^\prime+\eta\nu^\prime)}}\right],
-\end{align}
-which is a slightly modified version of Equation 6 of P12a relating the delay-transformed visibility
-$\Vt$, sampled at wavemodes $u,v$ (the Fourier complements of angular coordinates $l,m$) and $\eta$ (the Fourier
-complement of spectral frequency $\nu$), to a temperature field $T$.
-As shown in XXX, this reduces to
-\begin{equation}
-    {\tilde V}_{21}^2(u,v,\eta)\approx\left(\frac{2k_{\rm B}}{\lambda^2}\right)^2\frac{B}{X^2Y}
-        \widehat P(\k)\int{dl~dm\left|A(l,m)\right|^2}.
-\end{equation}
-
-We compare this result with the relation between the delay-transformed visibility,
-${\tilde V}$, to the three-dimensional power spectrum of reionization, $P_{21}(\k)$ 
-(P12a):
-\begin{equation}
-    {\tilde V}_{21}^2(u,v,\eta)\approx\left(\frac{2k_{\rm B}}{\lambda^2}\right)^2\frac{\Omega\,B}{X^2Y} \widehat P_{21}(\k).
-    \label{eq:v2_vs_pk}
-\end{equation}
-As this shows, the relevant beam area in Equation \ref{eq:v2_vs_pk} is the
-power-square beam, $\Omega_{\rm PP}$, given by
-\begin{equation}
-\Omega_{\rm PP}\equiv\int{dl~dm\left|A(l,m)\right|^2}.
-\label{eq:beam_squared}
-\end{equation}
-This contrasts with the standard metric for beam area --- the integrated
-power beam --- which we will call $\Omega_{\rm P}$, and is given by
-\begin{equation}
-\Omega_{\rm P}\equiv\int{dl~dm A(l,m)},
-\label{eq:beam_area}
-\end{equation}
-This beam area metric is used to convert visibility measurements from Jy units to mK,
-but is incorrect for normalizing power spectra that relate to 
-the two-point correlation function of a temperature field.
-
-For equations that relate power-spectrum sensitivity to a system temperature
-(e.g. Equations 15 and 16 in P12a)
-\begin{equation}
-\Omega^\prime\equiv\Omega_{\rm P}^2/\Omega_{\rm PP}
-\end{equation}
-should be used in lieu of $\Omega$, as
-these equations pick up two factors of $\Omega_{\rm P}$ in the conversion from Jy$^2$ to mK$^2$, along with
-the a factor of $\Omega_{\rm PP}$ in the denominator relating to the integrated volume.
-For equations that relate a measured visibility (in units of brightness
-temperature, e.g. Equation \ref{eq:pspec_cosmo}) to $\widehat P(\k)$, the factor of 
-$\Omega_{\rm P}^2$ is already 
-applied in the conversion from units of Jy to mK, 
-and $\Omega$ corresponds to the remaining factor of $\Omega_{\rm PP}$. 
-
-For PAPER, $\Omega_{\rm P}\approx0.72$ sr, while $\Omega_{\rm PP}$ is 0.31 sr.  Following the definition
-above, $\Omega^\prime\approx1.69$.  These beam areas are calculated numerically from
-a beam model, but typically, $\Omega^\prime$ is about a factor of two larger than $\Omega_{\rm P}$.
 
 %\clearpage
 \bibliographystyle{apj}
