@@ -99,7 +99,7 @@ Further details are supplied in Appendices A and B of \citet{parsons_et_al2013}.
 \section{Overview of principle of fringe-rate filtering}
 \label{sec:overview}
 Generally, the interferometric response, $V$, for two antennas in a radio interferometer is described
-by the measurement equation
+by the measurement equation\footnote{In this section, we omit the instrumental noise contribution to the measured visibilities in order to avoid notational clutter.}
 % XXX make this agree with Eq 2
 \begin{equation}
 V^b_\nu(t)=\int d\Omega \, {I_\nu(\rhat) A_\nu(\rhat,t) \exp \left[-i2\pi \frac{\nu}{c}  \mathbf{b}(t) \cdot \rhat\right]},
@@ -167,6 +167,7 @@ V_{\textrm{filt},\nu}^b(t) &=& \int df w(f) \widetilde{V}^b_\nu (f) \nonumber \\
 && \times \int df w(f) \tilde{\gamma} \left[ \frac{\nu}{c} (\boldsymbol \omega_\Earth \times \mathbf{b}_0) \cdot \rhat -f \right], \nonumber \\
 &\equiv&  \int d\Omega I_\nu(\rhat) A^\textrm{eff}_{\nu,0} (\rhat) e^{i2 \pi \frac{ \nu}{c} \mathbf{b}_0 \cdot \rhat } ,
 \end{eqnarray}
+[XXX: right now this looks a little strange because the LHS is a function of time, whereas the RHS is not]
 where we have defined an \emph{effective primary beam}
 \begin{equation}
 A^\textrm{eff}_{\nu,0} (\rhat) \equiv A_{\nu,0} (\rhat) (w * \tilde{\gamma}) \left[ \frac{\nu}{c} (\boldsymbol \omega_\Earth \times \mathbf{b}_0) \cdot \rhat \right],
@@ -328,6 +329,8 @@ the visibilities, but instead, to apply a fringe-rate filter.
 %minimum-variance prescription naturally yields the technique of
 %\emph{fringe-rate filtering}, the subject of this paper.
 
+In this section, we re-motivate fringe-rate filters by
+considering the problem of mapmaking from visibility data.  
 Suppose our time-ordered visibilities are grouped into a measurement vector
 $\vis$ of length $N_b N_t$, where $N_b$ is the number of baselines, and $N_t$
 is the number of snapshots taken in time.  If we represent the true sky as a
@@ -650,7 +653,9 @@ time-ordered data from an interferometer.
 Before proceeding, let us summarize the essential features of fringe-rate filtering, away from the approximation of a separable beam in Equation \eqref{eq:SepBeam}. Returning to Equations \eqref{eq:FringeTransformDef} and \eqref{fringeVis}, we see that because the sky $T(\hat{\mathbf{r}})$ is not a function of time, the Fourier transform into fringe-rate space acts only on the beam and the fringe pattern. We can therefore write
 \begin{equation}
 \label{eq:CompactNotation}
-\widetilde{V}_b (f_n) = \int d\Omega \,T(\hat{\mathbf{r}}) g_{bn} (\hat{\mathbf{r}}) \approx \frac{4 \pi}{N}  \sum_i T(\hat{\mathbf{r}}_i) g_{bn} (\hat{\mathbf{r}}_i),
+\widetilde{V}_b (f_n) = \int d\Omega \,T(\hat{\mathbf{r}}) g_{bn} (\hat{\mathbf{r}}) 
+%\approx \frac{4 \pi}{N}  \sum_i T(\hat{\mathbf{r}}_i) g_{bn} (\hat{\mathbf{r}}_i)
+,
 \end{equation}
 where the key quantity is
 \begin{eqnarray}
@@ -663,33 +668,33 @@ $\widetilde{V}_b (f_n)  = \int d\Omega  \,T (\hat{\mathbf{r}}) g_{bn} (\hat{\mat
 \left( \A^\dagger \N^{-1} \vis \right)_{\delta,\alpha} \propto \sum_{n,b} g_{bn}^* (\hat{\mathbf{r}}) \widetilde{V}_b (f_n).
 \end{equation}
 One sees that the procedure essentially calls for a weighting that emphasizes the fringe rate bins that fall on bright portions of the primary beam. As seen in our toy example, this preferentially favors lower fringe-rates over higher ones.
-
-\section{Mapping fringe-rates to spatial locations over short integration times}
-
-In the previous section, we considered a general way to combine time-ordered interferometric data, and found that fringe-rate filtering provided a natural way to do so. In this section, we provide an approximate treatment of the more realistic case where one cannot integrate over an entire day. The result will provide a rigorous link to the geometric intuition discussed in Section \ref{sec:overview}.
-
-\begin{equation}
-V_b(t) = \int d\Omega B (\rhat,t) T(\rhat) \exp\left( i \frac{2 \pi }{\lambda} \mathbf{b} (t) \cdot \rhat \right)
-\end{equation}
-\begin{equation}
-\widetilde{V}_b (f) = \int d\Omega T(\rhat) \int_{-\frac{T}{2}}^{\frac{T}{2}} \frac{dt}{T} B (\rhat,t) e^{i \frac{2 \pi }{\lambda} \mathbf{b} (t) \cdot \rhat } e^{-i 2 \pi f t}
-\end{equation}
-For short periods of time, $B (\rhat,t) \approx B (\rhat,t=0) \equiv B_0 (\rhat)$. Also,
-\begin{equation}
-\mathbf{b}(t) = \mathbf{b}(t=0) + \frac{d\mathbf{b}}{dt} \Bigg{|}_{t=0} t + \dots = \mathbf{b}_0 + (\boldsymbol \omega_\Earth \times \mathbf{b}_0) t + \dots
-\end{equation}
-where $\boldsymbol \omega_\Earth$ is the angular velocity vector of the Earth's rotation, and $\mathbf{b}_0 \equiv \mathbf{b}(t)$. In the last equality, we used the fact that the time-dependence of the baselines are not arbitrary, but instead are tied to the Earth's rotation, transforming the time derivative into a cross-product with $\boldsymbol \omega_\Earth$. With this,
-\begin{eqnarray}
-\widetilde{V}_b (f) = &&\int d\Omega T(\rhat) B_0 (\rhat)  e^{i \frac{2 \pi }{\lambda} \mathbf{b}_0 \cdot \rhat } \nonumber \\
-&&\times \int_{-\frac{T}{2}}^{\frac{T}{2}} \frac{dt}{T} \exp\left[i \frac{2 \pi }{\lambda}  \rhat \cdot (\boldsymbol \omega_\Earth \times \mathbf{b}_0) t-i 2 \pi f t \right] \nonumber \\
-= && \int d\Omega T(\rhat) B_0 (\rhat)  \textrm{sinc} \left[ \pi T \left( \rhat \cdot \boldsymbol \omega_\Earth \times \frac{\mathbf{b}_0}{\lambda} -f \right) \right] e^{i \frac{2 \pi }{\lambda} \mathbf{b}_0 \cdot \rhat }.
-\end{eqnarray}
-The sinc function is peaked near zero argument, and thus its presence in the integral enforces that $f \approx \rhat \cdot \boldsymbol \omega_\Earth \times \mathbf{b}_0 / \lambda $, picking out only specific portions of the celestial sphere. As advertised, different fringe-rates correspond to different portions of the sky.
-
-Fringe-rate filtering amounts to decomposing into the fringe-rates, weighting fringe rates by some function $w(f)$, and then transforming back to time. In other words,
-\begin{equation}
-V_\textrm{filt} (t) = \int \frac{df}{1/T} w(f) \widetilde{V}_b (f) 
-\end{equation}
+%
+%\section{Mapping fringe-rates to spatial locations over short integration times}
+%
+%In the previous section, we considered a general way to combine time-ordered interferometric data, and found that fringe-rate filtering provided a natural way to do so. In this section, we provide an approximate treatment of the more realistic case where one cannot integrate over an entire day. The result will provide a rigorous link to the geometric intuition discussed in Section \ref{sec:overview}.
+%
+%\begin{equation}
+%V_b(t) = \int d\Omega B (\rhat,t) T(\rhat) \exp\left( i \frac{2 \pi }{\lambda} \mathbf{b} (t) \cdot \rhat \right)
+%\end{equation}
+%\begin{equation}
+%\widetilde{V}_b (f) = \int d\Omega T(\rhat) \int_{-\frac{T}{2}}^{\frac{T}{2}} \frac{dt}{T} B (\rhat,t) e^{i \frac{2 \pi }{\lambda} \mathbf{b} (t) \cdot \rhat } e^{-i 2 \pi f t}
+%\end{equation}
+%For short periods of time, $B (\rhat,t) \approx B (\rhat,t=0) \equiv B_0 (\rhat)$. Also,
+%\begin{equation}
+%\mathbf{b}(t) = \mathbf{b}(t=0) + \frac{d\mathbf{b}}{dt} \Bigg{|}_{t=0} t + \dots = \mathbf{b}_0 + (\boldsymbol \omega_\Earth \times \mathbf{b}_0) t + \dots
+%\end{equation}
+%where $\boldsymbol \omega_\Earth$ is the angular velocity vector of the Earth's rotation, and $\mathbf{b}_0 \equiv \mathbf{b}(t)$. In the last equality, we used the fact that the time-dependence of the baselines are not arbitrary, but instead are tied to the Earth's rotation, transforming the time derivative into a cross-product with $\boldsymbol \omega_\Earth$. With this,
+%\begin{eqnarray}
+%\widetilde{V}_b (f) = &&\int d\Omega T(\rhat) B_0 (\rhat)  e^{i \frac{2 \pi }{\lambda} \mathbf{b}_0 \cdot \rhat } \nonumber \\
+%&&\times \int_{-\frac{T}{2}}^{\frac{T}{2}} \frac{dt}{T} \exp\left[i \frac{2 \pi }{\lambda}  \rhat \cdot (\boldsymbol \omega_\Earth \times \mathbf{b}_0) t-i 2 \pi f t \right] \nonumber \\
+%= && \int d\Omega T(\rhat) B_0 (\rhat)  \textrm{sinc} \left[ \pi T \left( \rhat \cdot \boldsymbol \omega_\Earth \times \frac{\mathbf{b}_0}{\lambda} -f \right) \right] e^{i \frac{2 \pi }{\lambda} \mathbf{b}_0 \cdot \rhat }.
+%\end{eqnarray}
+%The sinc function is peaked near zero argument, and thus its presence in the integral enforces that $f \approx \rhat \cdot \boldsymbol \omega_\Earth \times \mathbf{b}_0 / \lambda $, picking out only specific portions of the celestial sphere. As advertised, different fringe-rates correspond to different portions of the sky.
+%
+%Fringe-rate filtering amounts to decomposing into the fringe-rates, weighting fringe rates by some function $w(f)$, and then transforming back to time. In other words,
+%\begin{equation}
+%V_\textrm{filt} (t) = \int \frac{df}{1/T} w(f) \widetilde{V}_b (f) 
+%\end{equation}
 %
 %\section{Combining time-ordered data without mapmaking}
 %
