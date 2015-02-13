@@ -932,46 +932,11 @@ One sees that the procedure essentially calls for a weighting that emphasizes th
 %%
 %%The ability to work simply and optimally with a de-noised set of visibilities can be advantageous over other approaches.  For instance, having a built-in way to optimally combine time-ordered data allows one to circumvent the mapmaking process, which can introduce gridding artifacts that are eventually propagated into a power spectrum.  In addition, while Equation \eqref{eq:mspaceEst} shows that it is possible to work entirely in fringe-rate space and therefore not strictly necessary to go back to the de-noised, time-domain visibilities, having data in the form a time series can be useful for dealing with potential systematics such as RFI [XXX: make sure we've defined the acronym by this point].
 
-\section{Applications}
-\label{sec:bmsculpt}
+\section{Implementation}
 
-In this section, we discuss the use of fringe-rate filtering in several applications in low-frequency radio interferometry.
-So far, we have motivated fringe-rate filtering as a method for optimally weighting noisy data baseline by baseline.
-As we examined in \S XXX, fringe rates map to declinations, giving fringe-rate filters an alternate interpretation
-as a spatial filter that modifies beam response on a per-baseline basis.  The choice for this spatial filter that we
-have examined so far optimizes the SNR by weighting according to the beam response within fringe rate (declination) bins.  
-However, this is not the only choice available.  More generally, fringe-rate filters can be chosen to optimize
-any metric that varies spatially by re-weighting the interferometric response as a function of declination.  In this
-sense, fringe-rate filtering can be regarded as a ``beam sculpting'' operation that can be used to tailor an interferometer's
-spatial response.
+In this section, we discuss a practical implementation of fringe-rate filtering. The particular method we describe here was applied to real data from the 64-antenna deployment of the PAPER telescope, and was key to the competitive upper limits on the $21\,\textrm{cm}$ power spectrum presented in XXX: cite Zaki.
 
-As we will discuss below, fringe-rate filtering as a beam sculpting operation is a powerful tool.  However, it
-is fundamentally limited in that it can only perform a one-dimensional re-weighting (in declination) of 
-the two-dimensional sky response\footnote{It is worth noting that, as described in \citet{parsons_backer2009},
-signal delay can be used for re-weighting beam response along a second axis.  However, delay filtering can only
-be used as a spatial filter for smooth-spectrum emission, fundamentally limit its application in this
-context for 21cm cosmological applications}.  Moreover, the spatial resolution of the weighting function is limited by
-the temporal resolution of the fringe-rate filter as it interacts with the extent of the sky in fringe-rate space.
-As the presence of $b_y$ in the expression for the spatial response of a fringe-rate bin in Equation \ref{eq:XXX} indicates,
-baselines with longer east-west extents discriminate between declinations with finer resolution than do shorter
-baselines.
-
-Recognizing these limitations, we now explore the application of fringe-rate filters for sculpting beam response.
-In addition to the signal-to-noise metric addressed previously, we will explore two other metrics that fringe-rate
-filters can be chosen to optimize: polarization response and instrumental systematics.
-
-%\subsection{Simulations}
-%\label{sec:sim}
-\subsection{Implementation}
-
-\begin{figure}\centering
-\includegraphics[width=.9\columnwidth]{plots/fringe_wgts.png}
-\caption{
-}\label{fig:fringe_wgts}
-\end{figure}
-
-In order to demonstrate fringe-rate filtering in the applications discussed below, we will make
-repeated use of simulated data.  In keeping with its origins targeting observations from the
+In the sections that follow, we will use simulations to illustrate various applications of fringe-rate filtering.  In keeping with its origins targeting observations from the
 PAPER array, we choose for our simulations a model array based on PAPER, deployed at a latitude $-30^\circ$
 and featuring the beam response pattern characteristic of PAPER dipole elements \citep{parsons_et_al2008,pober_et_al2012}.
 For these simulations, we also choose a specific baseline to examine: a pair of antennas separated by 30 m in the 
@@ -981,18 +946,20 @@ for power spectral measurements \citep{parsons_et_al2012a,parsons_et_al2014,ali_
 serves to demonstrate the performance of fringe-rate filtering in the context of the specific instrument configuration
 that has been used to place the current best upper limits on 21cm emission from cosmic reionization.
 
+XXX: The discussion in the following paragraph is specific to the power spectrum application. Generalize it a bit.
+
 To implement
 the fringe-rate filters described below, we begin with the ideal filter shape in fringe-rate space.  In the case 
 of the beam-weighted fringe-rate filter described in \S\ref{sec:sim_nos}, this ideal filter shape takes a
 truncated Gaussian form where the peak and width have been fit to the projection of the beam model in fringe-rate space,
 as illustrated in Figure \ref{fig:fringe_weights}.  
-The beam model projection is obtainted
+The beam model projection is obtained
 by binning the beam power along fringe-rate contours, as illustrated for coarse fringe-rate bins
 in Figure \ref{fig:XXX}.  The analytic Gaussian form is then truncated at the maximum fringe rate to obtain a fringe-rate
 filter profile that matches the beam-weighted profile to within a power-averaged RMS of XXX\%.  While it would be possible
 to use the beam-weighted profile directly as the ideal fringe-rate filter profile, having an analytic form allows filters
 to be rapidly generated as a function of baseline length and observing frequency.  Since optimal SNR weighting is relatively
-insensitive small weighting errors (XXX back this up), this level of match between the computed and analytic forms of the
+insensitive to small weighting errors (XXX back this up), this level of match between the computed and analytic forms of the
 desired fringe-rate filter is acceptable.
 
 The next step in implementing the fringe-rate filter is translating the analytic filter profile in fringe-rate space into 
@@ -1015,6 +982,73 @@ truncate the wings of this time-domain kernel to increase its compactness in tim
 this windowing increases the power-averaged RMS deviation from the ideal filter to XXX\%, but the improvement in computational cost,
 the reduction in impact for any spurious systematics, and the relative insensitivity of the applications described below on the specific
 filter shape, make this an advantageous trade-off.
+
+\begin{figure}\centering
+\includegraphics[width=.9\columnwidth]{plots/fringe_wgts.png}
+\caption{
+}\label{fig:fringe_weights}
+\end{figure}
+
+
+\section{Applications}
+\label{sec:bmsculpt}
+
+In this section, we discuss the use of fringe-rate filtering in several applications in low-frequency radio interferometry. As discussed in Section \ref{sec:overview}, the effect of fringe-rate filtering can be regarded as both a time integration and a modification of the spatial response of the primary beam on a per-baseline basis. Exactly how the filter is chosen (or equivalently, how the weights in fringe-rate space are chosen) affects the shape of the modified beam, and thus fringe-rate filtering can be regarded as a ``beam sculpting" operation for optimizing an interferometer's spatial response for various applications.
+
+\subsection{Power spectrum measurements}
+
+In XXX: cite, it was shown that estimates of the three-dimensional power spectrum of brightness temperature fluctuations can be obtained from a single baseline by Fourier transforming visibility data along the frequency axis (forming a ``delay spectrum"), and then taking the absolute square of the results. Specifically, an unbiased estimate $\widehat{P}(\mathbf{k})$ of the power spectrum can be obtained by computing
+\begin{equation}
+\label{eq:PspecEst}
+\widehat{P}(\mathbf{k}) \approx \left( \frac{\lambda^2}{2 k_B} \right)^2 \frac{X^2 Y}{\Omega_{pp} B} |\widetilde{V} (u,v,\eta)|^2,
+\end{equation}
+assuming that the baseline in question is short and that the field-of-view is not too large. (For relaxations of the former assumption, see XXX: cite myself, wedge paper no. 1). Here, XXX: define all symbols.
+\begin{equation}
+X \equiv ,
+\end{equation}
+\begin{equation}
+Y \equiv ,
+\end{equation}
+and
+\begin{equation}
+\Omega_{pp} \equiv \int d\Omega | A(\rhat) |^2.
+\end{equation}
+Our goal in this section is to examine how one can use fringe-rate filtered visibilities in place of raw visibilities in Equation \eqref{eq:PspecEst} to boost signal-to-noise. In particular, we will derive optimal fringe-rate weights that minimize the final error bars on the power spectrum estimate $\widehat{P}(\mathbf{k})$.
+
+
+%
+%In this section, we discuss the use of fringe-rate filtering in several applications in low-frequency radio interferometry.
+%So far, we have motivated fringe-rate filtering as a method for optimally weighting noisy data baseline by baseline.
+%As we examined in \S XXX, fringe rates map to declinations, giving fringe-rate filters an alternate interpretation
+%as a spatial filter that modifies beam response on a per-baseline basis.  The choice for this spatial filter that we
+%have examined so far optimizes the SNR by weighting according to the beam response within fringe rate (declination) bins.  
+%However, this is not the only choice available.  More generally, fringe-rate filters can be chosen to optimize
+%any metric that varies spatially by re-weighting the interferometric response as a function of declination.  In this
+%sense, fringe-rate filtering can be regarded as a ``beam sculpting'' operation that can be used to tailor an interferometer's
+%spatial response.
+%
+%As we will discuss below, fringe-rate filtering as a beam sculpting operation is a powerful tool.  However, it
+%is fundamentally limited in that it can only perform a one-dimensional re-weighting (in declination) of 
+%the two-dimensional sky response\footnote{It is worth noting that, as described in \citet{parsons_backer2009},
+%signal delay can be used for re-weighting beam response along a second axis.  However, delay filtering can only
+%be used as a spatial filter for smooth-spectrum emission, fundamentally limit its application in this
+%context for 21cm cosmological applications}.  Moreover, the spatial resolution of the weighting function is limited by
+%the temporal resolution of the fringe-rate filter as it interacts with the extent of the sky in fringe-rate space.
+%As the presence of $b_y$ in the expression for the spatial response of a fringe-rate bin in Equation \ref{eq:XXX} indicates,
+%baselines with longer east-west extents discriminate between declinations with finer resolution than do shorter
+%baselines.
+%
+%Recognizing these limitations, we now explore the application of fringe-rate filters for sculpting beam response.
+%In addition to the signal-to-noise metric addressed previously, we will explore two other metrics that fringe-rate
+%filters can be chosen to optimize: polarization response and instrumental systematics.
+
+%\subsection{Simulations}
+%\label{sec:sim}
+%\subsection{Implementation}
+%
+%
+%In order to demonstrate fringe-rate filtering in the applications discussed below, we will make
+%repeated use of simulated data. 
 
 \subsection{Point Source Simulations for Mapping Beam Response}
 \label{sec:sim_pnt}
