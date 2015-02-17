@@ -142,6 +142,7 @@ for emission from the far side of the celestial pole.
 % XXX is there a name for the far side of the celestial pole?
 
 Let us now derive this intuition mathematically, assuming a drift-scan telescope. To sort our time-variable visibilities into different fringe-rates $f$, we take the Fourier transform of our visibility to get
+XXX: switch to using overline for fringe-rate space
 \begin{equation}
 \label{eq:OriginalFR}
 \widetilde{V}^b_\nu (f) = \int d\Omega I_\nu(\rhat) \int dt \gamma (t^\prime - t) A_\nu(\rhat,t^\prime) e^{i2 \pi \frac{ \nu}{c} \mathbf{b} (t^\prime) \cdot \rhat } e^{-i 2 \pi f (t^\prime - t)},
@@ -172,10 +173,12 @@ Because different fringe-rates correspond to different parts of the sky, we may 
 \end{eqnarray}
 Now, suppose we implement this filter in a sliding manner in time. That is, we repeat this process with the fringe-rate transform centered on each instant in time. With this, we become interested in only $t^\prime = t$, so the final set of filtered visibilities takes the form
 \begin{equation}
+\label{eq:ShrunkBeam}
 V_{\textrm{filt},\nu}^b(t) = \int d\Omega \, {I_\nu(\rhat) A^\textrm{eff}_{\nu} (\rhat, t)\exp \left[-i2\pi \frac{\nu}{c}  \mathbf{b}(t) \cdot \rhat\right]},
 \end{equation}
 which is precisely the same as our original measurement equation, except the primary beam has been replaced by an \emph{effective primary beam}, defined as
 \begin{equation}
+\label{eq:EffectiveBeamDef}
 A^\textrm{eff}_{\nu} (\rhat, t)\equiv A_{\nu} (\rhat, t) (w * \tilde{\gamma}) \left( \frac{\nu}{c} [\boldsymbol \omega_\Earth \times \mathbf{b}(t)] \cdot \rhat \right),
 \end{equation}
 with * signifying a convolution. We thus see that by judiciously selecting fringe-rate weights, one can effectively reshape one's beam. In general, however, we cannot do so with perfect flexibility. This can be seen by once again examining the combination $\rhat \cdot \boldsymbol \omega_\Earth \times \mathbf{b} $. For any given instant, $\boldsymbol \omega_\Earth \times \mathbf{b}$ picks out a particular direction on the celestial sphere. A ring of locations $\rhat$ on the sky at a constant angle with respect to this direction will have the same value of $\rhat \cdot \boldsymbol \omega_\Earth \times \mathbf{b} $, and therefore the same fringe-rate. As a result, contours of constant fringe-rate always form rings on the sky, as illustrated in Figure \ref{fig:fringe_contours}. By weighting different fringe-rates, one can effectively ``turn off" (or less harshly, to simply downweight) whole contours, but never portions of a contour.
@@ -997,25 +1000,101 @@ In this section, we discuss the use of fringe-rate filtering in several applicat
 
 \subsection{Power spectrum measurements}
 
-In XXX: cite, it was shown that estimates of the three-dimensional power spectrum of brightness temperature fluctuations can be obtained from a single baseline by Fourier transforming visibility data along the frequency axis (forming a ``delay spectrum"), and then taking the absolute square of the results. Specifically, an unbiased estimate $\widehat{P}(\mathbf{k})$ of the power spectrum can be obtained by computing
-\begin{equation}
-\label{eq:PspecEst}
-\widehat{P}(\mathbf{k}) \approx \left( \frac{\lambda^2}{2 k_B} \right)^2 \frac{X^2 Y}{\Omega_{pp} B} |\widetilde{V} (u,v,\eta)|^2,
-\end{equation}
-assuming that the baseline in question is short and that the field-of-view is not too large. (For relaxations of the former assumption, see XXX: cite myself, wedge paper no. 1). Here, XXX: define all symbols.
-\begin{equation}
-X \equiv ,
-\end{equation}
-\begin{equation}
-Y \equiv ,
-\end{equation}
-and
-\begin{equation}
-\Omega_{pp} \equiv \int d\Omega | A(\rhat) |^2.
-\end{equation}
-Our goal in this section is to examine how one can use fringe-rate filtered visibilities in place of raw visibilities in Equation \eqref{eq:PspecEst} to boost signal-to-noise. In particular, we will derive optimal fringe-rate weights that minimize the final error bars on the power spectrum estimate $\widehat{P}(\mathbf{k})$.
+In XXX: cite, it was shown that estimates of the three-dimensional power spectrum of brightness temperature fluctuations can be obtained from a single baseline by Fourier transforming visibility data along the frequency axis (forming a ``delay spectrum"), and then taking the absolute square of the results. Here, we will show how fringe-rate weights can be chosen to maximize the sensitivity of a single-baseline-derived power spectrum.
 
+We begin by considering a generalization of the derivation in XXX: cite P14, where it was assumed that the primary beams of all elements in the interferometer are identical. We now consider the possibility of probing the power spectrum via a cross-correlation of two baselines with different primary beams. To be clear, our eventual discussion will be based on the analysis of fringe-rate filtered visibilities from a \emph{single} baseline. However, from Section \ref{sec:overview}, we saw that to a good approximation, selecting different fringe-rates is equivalent to observing the sky with different effective beams. Thus, the cross-correlation of visibilities from two different fringe-rate bins is mathematically identical to cross-correlating two baselines with different beams. To begin, suppose that the $i$th baseline consists of antenna elements with primary beam $A_i (\rhat)$. The delay-transformed visibility takes the form
+\begin{equation}
+\widetilde{V}_i(\mathbf{u},\eta) = \frac{2 k_B}{\lambda^2} \int  d^2 \mathbf{u}^\prime \, d\eta^\prime \widetilde{A}_i (\mathbf{u} -\mathbf{u}^\prime, \eta-\eta^\prime) \widetilde{T}(\mathbf{u}^\prime , \eta^\prime),
+\end{equation}
+where $\eta$ is the Fourier dual to frequency\footnote{XXX: write a footnote acknowledging the difference between delay space and $\eta$}, $\widetilde{A}_i $ is the Fourier transform of $A_i (\rhat)$ in both the angular and spectral directions, $\widetilde{T}$ is the brightness temperature field in Fourier space, $k_B$ is Boltzmann's constant, $\lambda$ is the central observation frequency, and it is implicitly assumed that the baseline length is given by $\mathbf{b} = \mathbf{u} \lambda$, with $\mathbf{u} \equiv (u,v)$. From this, we can see that two baselines with different primary beams, but located at the same location on the $uv$ plane have a delay-spectrum cross-correlation given by
+\begin{eqnarray}
+\label{eq:visCrossCorr}
+\langle \widetilde{V}_i(\mathbf{u},\eta) \widetilde{V}_j(\mathbf{u},\eta)^*\rangle = \left( \frac{2 k_B}{\lambda^2} \right)^2 \int d^2 \mathbf{u}^\prime \, d\eta^\prime  P(\mathbf{u}^\prime , \eta^\prime) \nonumber \\
+\times \widetilde{A}_i (\mathbf{u} -\mathbf{u}^\prime, \eta-\eta^\prime) \widetilde{A}_j^* (\mathbf{u} -\mathbf{u}^\prime, \eta-\eta^\prime) \nonumber \\
+\approx P(\mathbf{u} , \eta) \left( \frac{2 k_B}{\lambda^2} \right)^2 \int d\Omega d\nu A_i (\rhat,\nu) A_j (\rhat,\nu), \quad
+\end{eqnarray}
+where angular brackets $\langle \dots \rangle$ denote an ensemble average over possible realizations of a random temperature field. In the first equality, we assumed that this field is a translation-invariant Gaussian random field specified by a power $P(\mathbf{u}, \eta)$, so that
+\begin{equation}
+\langle \widetilde{T}(\mathbf{u} , \eta) \widetilde{T}^*(\mathbf{u}^\prime , \eta^\prime)\rangle = \delta^{D} (\mathbf{u} - \mathbf{u}^\prime) \delta^D (\eta - \eta^\prime) P(\mathbf{u}, \eta).
+\end{equation}
+In the second equality, we made the approximation that for reasonably broad primary beams, $\widetilde{A}_i $ and $\widetilde{A}_j$ tend to be rather localized, which allows the comparatively broader $P(\mathbf{u}, \eta)$ to be pulled out of the integral\footnote{Although see XXX: cite Wedge paper 2 for some limitations of this approximation}. Following this, we used Parseval's theorem to rewrite the integral over $(\mathbf{u},\eta)$ space as an integral over angles and frequency XXX: perhaps we should clarify flat-sky assumptions.
 
+Rearranging Equation \eqref{eq:visCrossCorr} gives an expression for the true power spectrum in terms of the cross-correlation function of two delay-space visibilities. With real data, however, one cannot perform the ensemble average on the left-hand side of Equation \eqref{eq:visCrossCorr}. Omitting this ensemble average, the copy of the power spectrum on the right-hand side becomes an \emph{estimator} $\widehat{P}$ of the true power spectrum $P$. Introducing the definition
+\begin{equation}
+\label{eq:Omega_ij_def}
+\Omega_{ij} \equiv \frac{1}{B} \int d\Omega d\nu A_i (\rhat,\nu) A_j (\rhat,\nu),
+\end{equation}
+where $B$ is the bandwidth over which observations are made, our estimator takes the form
+\begin{equation}
+\label{eq:pspecEstCrossCorr}
+\widehat{P} (\mathbf{k}) = \left( \frac{\lambda^2}{2 k_B} \right)^2 \frac{X^2 Y}{\Omega_{ij} B} \widetilde{V}_i(\mathbf{u},\eta) \widetilde{V}_j(\mathbf{u},\eta)^*,
+\end{equation}
+where we have written the power spectrum in terms of cosmological Fourier coordinates $\mathbf{k}$, which are related to the interferometric Fourier coordinates by $(X k_x, X k_y, Y k_z) \equiv 2 \pi (u , v, \eta)$, picking up an extra factor of $X^2 Y$ in the process\footnote{See XXX: cite Paper 1 for a detailed derivation}, with
+\begin{equation}
+X \equiv \frac{c}{H_0} \int_0^z \frac{dz^\prime}{E(z^\prime)}; \,\, E(z) \equiv \sqrt{\Omega_m (1+z)^3 + \Omega_\Lambda}.
+\end{equation}
+where $c$ is the speed of light, $z$ is the redshift of observation, $H_0$ is the Hubble parameter, $\Omega_m$ is the normalized matter density, $\Omega_\Lambda$ is the normalized dark energy density, and
+\begin{equation}
+Y \equiv  \frac{c(1+z)^2}{\nu_{21} H_0 E(z)},
+\end{equation}
+where $\nu_{21} \equiv 1420\,\textrm{MHz}$ is the rest frequency of the $21\,\textrm{cm}$ line. In the special case where $i=j$, Equation \eqref{eq:pspecEstCrossCorr} reduces to the one derived in XXX: cite P14.
+
+Having established this, let us re-interpret Equation \eqref{eq:pspecEstCrossCorr} as an estimator for the power spectrum from the cross-multiplication of two different discretized fringe rate bins. We are free to re-interpret our estimator in this way because of the discussion in Section \ref{sec:overview}, where we showed that each visibility could be thought of as being comprised of different fringe rates, each of which select their own ring (and thus have their own effective primary beam) on the celestial sphere. That Equation \eqref{eq:pspecEstCrossCorr} involves the cross-multiplication of visibilities after they have been delay-transformed over the frequency axis is not a problem, since the Fourier transforms required to enact the delay transform and the fringe-rate transform commute with one another.
+
+Equation \eqref{eq:pspecEstCrossCorr} allows a power spectrum to be estimated from the cross-multiplication of any pair of fringe-rate bins. To increase signal-to-noise on the measurement, however, one ought to form all possible cross-multiplied pairs, which can then combined into a single power spectrum estimate via a weighted average. Suppressing the arguments of $\widehat{P}$ and $\widetilde{V}$ for notational cleanliness, we can write
+\begin{equation}
+\widehat{P} = \sum_{ij} W_{ij} \widetilde{V}_i \widetilde{V}_j^*,
+\end{equation}
+where $W_{ij}$ is the weight assigned to the cross-multiplication of the $i$th and $j$th fringe-rate bins. Our goal is to select weights that minimize the error bars on the final power spectrum estimate.
+
+For our optimization exercise, assume that errors are due to instrumental thermal noise only. If the $i$th fringe-rate bin has a noise contribution of $n_i$, the noise contribution to our estimator is
+\begin{equation}
+\widehat{P}_\textrm{noise} = \sum_{ij} W_{ij} n_i n_j^*.
+\end{equation}
+The error bar corresponding to this noise contribution is given by the square root of its variance, which take the form
+\begin{eqnarray}
+\textrm{Var}(\widehat{P}_\textrm{noise} ) &\equiv& \langle \widehat{P}_\textrm{noise}^2 \rangle - \langle \widehat{P}_\textrm{noise} \rangle^2 \nonumber \\
+&= & \sum_{ijkm} W_{ij} W_{km} \left[ \langle n_i n_j^* n_k n_m^* \rangle - \langle n_i n_j^*\rangle \langle n_k n_m^* \rangle \right] \nonumber \\
+&=&  \sum_{ij} W_{ij} W_{ji}\sigma^4,
+\end{eqnarray}
+where in the last equality we assumed that the noise is Gaussian, enabling the fourth moment term to be written as a sum of second moment (variance) terms. We further assumed that the real and imaginary components of the noise are uncorrelated with each other and between different fringe-rate bins, so that if $n_i \equiv a_i + i b_i$, we have $\langle a_i a_j \rangle = \langle b_i b_j \rangle = \delta_{ij} \sigma^2/2 $ and $\langle a_i b_j \rangle= 0$ for all $i$ and $j$.
+
+In minimizing the noise variance, care must be taken to ensure that there is no signal loss in the power spectrum estimation. To do so, we first note that taking the ensemble average of $\widehat{P}$ gives
+\begin{equation}
+\langle \widehat{P} \rangle = \sum_{ij} W_{ij} \langle \widetilde{V}_i \widetilde{V}_j^* \rangle = S \sum_{ij} W_{ij} \Omega_{ij} P,
+\end{equation}
+where we used an ensemble-averaged version of Equation \eqref{eq:pspecEstCrossCorr} to relate the true cross-correlation to the true power spectrum, and defined $S \equiv ( B / X^2 Y) ( 2 k_B / \lambda^2 )^2$. Ensuring that there is no signal loss is thus tantamount to requiring that $ S \sum_{ij} W_{ij} \Omega_{ij} =1$, so that $\langle \widehat{P} \rangle = P$. We may impose this constraint by introducing a Lagrange multiplier $\lambda$ in our minimization of the noise variance, minimizing
+\begin{equation}
+\mathcal L = \sum_{ij} W_{ij} W_{ji} - \lambda \sum_{ij} W_{ij} \Omega_{ij},
+\end{equation}
+where both $\sigma^4$ and $S$ have been absorbed into our definition of $\lambda$. Differentiating with respect to each element and setting the result to zero gives an optimized weight given by $W_{km} \propto \Omega_{km}$, and normalizing according to our constraint yields
+\begin{equation}
+W_{km} = \frac{\Omega_{km}}{S \sum_{ij} \Omega_{ij}^2}.
+\end{equation}
+
+To make intuitive sense of this, let us make a few more approximations. The key quantity here is $\Omega_{ij}$, which we can see from Equation \eqref{eq:Omega_ij_def} is the overlap integral between the effective primary beams of the $i$th and $j$th fringe-rate bins. In Section \ref{sec:overview}, we saw that if one takes the fringe-rate Fourier transform over a wide enough window in time, different fringe-rates map to different portions of the sky with relatively little overlap. If this is indeed the case, $\Omega_{ij}$ vanishes unless $i=j$. Defining
+\begin{equation}
+\omega_i  \equiv \frac{1}{B} \int d\Omega d\nu A_i(\rhat,\nu)^2,
+\end{equation}
+we have $\Omega_{ij} \equiv \delta_{ij} \omega_i$, so our optimal estimator for the power spectrum reduces to
+\begin{equation}
+\widehat{P} = \frac{1}{S \sum_j \omega_j^2}\sum_i \omega_i | \widetilde{V}_i |^2 .
+\end{equation}
+Suppose we now define $\widetilde{V}^\textrm{opt}_i \equiv \sqrt{\omega_i} \widetilde{V}_i$ to be an optimally weighted visibility in fringe-rate space. Transforming back to the time domain using Parseval's theorem, one obtains
+\begin{equation}
+\label{eq:finalEst}
+\widehat{P}(\mathbf{u}, \eta) = \left( \frac{\lambda^2}{2 k_B} \right)^2 \frac{X^2 Y}{B\sum_j \omega_j^2} \int dt |\widetilde{V}^\textrm{opt} (\mathbf{u}, \eta; t)|^2,
+\end{equation}
+where XXX: check Fourier conventions
+\begin{eqnarray}
+\widetilde{V}^\textrm{opt} (\mathbf{u}, \eta; t) &\equiv& \sum_i e^{i 2 \pi f t} \sqrt{w_i} \widetilde{V}_i \nonumber \\
+&=&  \sum_i e^{i 2 \pi f t} \left[\frac{1}{B} \int d\Omega d\nu A_i(\rhat,\nu)^2\right]^\frac{1}{2} \widetilde{V}_i. \quad
+\end{eqnarray}
+This is a rather remarkable result, in that the optimal power spectrum estimator for a single baseline interferometer consists of a squared statistic (i.e., one with no phase information) integrated in time. This may seem counterintuitive, particularly if one is accustomed to more conventional techniques where images are formed from the visibilities and averaged down before any squaring steps. There, it is crucial to average in time \emph{before} squaring, because data from different time steps can be sourced by the same Fourier modes on the celestial sphere. Integrating before squaring allows information from these modes to be coherently averaged together (since phase information has yet to be discarded), resulting in instrumental noise that integrates down as $1/\sqrt{t}$. This then becomes a $1/t$ dependence for the error bars on the final (squared) power spectrum results, and is a much quicker reduction of instrumental noise than if the data had been squared first, which would have resulted in a $1/\sqrt{t}$ dependence on the power spectrum errors.
+
+In our derivation, we showed that the optimal power spectrum estimator can in fact be obtained by squaring before integrating, \emph{provided} the power spectra formed at each time instant are first fringe-rate filtered with weights $\sqrt{w_i}$, i.e., where each fringe-rate is weighted by the root-mean-square primary beam within the corresponding constant-fringe-rate contour on the sky. Essentially, the pre-processing step of fringe-rate filtering (with these specific weights) replaces the independent time samples with a set of correlated visibilities that have effectively already been coherently integrated in time. Note that these weights are \emph{not} in general the same as the ones derived in Section \ref{fringeRateIntro} for optimal mapmaking, where measurements were essentially weighted by an additional factor of the primary beam in fringe-rate space, rather than by the root-mean-square beam weighting suggested here.
+
+In closing, we note that following fringe-rate filtering, the normalization of the power spectrum estimator must be modified accordingly. This can be seen in Equation \eqref{eq:finalEst}, where the scalar quantities in front of the integral are different than those found in the estimator in XXX: cite Parsons14, which was derived with non-fringe-rate filtered visibilities in mind. To ensure that one's power spectrum estimates are correctly normalized, one can simply follow the prescription in Equation \eqref{eq:finalEst}. However, the derivation of Equation \eqref{eq:finalEst} involved a number of approximations, and thus it may be safer to instead compute the normalization numerically. Once the fringe-rate weights have been specified, Equation \eqref{eq:EffectiveBeamDef} gives the effective beam. Since we know from Equation \eqref{eq:ShrunkBeam} that the measurement equation for fringe-rate filtered visibilities is the same as that for the original visibilities up to the revised beam, one can simply use the expressions in XXX: cite P14 as long as the beam area is accordingly revised. XXX: rephrase previous sentence and also include simulation info.
 %
 %In this section, we discuss the use of fringe-rate filtering in several applications in low-frequency radio interferometry.
 %So far, we have motivated fringe-rate filtering as a method for optimally weighting noisy data baseline by baseline.
@@ -1049,224 +1128,224 @@ Our goal in this section is to examine how one can use fringe-rate filtered visi
 %
 %In order to demonstrate fringe-rate filtering in the applications discussed below, we will make
 %repeated use of simulated data. 
-
-\subsection{Point Source Simulations for Mapping Beam Response}
-\label{sec:sim_pnt}
-
-\begin{figure}\centering
-\includegraphics[width=0.9\columnwidth]{plots/src_track.png}
-\caption{
-Fringe amplitude before (black) and after (red) the application
-of the fringe-rate filter described in \S\ref{sec:sim}.  From top to bottom,
-the panels illustrate the real component of the visibility measured by
-a 30-m east-west baseline deployed at a latitude of $-30^\circ$ 
-for point sources 
-passing through the fringe pattern at declinations of $0^\circ$,
-$-30^\circ$, and $-60^\circ$, respectively.  In this simulation,
-antenna elements have isotropic primary beams.
-}\label{fig:src_track}
-\end{figure}
-
-\begin{figure*}\centering
-\includegraphics[width=.6\columnwidth]{plots/beam_raw.png}
-\includegraphics[width=.6\columnwidth]{plots/beam_wgt.png}
-\includegraphics[width=.6\columnwidth]{plots/beam_fng.png}
-\caption{
-The effective primary beam response of a baseline, as determined from the simulations in \S\ref{sec:sim_pnt}.
-Panels indicate reconstructions of PAPER's model beam response used in the simulation (left), the 
-beam weighting that results from the application of a fringe-rate filter weighted to optimize SNR for
-a 30-m baseline with PAPER's beam response (center), and the effective primary beam response of the
-baseline after the application of the fringe-rate filter.
-}\label{fig:}
-\end{figure*}
-
-\subsection{Optimizing the Signal-to-Noise Ratio in Power Spectral Measurements}
-\label{sec:sim_nos}
-
-Specific application for statistically isotropic Gaussian random signals.
-Noise Simulations for Determining Effective Volume.
-
-Discuss beam area as normalization that keeps signal level constant.
-Refer to \citet{parsons_et_al2014} Appendix A.
-
-We begin by examining the integrated volume, $\mathbb{V}$, used to normalize the 3D Fourier transform in
-Equation 3 of P12a. We express this volume in observing coordinates as
-\begin{equation}
-    \mathbb{V} = \Omega B\cdot X^2Y,
-\end{equation}
-where $B$ is the bandwidth, $\Omega$ is the angular area, and $X,Y$ are redshift-dependent
-scalars relating angle and frequency to spatial scales, respectively.
-$\Omega$ arises from the bounds set by $A(l,m,\nu)$, the antenna power response, on the 
-angular extent in the integral
-\begin{align}
-    \Vt^2(u,v,\eta)=&\left(\frac{2k_{\rm B}}{\lambda^2}\right)^2
-        \left[\int{dl~dm~d\nu A(l,m,\nu)T(l,m,\nu)e^{-2\pi i(ul+vm+\eta\nu)}}\right]\times\nonumber\\
-        &\left[\int{dl^\prime~dm^\prime~d\nu^\prime A^*(l^\prime,m^\prime,\nu^\prime)T^*(l^\prime,m^\prime,\nu^\prime)e^{2\pi i(ul^\prime+vm^\prime+\eta\nu^\prime)}}\right],
-\end{align}
-which is a slightly modified version of Equation 6 of P12a relating the delay-transformed visibility
-$\Vt$, sampled at wavemodes $u,v$ (the Fourier complements of angular coordinates $l,m$) and $\eta$ (the Fourier
-complement of spectral frequency $\nu$), to a temperature field $T$.
-As shown in XXX, this reduces to
-\begin{equation}
-    {\tilde V}_{21}^2(u,v,\eta)\approx\left(\frac{2k_{\rm B}}{\lambda^2}\right)^2\frac{B}{X^2Y}
-        \widehat P(\k)\int{dl~dm\left|A(l,m)\right|^2}.
-\end{equation}
-
-We compare this result with the relation between the delay-transformed visibility,
-${\tilde V}$, to the three-dimensional power spectrum of reionization, $P_{21}(\k)$ 
-(P12a):
-\begin{equation}
-    {\tilde V}_{21}^2(u,v,\eta)\approx\left(\frac{2k_{\rm B}}{\lambda^2}\right)^2\frac{\Omega\,B}{X^2Y} \widehat P_{21}(\k).
-    \label{eq:v2_vs_pk}
-\end{equation}
-As this shows, the relevant beam area in Equation \ref{eq:v2_vs_pk} is the
-power-square beam, $\Omega_{\rm PP}$, given by
-\begin{equation}
-\Omega_{\rm PP}\equiv\int{dl~dm\left|A(l,m)\right|^2}.
-\label{eq:beam_squared}
-\end{equation}
-This contrasts with the standard metric for beam area --- the integrated
-power beam --- which we will call $\Omega_{\rm P}$, and is given by
-\begin{equation}
-\Omega_{\rm P}\equiv\int{dl~dm A(l,m)},
-\label{eq:beam_area}
-\end{equation}
-This beam area metric is used to convert visibility measurements from Jy units to mK,
-but is incorrect for normalizing power spectra that relate to 
-the two-point correlation function of a temperature field.
-
-For equations that relate power-spectrum sensitivity to a system temperature
-(e.g. Equations 15 and 16 in P12a)
-\begin{equation}
-\Omega^\prime\equiv\Omega_{\rm P}^2/\Omega_{\rm PP}
-\end{equation}
-should be used in lieu of $\Omega$, as
-these equations pick up two factors of $\Omega_{\rm P}$ in the conversion from Jy$^2$ to mK$^2$, along with
-the a factor of $\Omega_{\rm PP}$ in the denominator relating to the integrated volume.
-For equations that relate a measured visibility (in units of brightness
-temperature, e.g. Equation \ref{eq:pspec_cosmo}) to $\widehat P(\k)$, the factor of 
-$\Omega_{\rm P}^2$ is already 
-applied in the conversion from units of Jy to mK, 
-and $\Omega$ corresponds to the remaining factor of $\Omega_{\rm PP}$. 
-
-For PAPER, $\Omega_{\rm P}\approx0.72$ sr, while $\Omega_{\rm PP}$ is 0.31 sr.  Following the definition
-above, $\Omega^\prime\approx1.69$.  These beam areas are calculated numerically from
-a beam model, but typically, $\Omega^\prime$ is about a factor of two larger than $\Omega_{\rm P}$.
-
-
-Describe simulation, refer to figures, compare results to analytic prediction.
-
-%fringe_rate_filter.py -C psa898_v002 -a cross --clean=1e-2 --minfr=-1 --fr_frac=1.2 
-
-In the last step prior to forming power spectra,
-we apply a fringe-rate filter to effect time-domain integration,
-using the effective time interval that a baseline measures a single $k$-mode to integrate coherently
-(with noise decreasing
-as $\sqrt{t}$, in units of mK), before measurements at different times represent independent modes
-that must be squared before further integration (with noise now decreasing as $\sqrt{t}$, in units of mK$^2$).
-
-As outlined in Appendix \ref{app:data_compression}
-in the context of data compression, we
-take the Fourier transform of the time series in each channel and apply a low-pass filter that preserves
-fringe-rates that geometrically correspond to sources rotating on the celestial sphere.  
-For a planar array with transit observations, fringe-rates vary according to declination, with fringe rates
-reaching a maximum ($f_{\rm max}$) at 
-$\delta=0^\circ$, decreasing to 0 at $\delta=-90^\circ$, and for an array such as PAPER deployed near
--30$^\circ$ S latitude, reaching a minimum of $\approx-f_{\rm max}/2$ at $\delta=-60^\circ$ on
-the far side of the south celestial pole.
-In order to
-avoid introducing undesirable frequency structure, we apply the same filter, tuned to the width
-set by the highest frequency of the sub-band used in the
-power spectrum analysis described
-in \S\ref{sec:dspec_crossmult}, to each channel,
-even though maximum fringe-rates are generally frequency-dependent.
-%Since fringe rates are a
-%natural basis for celestial emission
-%over short time intervals, fringe-rate
-%filters can be narrowly tailored to the geometric bounds of a baseline.
-%In contrast, simply summing integrations over an equivalent time interval 
-%(corresponding to a sinc filter in fringe-rate space) will tend to significantly suppress emission at
-%fringe rates that geometrically correspond to the sky.
-In a future paper, we will explore the idea
-of employing fringe-rate filters that purposely down-weight fringe-rate modes on the sky according to
-the expected signal-to-noise ratio in each mode.  Such filters would essentially correspond to a
-one-dimensional implementation of the inverse primary beam $uv$-gridding discussed in \citet{morales_matejek2009},
-and have many features in common with m-mode synthesis described in \citet{shaw_et_al2013}.
-
-Since thermal noise scatters equally into all fringe rate bins, applying a filter
-that passes only fringe rates corresponding the celestial emission has the effect of de-noising the data.
-We apply such a filter to the data, choosing the bounds of the filter to match the geometric
-bounds set by a 30-m east-west baseline, according to the equation
-\begin{equation}
-f_{\rm max} = \frac{|\b_{\rm eq}|}{c} \omega_\oplus \nu,
-\label{eq:fringe_rate}
-\end{equation}
-where $f_{\rm max}$ is the maximum fringe rate, 
-$\b_{\rm eq}$ is the baseline vector projected parallel to the equatorial 
-plane, $c$ is the speed of light,
-$\omega_\oplus$ is the angular frequency of the Earth's rotation,
-and $\nu$ is the spectral frequency. 
-% 780 = 30e2 / c * 2pi / 86164 * .174, where .174 is chosen because want to not attenuate sky over entire band
-At 174 MHz (the highest frequency in a 20-MHz window centered on 164 MHz that is used in \S\ref{sec:dspec_crossmult}),
-$f_{\rm max}=1.3$ mHz, corresponding to a fringe period of 780 s.  Hence, the fringe-rate filter that is
-applied passes fringe-rates in the range $-0.7<f<1.3$ mHz.  The width of this filter corresponds in 
-sensitivity to an effective integration time of 525 s.
-We note that
-this filtering could have been applied during the data compression described in \S\ref{sec:preprocessing},
-but was implemented separately to enable the compression to work uniformly
-over all baselines in the array without additional information about antenna location.
-
-After applying this filter,
-we transform the data back to time domain in preparation for forming power spectra via the delay transform.
-It should be noted that, in time domain, the data are now heavily over-sampled; adjacent samples are no longer
-statistically independent.  Hence, when averaging power-spectra versus time,
-noise will not beat down according to the strict number in samples, but rather, according to
-the actual number of statistically independent samples underlying the time series.
-
-\begin{equation}
-\widehat P(\k_{t\tau}) = \left(\frac{\lambda^2}{2k_{\rm B}}\right)^2\frac{X^2Y}{\Omega B}
-\left\langle{\tilde V_i(\tau,t) \tilde V_j^*(\tau,t)}\right\rangle_{i<j},
-\label{eq:pspec_cosmo}
-\end{equation}
-which follows from equation 12 of P12a, with $\lambda$ being the observing
-wavelength, $k_{\rm B}$ is Boltzmann's constant, $X^2Y$ is a cosmological scalar with units
-of $\frac{h^{-3}\ {\rm Mpc}^3}{{\rm sr}\cdot {\rm Hz}}$, $\Omega$ is the angular 
-area\footnote{
-As described in detail in Appendix \ref{app:beam_area}, the angular area used to normalize
-high-redshift 21cm power spectrum measurements (e.g., $\Omega$ in Equation \ref{eq:pspec_cosmo}) is proportional
-to the integral of the squared beam power over angular area ($\Omega_{\rm PP}$; equation \ref{eq:beam_squared}).
-This contrasts the standard beam area ($\Omega_{\rm P}$; equation \ref{eq:beam_area}) that is
-used to relate flux density to a brightness temperature.
-Since Equation \ref{eq:pspec_cosmo} 
-relates a measured visibility in units of brightness
-temperature to $P(\k)$, a factor of $\Omega_{\rm P}^2$ has already been
-applied to convert Jy to mK.  In this case,
-$\Omega$ indicates the remaining factor of $\Omega_{\rm PP}$, which for PAPER is 0.31 sr.},
-$B$ is the bandwidth, $\langle\dots\rangle_{i<j}$ indicates the ensemble average
-over instantaneously redundant baseline measurements indexed by $i,j$,
-and $\tilde V(\tau,t)$ is the delay-transformed visibility,
-expressed in terms of delay $\tau$ and time $t$.
-We use $t$ as a subscript on $\k$
-to denote the different modes sampled by a baseline as the sky rotates, and $\tau$ to indicate
-the dependence of $\k$ on the delay mode in question.
-
-\begin{equation}
-\widehat \Delta^2_{21}(k) = \frac{k^3}{2\pi^2}\left\langle \widehat P(\k_{t\tau})\right\rangle_{|\k_{t\tau}|=k},
-\end{equation}
-where the three-dimensional symmetry of the power spectrum is invoked to average over
-all independent measurements of modes in a shell of $|\k|=k$, with independent measurements
-indexed here by $t$.  As described in \S\ref{sec:fringe_rate_filtering}, the number of independent modes
-that are averaged (with noise decreasing with number of modes, $M$, as $\sqrt{M}$ in mK$^2$ units; see P12a) is 
-determined
-by overall observing window and the number of fringe-rate bins that are 
-preserved in the fringe-rate filtering process.
-Since we have not decimated the number of integrations to the critical sampling rate corresponding to the 
-width of the applied fringe-rate filter, $M$ is {\it not} the number of integrations.  However,
-we are free to average the power spectrum estimates for each integration, even though nearby samples
-do not have statistically independent noise, understanding that noise will decrease according to the number
-of underlying independent samples.
-
-
+%
+%\subsection{Point Source Simulations for Mapping Beam Response}
+%\label{sec:sim_pnt}
+%
+%\begin{figure}\centering
+%\includegraphics[width=0.9\columnwidth]{plots/src_track.png}
+%\caption{
+%Fringe amplitude before (black) and after (red) the application
+%of the fringe-rate filter described in \S\ref{sec:sim}.  From top to bottom,
+%the panels illustrate the real component of the visibility measured by
+%a 30-m east-west baseline deployed at a latitude of $-30^\circ$ 
+%for point sources 
+%passing through the fringe pattern at declinations of $0^\circ$,
+%$-30^\circ$, and $-60^\circ$, respectively.  In this simulation,
+%antenna elements have isotropic primary beams.
+%}\label{fig:src_track}
+%\end{figure}
+%
+%\begin{figure*}\centering
+%\includegraphics[width=.6\columnwidth]{plots/beam_raw.png}
+%\includegraphics[width=.6\columnwidth]{plots/beam_wgt.png}
+%\includegraphics[width=.6\columnwidth]{plots/beam_fng.png}
+%\caption{
+%The effective primary beam response of a baseline, as determined from the simulations in \S\ref{sec:sim_pnt}.
+%Panels indicate reconstructions of PAPER's model beam response used in the simulation (left), the 
+%beam weighting that results from the application of a fringe-rate filter weighted to optimize SNR for
+%a 30-m baseline with PAPER's beam response (center), and the effective primary beam response of the
+%baseline after the application of the fringe-rate filter.
+%}\label{fig:}
+%\end{figure*}
+%
+%\subsection{Optimizing the Signal-to-Noise Ratio in Power Spectral Measurements}
+%\label{sec:sim_nos}
+%
+%Specific application for statistically isotropic Gaussian random signals.
+%Noise Simulations for Determining Effective Volume.
+%
+%Discuss beam area as normalization that keeps signal level constant.
+%Refer to \citet{parsons_et_al2014} Appendix A.
+%
+%We begin by examining the integrated volume, $\mathbb{V}$, used to normalize the 3D Fourier transform in
+%Equation 3 of P12a. We express this volume in observing coordinates as
+%\begin{equation}
+%    \mathbb{V} = \Omega B\cdot X^2Y,
+%\end{equation}
+%where $B$ is the bandwidth, $\Omega$ is the angular area, and $X,Y$ are redshift-dependent
+%scalars relating angle and frequency to spatial scales, respectively.
+%$\Omega$ arises from the bounds set by $A(l,m,\nu)$, the antenna power response, on the 
+%angular extent in the integral
+%\begin{align}
+%    \Vt^2(u,v,\eta)=&\left(\frac{2k_{\rm B}}{\lambda^2}\right)^2
+%        \left[\int{dl~dm~d\nu A(l,m,\nu)T(l,m,\nu)e^{-2\pi i(ul+vm+\eta\nu)}}\right]\times\nonumber\\
+%        &\left[\int{dl^\prime~dm^\prime~d\nu^\prime A^*(l^\prime,m^\prime,\nu^\prime)T^*(l^\prime,m^\prime,\nu^\prime)e^{2\pi i(ul^\prime+vm^\prime+\eta\nu^\prime)}}\right],
+%\end{align}
+%which is a slightly modified version of Equation 6 of P12a relating the delay-transformed visibility
+%$\Vt$, sampled at wavemodes $u,v$ (the Fourier complements of angular coordinates $l,m$) and $\eta$ (the Fourier
+%complement of spectral frequency $\nu$), to a temperature field $T$.
+%As shown in XXX, this reduces to
+%\begin{equation}
+%    {\tilde V}_{21}^2(u,v,\eta)\approx\left(\frac{2k_{\rm B}}{\lambda^2}\right)^2\frac{B}{X^2Y}
+%        \widehat P(\k)\int{dl~dm\left|A(l,m)\right|^2}.
+%\end{equation}
+%
+%We compare this result with the relation between the delay-transformed visibility,
+%${\tilde V}$, to the three-dimensional power spectrum of reionization, $P_{21}(\k)$ 
+%(P12a):
+%\begin{equation}
+%    {\tilde V}_{21}^2(u,v,\eta)\approx\left(\frac{2k_{\rm B}}{\lambda^2}\right)^2\frac{\Omega\,B}{X^2Y} \widehat P_{21}(\k).
+%    \label{eq:v2_vs_pk}
+%\end{equation}
+%As this shows, the relevant beam area in Equation \ref{eq:v2_vs_pk} is the
+%power-square beam, $\Omega_{\rm PP}$, given by
+%\begin{equation}
+%\Omega_{\rm PP}\equiv\int{dl~dm\left|A(l,m)\right|^2}.
+%\label{eq:beam_squared}
+%\end{equation}
+%This contrasts with the standard metric for beam area --- the integrated
+%power beam --- which we will call $\Omega_{\rm P}$, and is given by
+%\begin{equation}
+%\Omega_{\rm P}\equiv\int{dl~dm A(l,m)},
+%\label{eq:beam_area}
+%\end{equation}
+%This beam area metric is used to convert visibility measurements from Jy units to mK,
+%but is incorrect for normalizing power spectra that relate to 
+%the two-point correlation function of a temperature field.
+%
+%For equations that relate power-spectrum sensitivity to a system temperature
+%(e.g. Equations 15 and 16 in P12a)
+%\begin{equation}
+%\Omega^\prime\equiv\Omega_{\rm P}^2/\Omega_{\rm PP}
+%\end{equation}
+%should be used in lieu of $\Omega$, as
+%these equations pick up two factors of $\Omega_{\rm P}$ in the conversion from Jy$^2$ to mK$^2$, along with
+%the a factor of $\Omega_{\rm PP}$ in the denominator relating to the integrated volume.
+%For equations that relate a measured visibility (in units of brightness
+%temperature, e.g. Equation \ref{eq:pspec_cosmo}) to $\widehat P(\k)$, the factor of 
+%$\Omega_{\rm P}^2$ is already 
+%applied in the conversion from units of Jy to mK, 
+%and $\Omega$ corresponds to the remaining factor of $\Omega_{\rm PP}$. 
+%
+%For PAPER, $\Omega_{\rm P}\approx0.72$ sr, while $\Omega_{\rm PP}$ is 0.31 sr.  Following the definition
+%above, $\Omega^\prime\approx1.69$.  These beam areas are calculated numerically from
+%a beam model, but typically, $\Omega^\prime$ is about a factor of two larger than $\Omega_{\rm P}$.
+%
+%
+%Describe simulation, refer to figures, compare results to analytic prediction.
+%
+%%fringe_rate_filter.py -C psa898_v002 -a cross --clean=1e-2 --minfr=-1 --fr_frac=1.2 
+%
+%In the last step prior to forming power spectra,
+%we apply a fringe-rate filter to effect time-domain integration,
+%using the effective time interval that a baseline measures a single $k$-mode to integrate coherently
+%(with noise decreasing
+%as $\sqrt{t}$, in units of mK), before measurements at different times represent independent modes
+%that must be squared before further integration (with noise now decreasing as $\sqrt{t}$, in units of mK$^2$).
+%
+%As outlined in Appendix \ref{app:data_compression}
+%in the context of data compression, we
+%take the Fourier transform of the time series in each channel and apply a low-pass filter that preserves
+%fringe-rates that geometrically correspond to sources rotating on the celestial sphere.  
+%For a planar array with transit observations, fringe-rates vary according to declination, with fringe rates
+%reaching a maximum ($f_{\rm max}$) at 
+%$\delta=0^\circ$, decreasing to 0 at $\delta=-90^\circ$, and for an array such as PAPER deployed near
+%-30$^\circ$ S latitude, reaching a minimum of $\approx-f_{\rm max}/2$ at $\delta=-60^\circ$ on
+%the far side of the south celestial pole.
+%In order to
+%avoid introducing undesirable frequency structure, we apply the same filter, tuned to the width
+%set by the highest frequency of the sub-band used in the
+%power spectrum analysis described
+%in \S\ref{sec:dspec_crossmult}, to each channel,
+%even though maximum fringe-rates are generally frequency-dependent.
+%%Since fringe rates are a
+%%natural basis for celestial emission
+%%over short time intervals, fringe-rate
+%%filters can be narrowly tailored to the geometric bounds of a baseline.
+%%In contrast, simply summing integrations over an equivalent time interval 
+%%(corresponding to a sinc filter in fringe-rate space) will tend to significantly suppress emission at
+%%fringe rates that geometrically correspond to the sky.
+%In a future paper, we will explore the idea
+%of employing fringe-rate filters that purposely down-weight fringe-rate modes on the sky according to
+%the expected signal-to-noise ratio in each mode.  Such filters would essentially correspond to a
+%one-dimensional implementation of the inverse primary beam $uv$-gridding discussed in \citet{morales_matejek2009},
+%and have many features in common with m-mode synthesis described in \citet{shaw_et_al2013}.
+%
+%Since thermal noise scatters equally into all fringe rate bins, applying a filter
+%that passes only fringe rates corresponding the celestial emission has the effect of de-noising the data.
+%We apply such a filter to the data, choosing the bounds of the filter to match the geometric
+%bounds set by a 30-m east-west baseline, according to the equation
+%\begin{equation}
+%f_{\rm max} = \frac{|\b_{\rm eq}|}{c} \omega_\oplus \nu,
+%\label{eq:fringe_rate}
+%\end{equation}
+%where $f_{\rm max}$ is the maximum fringe rate, 
+%$\b_{\rm eq}$ is the baseline vector projected parallel to the equatorial 
+%plane, $c$ is the speed of light,
+%$\omega_\oplus$ is the angular frequency of the Earth's rotation,
+%and $\nu$ is the spectral frequency. 
+%% 780 = 30e2 / c * 2pi / 86164 * .174, where .174 is chosen because want to not attenuate sky over entire band
+%At 174 MHz (the highest frequency in a 20-MHz window centered on 164 MHz that is used in \S\ref{sec:dspec_crossmult}),
+%$f_{\rm max}=1.3$ mHz, corresponding to a fringe period of 780 s.  Hence, the fringe-rate filter that is
+%applied passes fringe-rates in the range $-0.7<f<1.3$ mHz.  The width of this filter corresponds in 
+%sensitivity to an effective integration time of 525 s.
+%We note that
+%this filtering could have been applied during the data compression described in \S\ref{sec:preprocessing},
+%but was implemented separately to enable the compression to work uniformly
+%over all baselines in the array without additional information about antenna location.
+%
+%After applying this filter,
+%we transform the data back to time domain in preparation for forming power spectra via the delay transform.
+%It should be noted that, in time domain, the data are now heavily over-sampled; adjacent samples are no longer
+%statistically independent.  Hence, when averaging power-spectra versus time,
+%noise will not beat down according to the strict number in samples, but rather, according to
+%the actual number of statistically independent samples underlying the time series.
+%
+%\begin{equation}
+%\widehat P(\k_{t\tau}) = \left(\frac{\lambda^2}{2k_{\rm B}}\right)^2\frac{X^2Y}{\Omega B}
+%\left\langle{\tilde V_i(\tau,t) \tilde V_j^*(\tau,t)}\right\rangle_{i<j},
+%\label{eq:pspec_cosmo}
+%\end{equation}
+%which follows from equation 12 of P12a, with $\lambda$ being the observing
+%wavelength, $k_{\rm B}$ is Boltzmann's constant, $X^2Y$ is a cosmological scalar with units
+%of $\frac{h^{-3}\ {\rm Mpc}^3}{{\rm sr}\cdot {\rm Hz}}$, $\Omega$ is the angular 
+%area\footnote{
+%As described in detail in Appendix \ref{app:beam_area}, the angular area used to normalize
+%high-redshift 21cm power spectrum measurements (e.g., $\Omega$ in Equation \ref{eq:pspec_cosmo}) is proportional
+%to the integral of the squared beam power over angular area ($\Omega_{\rm PP}$; equation \ref{eq:beam_squared}).
+%This contrasts the standard beam area ($\Omega_{\rm P}$; equation \ref{eq:beam_area}) that is
+%used to relate flux density to a brightness temperature.
+%Since Equation \ref{eq:pspec_cosmo} 
+%relates a measured visibility in units of brightness
+%temperature to $P(\k)$, a factor of $\Omega_{\rm P}^2$ has already been
+%applied to convert Jy to mK.  In this case,
+%$\Omega$ indicates the remaining factor of $\Omega_{\rm PP}$, which for PAPER is 0.31 sr.},
+%$B$ is the bandwidth, $\langle\dots\rangle_{i<j}$ indicates the ensemble average
+%over instantaneously redundant baseline measurements indexed by $i,j$,
+%and $\tilde V(\tau,t)$ is the delay-transformed visibility,
+%expressed in terms of delay $\tau$ and time $t$.
+%We use $t$ as a subscript on $\k$
+%to denote the different modes sampled by a baseline as the sky rotates, and $\tau$ to indicate
+%the dependence of $\k$ on the delay mode in question.
+%
+%\begin{equation}
+%\widehat \Delta^2_{21}(k) = \frac{k^3}{2\pi^2}\left\langle \widehat P(\k_{t\tau})\right\rangle_{|\k_{t\tau}|=k},
+%\end{equation}
+%where the three-dimensional symmetry of the power spectrum is invoked to average over
+%all independent measurements of modes in a shell of $|\k|=k$, with independent measurements
+%indexed here by $t$.  As described in \S\ref{sec:fringe_rate_filtering}, the number of independent modes
+%that are averaged (with noise decreasing with number of modes, $M$, as $\sqrt{M}$ in mK$^2$ units; see P12a) is 
+%determined
+%by overall observing window and the number of fringe-rate bins that are 
+%preserved in the fringe-rate filtering process.
+%Since we have not decimated the number of integrations to the critical sampling rate corresponding to the 
+%width of the applied fringe-rate filter, $M$ is {\it not} the number of integrations.  However,
+%we are free to average the power spectrum estimates for each integration, even though nearby samples
+%do not have statistically independent noise, understanding that noise will decrease according to the number
+%of underlying independent samples.
+%
+%
 \subsection{Polarization Response}
 \label{sec:polbeams}
 \def\VXX{{V_{\rm XX}}}
