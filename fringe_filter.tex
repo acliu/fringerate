@@ -72,6 +72,21 @@ Mapmaking in Fourier space (or more precisely, on the $uv$-plane) alleviates som
 
 % XXX "new method" was actually in Parsons Backer 2009.  
 % XXX Might want to capture a more detailed working definition of fringe-rate filtering before starting to use the term
+In this paper, we extend ideas introduced in \citet{parsons_backer2009} to optimize the process of combining time-ordered data. The key realization is that fringe-rates---the Fourier dual to time---is a
+more natural space to enact time-averaging. Traditional time-averaging (say, a running box-car average)
+is equivalent to multiplying by a sinc filter in the fringe-rate domain. Generalizing this process, the
+convolution theorem ensures that any low-pass filter in the fringe-rate domain can be thought of as
+time-averaging. 
+
+
+This is because astronomical sources are fixed to the
+celestial sphere, and move through the fringes of an interferometer array as the Earth rotates. Sources
+thus appear at predictable fringe-rates in the data, and by low-pass filtering 
+
+and thus appear at predictable fringe-rates in the data as the Earth's rotation cause the fringes
+of an interferometer array to sweep through the sky. 
+
+
 In this paper, we introduce a new method for combining time-ordered data---fringe-rate filtering---that avoids the aforementioned pitfalls while affording one the advantages traditionally reserved only when mapmaking.  The essential idea is that as the baselines of an interferometer rotate with the Earth, a source of emission 
 
 The essential idea is that for an interferometer operating in a drift-scan observing mode, celestial sources of emission have predictable fringe-rates 
@@ -142,10 +157,9 @@ for emission from the far side of the celestial pole.
 % XXX is there a name for the far side of the celestial pole?
 
 Let us now derive this intuition mathematically, assuming a drift-scan telescope. To sort our time-variable visibilities into different fringe-rates $f$, we take the Fourier transform of our visibility to get
-XXX: switch to using overline for fringe-rate space
 \begin{equation}
 \label{eq:OriginalFR}
-\widetilde{V}^b_\nu (f) = \int d\Omega I_\nu(\rhat) \int dt \gamma (t^\prime - t) A_\nu(\rhat,t^\prime) e^{i2 \pi \frac{ \nu}{c} \mathbf{b} (t^\prime) \cdot \rhat } e^{-i 2 \pi f (t^\prime - t)},
+\overline{V}^b_\nu (f) = \int d\Omega I_\nu(\rhat) \int dt \gamma (t^\prime - t) A_\nu(\rhat,t^\prime) e^{i2 \pi \frac{ \nu}{c} \mathbf{b} (t^\prime) \cdot \rhat } e^{-i 2 \pi f (t^\prime - t)},
 \end{equation}
 where $\gamma$ is a tapering function for the Fourier transform in time, which we assume peaks when its argument is zero, thereby centering our transform at time $t^\prime = t$. If the characteristic width of $\gamma$ is relatively short, the time-dependence of the visibility will likely be dominated by features on the sky moving relative to fringes, and not the movement of the primary beam through the celestial sphere. We may therefore say that for short periods of time, $A_\nu (\rhat,t^\prime) \approx A_\nu (\rhat,t)$. Additionally, we may take the time-dependence of the baselines to leading order, with
 \begin{eqnarray}
@@ -155,7 +169,7 @@ where $\gamma$ is a tapering function for the Fourier transform in time, which w
 where $\boldsymbol \omega_\Earth$ is the angular velocity vector of the Earth's rotation. In the last equality, we used the fact that the time-dependence of the baselines are not arbitrary, but instead are tied to the Earth's rotation, transforming the time derivative into a cross-product with $\boldsymbol \omega_\Earth$, as one does in the analysis of solid rotating bodies. Inserting these approximations into Equation~\eqref{eq:OriginalFR} yields
 \begin{eqnarray}
 \label{eq:nextFR}
-\widetilde{V}^b_\nu (f) =  \int d\Omega && I_\nu(\rhat) A_{\nu} (\rhat,t) e^{i2 \pi \frac{ \nu}{c} \mathbf{b}(t) \cdot \rhat }   \nonumber \\
+\overline{V}^b_\nu (f) =  \int d\Omega && I_\nu(\rhat) A_{\nu} (\rhat,t) e^{i2 \pi \frac{ \nu}{c} \mathbf{b}(t) \cdot \rhat }   \nonumber \\
 &&\times\int dt^\prime \gamma (t^\prime -t)  e^{i2 \pi ( \frac{\nu}{c} [\boldsymbol \omega_\Earth \times \mathbf{b}(t)] \cdot \rhat -f) (t^\prime -t)} \nonumber \\
 =  \int d\Omega I_\nu(\rhat) && A_{\nu} (\rhat,t) (\rhat) e^{i2 \pi \frac{ \nu}{c} \mathbf{b}(t) \cdot \rhat } \nonumber \\
 && \times \tilde{\gamma} \left( \frac{\nu}{c} [\boldsymbol \omega_\Earth \times \mathbf{b}(t)] \cdot \rhat -f \right), \quad
@@ -166,7 +180,7 @@ In words, what the above derivation shows is that as advertised, different fring
 
 Because different fringe-rates correspond to different parts of the sky, we may effectively select different portions of the sky by picking different linear combinations of fringe-rates. To see this, imagine decomposing our data into fringe-rates, and then applying a weighting function $w(f)$ before Fourier transforming back to the time domain. The result is
 \begin{eqnarray}
-&&V_{\textrm{filt},\nu}^b(t^\prime,t) = \int df w(f) \widetilde{V}^b_\nu (f) e^{i 2\pi f (t^\prime-t)} \nonumber \\
+&&V_{\textrm{filt},\nu}^b(t^\prime,t) = \int df w(f) \overline{V}^b_\nu (f) e^{i 2\pi f (t^\prime-t)} \nonumber \\
 &&=  \int d\Omega I_\nu(\rhat) A_{\nu} (\rhat,t) e^{i2 \pi \frac{ \nu}{c} \mathbf{b}(t) \cdot \rhat } \nonumber \\
 && \times \int df e^{i 2\pi f (t^\prime-t)} w(f)  \tilde{\gamma} \left( \frac{\nu}{c} [\boldsymbol \omega_\Earth \times \mathbf{b}(t)] \cdot \rhat -f \right).\qquad
 %&\equiv&  \int d\Omega I_\nu(\rhat) A^\textrm{eff}_{\nu,0} (\rhat) e^{i2 \pi \frac{ \nu}{c} \mathbf{b}_0 \cdot \rhat } ,
@@ -190,7 +204,7 @@ In this section, we have provided some basic intuition for fringe-rate filtering
 %
 %Fringe-rate filtering amounts to decomposing into the fringe-rates, weighting fringe rates by some function $w(f)$, and then transforming back to time. In other words,
 %\begin{equation}
-%V_\textrm{filt} (t) = \int \frac{df}{1/T} w(f) \widetilde{V}_b (f) 
+%V_\textrm{filt} (t) = \int \frac{df}{1/T} w(f) \overline{V}_b (f) 
 %\end{equation}
 %
 %% XXX describe how eq above permutes to this, including some new terms.
@@ -361,8 +375,7 @@ prescription is more naturally phrased in terms of the Fourier dual to time,
 i.e. fringe-rate.
 
 Given our measurement $\vis$, the optimal estimator $\xhat$ of the true sky
-$\x$ is given by \citep{Tegmark97,Morales2009} [XXX: add a citation to Josh
-as well]
+$\x$ is given by \citep{Tegmark97,Morales2009,dillon_et_al2015}
 \begin{equation}
 \label{optEst}
 %\xhat = \left[ \A^\dagger \N^{-1} \A \right]^{-1} \A^\dagger \N^{-1} \vis,
@@ -583,7 +596,7 @@ Fourier dual of time) is a promising space in which to combine time-ordered
 data.  Formally, measurements in this space are given by
 \begin{equation}
 \label{eq:FringeTransformDef}
-\widetilde{V}_b (f) \equiv \frac{1}{T_\Earth} \int_{-T_\Earth / 2}^{T_\Earth /2} dt \exp \left( - 2 \pi i f t \right) V_b (t),
+\overline{V}_b (f) \equiv \frac{1}{T_\Earth} \int_{-T_\Earth / 2}^{T_\Earth /2} dt \exp \left( - 2 \pi i f t \right) V_b (t),
 \end{equation}
 where $f$ is the fringe-rate, and $T_\Earth = 2 \pi / \omega_\Earth$ is the
 Earth's rotation period.  It is natural to work in fringe-rate bins such that
@@ -591,7 +604,7 @@ the $n^{th}$ bin is given by $f_n \equiv n / T_\Earth$, where $n$ is an
 integer.  The measurement in the $n^{th}$ bin is then given by
 \begin{eqnarray}
 \label{fringeVis}
-\widetilde{V}_b (f_n) &&= \int d\Omega \, T(\rhat) e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \sin \delta} \nonumber \\
+\overline{V}_b (f_n) &&= \int d\Omega \, T(\rhat) e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \sin \delta} \nonumber \\
 && \!\!\!\times  \int_{-\frac{T_\Earth}{ 2}}^{\frac{T_\Earth}{2}} \frac{dt}{T_\Earth} \, B(\rhat, t) e^{ -i  \frac{2 \pi n t}{T_\Earth} +i  \frac{2\pi b_0}{\lambda} \cos \delta \sin \left( \omega_\Earth t - \alpha \right)}, \qquad
 \end{eqnarray}
 where we have temporarily omitted the additive noise term to avoid mathematical
@@ -612,7 +625,7 @@ e^{i q\alpha}$ is the $q^{th}$ Fourier coefficient.  Plugging this into
 Equation \eqref{fringeVis} and making the substitution $\psi \equiv
 \omega_\Earth t - \varphi$, one obtains
 \begin{eqnarray}
-\widetilde{V}_b (f_n) &&= \int d\Omega \, T(\rhat) B_\delta (\delta) e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \sin \delta} \nonumber \\
+\overline{V}_b (f_n) &&= \int d\Omega \, T(\rhat) B_\delta (\delta) e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \sin \delta} \nonumber \\
 && \times \sum_q \frac{\widetilde{B}_q e^{-i n \varphi}}{2 \pi} \int_{-\pi -\varphi}^{\pi+\varphi} d\psi \, e^{i (q-n) \psi +i \frac{2 \pi b_0}{\lambda} \cos \delta \sin \psi}. \qquad
 \end{eqnarray}
 Now, note that the integral over $\psi$ is of a periodic function over one
@@ -623,11 +636,11 @@ the result is a standard integral form for a Bessel function $J$ of the first
 kind:
 \begin{eqnarray}
 \label{fringeBessel}
-\widetilde{V}_b (f_n) =&& \int \frac{d\Omega}{2 \pi}\, T(\rhat) B_\delta (\delta) e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \sin \delta}
+\overline{V}_b (f_n) =&& \int \frac{d\Omega}{2 \pi}\, T(\rhat) B_\delta (\delta) e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \sin \delta}
 e^{-i n \alpha} \nonumber \\ 
-&& \times \sum_q \widetilde{B}_q  J_{n-q} \left( \frac{2 \pi b_0}{\lambda} \cos \delta \right).
+&& \times \sum_q \overline{B}_q  J_{n-q} \left( \frac{2 \pi b_0}{\lambda} \cos \delta \right).
 \end{eqnarray}
-Several features are of note here.  For wide primary beams, $\widetilde{B}_q$
+Several features are of note here.  For wide primary beams, $\overline{B}_q$
 is sharply peaked around $q=0$, so the terms following the sum over $q$
 essentially amount to $J_n ( 2 \pi b_0 \cos \delta / \lambda )$.  Now, notice
 that the argument of the Bessel function is bounded, always lying between $\pm
@@ -651,7 +664,7 @@ yields
 \begin{eqnarray}
 \label{eq:AdagNinvv}
 \left( \A^\dagger \N^{-1} \vis \right)_{\delta,\alpha} && = \frac{B_\delta^* (\delta)  \cos \delta}{2\pi \sigma^2} \sum_{b,n} e^{i n \alpha} e^{i 2 \pi  \frac{b_y}{\lambda} \cos \eta \sin \delta} \nonumber \\
-&& \times \sum_{q} \widetilde{B}_q^* J_{n-q} \left( \frac{2 \pi b_0}{\lambda} \cos \delta \right) \widetilde{V}_b (f_n).
+&& \times \sum_{q} \widetilde{B}_q^* J_{n-q} \left( \frac{2 \pi b_0}{\lambda} \cos \delta \right) \overline{V}_b (f_n).
 \end{eqnarray}
 In words, this recipe instructs us to move into fringe-rate space (where the
 sky emission is already concentrated in $f_n$) and to further downweight by
@@ -662,7 +675,7 @@ time-ordered data from an interferometer.
 Before proceeding, let us summarize the essential features of fringe-rate filtering, away from the approximation of a separable beam in Equation \eqref{eq:SepBeam}. Returning to Equations \eqref{eq:FringeTransformDef} and \eqref{fringeVis}, we see that because the sky $T(\hat{\mathbf{r}})$ is not a function of time, the Fourier transform into fringe-rate space acts only on the beam and the fringe pattern. We can therefore write
 \begin{equation}
 \label{eq:CompactNotation}
-\widetilde{V}_b (f_n) = \int d\Omega \,T(\hat{\mathbf{r}}) g_{bn} (\hat{\mathbf{r}}) 
+\overline{V}_b (f_n) = \int d\Omega \,T(\hat{\mathbf{r}}) g_{bn} (\hat{\mathbf{r}}) 
 %\approx \frac{4 \pi}{N}  \sum_i T(\hat{\mathbf{r}}_i) g_{bn} (\hat{\mathbf{r}}_i)
 ,
 \end{equation}
@@ -672,9 +685,9 @@ g_{bn} (\hat{\mathbf{r}})  &&\equiv e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \
  &&\times \int_{-\frac{T_\Earth}{ 2}}^{\frac{T_\Earth}{2}} \frac{dt}{T_\Earth} \, B(\rhat, t) e^{ -i  \frac{2 \pi n t}{T_\Earth} +i  \frac{2\pi b_0}{\lambda} \cos \delta \sin \left( \omega_\Earth t - \alpha \right)}. \qquad
 \end{eqnarray}
 The term in front of the integral corresponds to the fringes in the declination direction. These are static as the Earth rotates, and therefore are unaffected by the Fourier transform. The second half of the exponent within the integral corresponds to fringes in the azimuthal direction, with the $\cos \delta$ term arising because of the spherical geometry shown in Figure \ref{fig:ew_fringe}, where sources near the equator traverse fringes more quickly than those near the pole. Examining the integral, we see that there are two contributions to a non-zero fringe-rate. First, the primary beam sweeps across the celestial sphere, crossing fringes. In addition, the changing orientation of baselines relative to the celestial sphere induces a fringe-rate. Over a short time-integration (which is likely a more realistic scenario than integrating over $T_\Earth$ as we have assumed so far) we may approximate this second contribution by Taylor expanding the $\sin(\omega_\Earth t - \alpha)$ term. This yields a time-dependence that may be absorbed into the $\exp \left(-i 2 \pi n t / T_\Earth \right)$ term as an additive term to the fringe-rate bin $n$. What remains is then simply a phase-shifted Fourier transform of the primary beam. In other words, $g_{bn} (\hat{\mathbf{r}})$ selects portions of the primary beam where sources on the sky have a fringe-rate of $n/ T_\Earth$. Now, since
-$\widetilde{V}_b (f_n)  = \int d\Omega  \,T (\hat{\mathbf{r}}) g_{bn} (\hat{\mathbf{r}})$, each row of the matrix $\mathbf{A}$ corresponds to $g_{bn} (\hat{\mathbf{r}})$ for a different baseline $b$ and/or fringe rate bin $n$, and our optimal prescription for combining time-ordered data becomes
+$\overline{V}_b (f_n)  = \int d\Omega  \,T (\hat{\mathbf{r}}) g_{bn} (\hat{\mathbf{r}})$, each row of the matrix $\mathbf{A}$ corresponds to $g_{bn} (\hat{\mathbf{r}})$ for a different baseline $b$ and/or fringe rate bin $n$, and our optimal prescription for combining time-ordered data becomes
 \begin{equation}
-\left( \A^\dagger \N^{-1} \vis \right)_{\delta,\alpha} \propto \sum_{n,b} g_{bn}^* (\hat{\mathbf{r}}) \widetilde{V}_b (f_n).
+\left( \A^\dagger \N^{-1} \vis \right)_{\delta,\alpha} \propto \sum_{n,b} g_{bn}^* (\hat{\mathbf{r}}) \overline{V}_b (f_n).
 \end{equation}
 One sees that the procedure essentially calls for a weighting that emphasizes the fringe rate bins that fall on bright portions of the primary beam. As seen in our toy example, this preferentially favors lower fringe-rates over higher ones.
 %
@@ -686,7 +699,7 @@ One sees that the procedure essentially calls for a weighting that emphasizes th
 %V_b(t) = \int d\Omega B (\rhat,t) T(\rhat) \exp\left( i \frac{2 \pi }{\lambda} \mathbf{b} (t) \cdot \rhat \right)
 %\end{equation}
 %\begin{equation}
-%\widetilde{V}_b (f) = \int d\Omega T(\rhat) \int_{-\frac{T}{2}}^{\frac{T}{2}} \frac{dt}{T} B (\rhat,t) e^{i \frac{2 \pi }{\lambda} \mathbf{b} (t) \cdot \rhat } e^{-i 2 \pi f t}
+%\overline{V}_b (f) = \int d\Omega T(\rhat) \int_{-\frac{T}{2}}^{\frac{T}{2}} \frac{dt}{T} B (\rhat,t) e^{i \frac{2 \pi }{\lambda} \mathbf{b} (t) \cdot \rhat } e^{-i 2 \pi f t}
 %\end{equation}
 %For short periods of time, $B (\rhat,t) \approx B (\rhat,t=0) \equiv B_0 (\rhat)$. Also,
 %\begin{equation}
@@ -694,7 +707,7 @@ One sees that the procedure essentially calls for a weighting that emphasizes th
 %\end{equation}
 %where $\boldsymbol \omega_\Earth$ is the angular velocity vector of the Earth's rotation, and $\mathbf{b}_0 \equiv \mathbf{b}(t)$. In the last equality, we used the fact that the time-dependence of the baselines are not arbitrary, but instead are tied to the Earth's rotation, transforming the time derivative into a cross-product with $\boldsymbol \omega_\Earth$. With this,
 %\begin{eqnarray}
-%\widetilde{V}_b (f) = &&\int d\Omega T(\rhat) B_0 (\rhat)  e^{i \frac{2 \pi }{\lambda} \mathbf{b}_0 \cdot \rhat } \nonumber \\
+%\overline{V}_b (f) = &&\int d\Omega T(\rhat) B_0 (\rhat)  e^{i \frac{2 \pi }{\lambda} \mathbf{b}_0 \cdot \rhat } \nonumber \\
 %&&\times \int_{-\frac{T}{2}}^{\frac{T}{2}} \frac{dt}{T} \exp\left[i \frac{2 \pi }{\lambda}  \rhat \cdot (\boldsymbol \omega_\Earth \times \mathbf{b}_0) t-i 2 \pi f t \right] \nonumber \\
 %= && \int d\Omega T(\rhat) B_0 (\rhat)  \textrm{sinc} \left[ \pi T \left( \rhat \cdot \boldsymbol \omega_\Earth \times \frac{\mathbf{b}_0}{\lambda} -f \right) \right] e^{i \frac{2 \pi }{\lambda} \mathbf{b}_0 \cdot \rhat }.
 %\end{eqnarray}
@@ -702,7 +715,7 @@ One sees that the procedure essentially calls for a weighting that emphasizes th
 %
 %Fringe-rate filtering amounts to decomposing into the fringe-rates, weighting fringe rates by some function $w(f)$, and then transforming back to time. In other words,
 %\begin{equation}
-%V_\textrm{filt} (t) = \int \frac{df}{1/T} w(f) \widetilde{V}_b (f) 
+%V_\textrm{filt} (t) = \int \frac{df}{1/T} w(f) \overline{V}_b (f) 
 %\end{equation}
 %
 %\section{Combining time-ordered data without mapmaking}
@@ -769,7 +782,7 @@ One sees that the procedure essentially calls for a weighting that emphasizes th
 %Substituting Equations \eqref{eq:AdagNinvv} and \eqref{eq:CEllQ} into Equation \eqref{eq:VisBasedPowEst}, we obtain
 %\begin{equation}
 %\label{eq:StillFringe}
-%\widehat{C}_\ell \propto \sum _{m=-\infty}^\infty \Bigg{|} \sum_b w_{\ell m}^b \widetilde{V}_b (f_m) \Bigg{|}^2,
+%\widehat{C}_\ell \propto \sum _{m=-\infty}^\infty \Bigg{|} \sum_b w_{\ell m}^b \overline{V}_b (f_m) \Bigg{|}^2,
 %\end{equation}
 %where
 %\begin{equation}
@@ -791,7 +804,7 @@ One sees that the procedure essentially calls for a weighting that emphasizes th
 %where
 %\begin{equation}
 %\label{eq:FinalFilt}
-%V^\textrm{filt}_{\ell b} (t) \equiv  \sum_m \exp \left[i \frac{2 \pi m t}{T_\Earth}\right]  w_{\ell m}^b \widetilde{V}_b (f_m).
+%V^\textrm{filt}_{\ell b} (t) \equiv  \sum_m \exp \left[i \frac{2 \pi m t}{T_\Earth}\right]  w_{\ell m}^b \overline{V}_b (f_m).
 %\end{equation}
 %Together, Equations \ref{eq:FinalTimeEst} and \ref{eq:FinalFilt} suggest a method for estimating power spectra.  First, time-ordered visibilities are Fourier-transformed into a fringe-rate basis.  Different fringe-rate bins are then weighted by the $w_{\ell m}^b$ weights, which essentially encode the ``dot product" between a baseline's response in the fringe-rate bin and the angular mode in question.  The result is then transformed back into a set of fringe-rate filtered visibility time series.  A power spectrum is computed for every time instant before averaging together different times.  Since this procedure was derived from a minimum-variance estimator of the power spectrum, it is guaranteed to produce the smallest possible error bars.
 %
@@ -896,12 +909,12 @@ One sees that the procedure essentially calls for a weighting that emphasizes th
 %%\end{equation}
 %%where $\mathbf{C} \equiv \langle \vis \vis^\dagger \rangle$ is the covariance matrix of measured visibilities, $\mathbf{Q}^\ell \equiv \partial \mathbf{C} / \partial C_\ell $ is the response of the covariance matrix to $C_\ell$, and $N_\ell$ is a normalization constant.  [XXX: cite stuff].  As usual, this matrix equation can be evaluated in any basis.  Like before, however, it will be particularly convenient to express the relevant measurements in a per-baseline, fringe-rate basis, and the true sky in terms of spherical harmonics so that $T(\rhat) = \sum_{\ell m} a_{\ell m} Y_{\ell m} (\rhat)$.  Re-expressing our measurement equation yet again, we have
 %%\begin{equation}
-%%\widetilde{V}_b (f_m) = \sum_\ell w_{\ell m} (b) a_{\ell m} + n_{m}
+%%\overline{V}_b (f_m) = \sum_\ell w_{\ell m} (b) a_{\ell m} + n_{m}
 %%\end{equation}
 %%where
 %%\begin{eqnarray}
 %%w_{\ell m} = \sum_n \int d\Omega && Y_{\ell n}^*(\rhat) e^{i \frac{2 \pi b_y}{\lambda} \cos \eta \cos \theta} e^{i m \varphi} B_\theta (\theta) \nonumber \\
-%%&&\times \sum_q \widetilde{B}^*_q  J_{m-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right).
+%%&&\times \sum_q \overline{B}^*_q  J_{m-q} \left( \frac{2 \pi b_0}{\lambda} \sin \theta \right).
 %%\end{eqnarray}
 %%[XXX: Could be a complex conjugate in the last term.  Check.]  The covariance matrix is then
 %%\begin{equation}
@@ -916,11 +929,11 @@ One sees that the procedure essentially calls for a weighting that emphasizes th
 %%With the aforementioned assumptions, our optimal estimator becomes
 %%\begin{equation}
 %%\label{eq:mspaceEst}
-%%\widehat{C}_\ell (\nu, \nu^\prime) = N_\ell \sum_{mbb^\prime} \widetilde{V}^*_b (f_m) w_{\ell m}(b) w^*_{\ell m}(b^\prime) \widetilde{V}_{b^\prime} (f_m),
+%%\widehat{C}_\ell (\nu, \nu^\prime) = N_\ell \sum_{mbb^\prime} \overline{V}^*_b (f_m) w_{\ell m}(b) w^*_{\ell m}(b^\prime) \overline{V}_{b^\prime} (f_m),
 %%\end{equation}
 %%where we have absorbed the (constant) factors of $\sigma^2$ into the normalization $N_\ell$.  This expression can be applied as-is, but can also be interpreted in terms of time-ordered, filtered visibilities.  If we define
 %%\begin{equation}
-%%\widetilde{V}^\textrm{filt}_{b,\ell} (f_m) \equiv w^*_{\ell m}(b) \widetilde{V}_{b} (f_m)
+%%\overline{V}^\textrm{filt}_{b,\ell} (f_m) \equiv w^*_{\ell m}(b) \overline{V}_{b} (f_m)
 %%\end{equation}
 %%as a fringe-rate filtered set of visibilities, it becomes clear that the sum over $m$ is a dot product between the visibilities of two baselines in fringe-rate space.  Invoking Parseval's theorem to rewrite the sum over fringe-rate as an integral over time, we obtain
 %%\begin{equation}
@@ -928,7 +941,7 @@ One sees that the procedure essentially calls for a weighting that emphasizes th
 %%\end{equation}
 %%where the de-noised visibility is defined as
 %%\begin{equation}
-%%V^\textrm{filt}_{b,\ell} (t)=  \sum_m \exp \left[i \frac{2 \pi m t}{T_\Earth}\right] w_{\ell m}^* \widetilde{V}_{b} (f_m).
+%%V^\textrm{filt}_{b,\ell} (t)=  \sum_m \exp \left[i \frac{2 \pi m t}{T_\Earth}\right] w_{\ell m}^* \overline{V}_{b} (f_m).
 %%\end{equation}
 %%
 %%The final estimator calls for the formation of cross-power spectra between fringe-rate filtered visibilities from all baseline pairs, and then to average in time.  What this shows is that even though naive time integration is suboptimal for power spectrum estimation (just as it was suboptimal for imaging), it is possible to define a set of de-noised visibilities that do give an optimal power spectrum estimate when time-averaged.  Note that since Equation \eqref{eq:generalEst} is the 
@@ -1541,7 +1554,7 @@ was supported by the National Science Foundation, award \#1129258.
 
 %\clearpage
 \bibliographystyle{apj}
-\bibliography{biblio}
+\bibliography{fringe_filter}
 
 \end{document}
 
