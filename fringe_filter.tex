@@ -36,7 +36,7 @@
 
 \author{
 Aaron R. Parsons\altaffilmark{1,2},
-Adrian Liu\altaffilmark{1},
+Adrian Liu\altaffilmark{1,3},
 %James E. Aguirre\altaffilmark{3},
 Zaki S. Ali\altaffilmark{1},
 %David R. DeBoer\altaffilmark{2},
@@ -48,10 +48,24 @@ Zaki S. Ali\altaffilmark{1},
 
 \altaffiltext{1}{Astronomy Dept., U. California, Berkeley, CA}
 \altaffiltext{2}{Radio Astronomy Lab., U. California, Berkeley, CA}
+\altaffiltext{3}{Berkeley Center for Cosmological Physics, Berkeley, CA}
 %\altaffiltext{3}{Dept. of Physics and Astronomy, U. Pennsylvania, Philadelphia, PA}
 %\altaffiltext{8}{School of Earth and Space Exploration, Arizona State U., Tempe, AZ}
 
 \begin{abstract}
+We generalize the technique of fringe-rate filtering for radio interferometry, where visibilities 
+are Fourier transformed in time into fringe-rate space and low-pass filtered. Different fringe rates
+are sourced by emission from different parts of the sky, and we capitalize on this geometric
+interpretation to show how fringe-rate filters can be optimized for various applications.
+These
+include mapmaking, the minimization of polarization leakage, minimizing instrumental systematics,
+and power spectrum estimation. We show that fringe-rate filtering arises naturally in minimum variance
+treatments of many of these problems, enabling optimal visibility-based approaches to analyses of
+interferometric data that avoid systematics that may be induced by traditional approaches such as imaging. Our techniques have
+recently been demonstrated in \citet{ali_et_al2015}, where new upper limits
+were placed on the $21\,\textrm{cm}$ power spectrum from reionization, showcasing the ability
+of fringe-rate filtering to successfully boost sensitivity and reduce the impact of systematics in
+deep observations.
 \end{abstract}
 
 % XXX fringe weighting profile
@@ -421,7 +435,7 @@ where $B$ is the bandwidth over which observations are made, our estimator takes
 \label{eq:pspecEstCrossCorr}
 \widehat{P} (\mathbf{k}) = \left( \frac{\lambda^2}{2 k_B} \right)^2 \frac{X^2 Y}{\Omega_{ij} B} \widetilde{V}_i(\mathbf{u},\eta) \widetilde{V}_j(\mathbf{u},\eta)^*,
 \end{equation}
-where we have written the power spectrum in terms of cosmological Fourier coordinates $\mathbf{k}$, which are related to the interferometric Fourier coordinates by $(X k_x, X k_y, Y k_z) \equiv 2 \pi (u , v, \eta)$, picking up an extra factor of $X^2 Y$ in the process,\footnote{See, e.g., \citep{liu_et_al2014a} for a detailed derivation.} with
+where we have written the power spectrum in terms of cosmological Fourier coordinates $\mathbf{k}$, which are related to the interferometric Fourier coordinates by $(X k_x, X k_y, Y k_z) \equiv 2 \pi (u , v, \eta)$, picking up an extra factor of $X^2 Y$ in the process,\footnote{See, e.g., \citet{liu_et_al2014a} for a detailed derivation.} with
 \begin{equation}
 X \equiv \frac{c}{H_0} \int_0^z \frac{dz^\prime}{E(z^\prime)}; \,\, E(z) \equiv \sqrt{\Omega_m (1+z)^3 + \Omega_\Lambda}.
 \end{equation}
@@ -1050,7 +1064,7 @@ such as the Hydrogen Epoch of Reionization Array (HERA; \citealt{pober_et_al2014
 the Square Kilometre Array (SKA; \citealt{XXX}).
 
 
-\section{Acknowledgment}
+\section{Acknowledgments}
 
 It gives us great pleasure to thank James Aguirre, David Moore, Danny Jacobs, 
 Miguel Morales, and Jonathan Pober for helpful discussions.  This research
