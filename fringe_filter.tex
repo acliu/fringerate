@@ -652,6 +652,33 @@ impact on a statistically isotropic Gaussian signal.
 
 %XXX add a simulation for this?
 
+\begin{figure}\centering
+\includegraphics[width=0.9\columnwidth]{plots/src_track.png}
+\caption{
+Fringe amplitude before (black) and after (red) the application
+of the fringe-rate filter described in \S\ref{sec:sim}.  From top to bottom,
+the panels illustrate the real component of the visibility measured by
+a 30-m east-west baseline deployed at a latitude of $-30^\circ$ 
+for point sources 
+passing through the fringe pattern at declinations of $0^\circ$,
+$-30^\circ$, and $-60^\circ$, respectively.  In this simulation,
+antenna elements have isotropic primary beams.
+}\label{fig:src_track}
+\end{figure}
+
+\begin{figure*}\centering
+\includegraphics[width=.6\columnwidth]{plots/beam_raw.png}
+\includegraphics[width=.6\columnwidth]{plots/beam_wgt.png}
+\includegraphics[width=.6\columnwidth]{plots/beam_fng.png}
+\caption{
+The effective primary beam response of a baseline, as determined from the simulations in \S\ref{sec:sim_pnt}.
+Panels indicate reconstructions of PAPER's model beam response used in the simulation (left), the 
+beam weighting that results from the application of a fringe-rate filter weighted to optimize SNR for
+a 30-m baseline with PAPER's beam response (center), and the effective primary beam response of the
+baseline after the application of the fringe-rate filter.
+}\label{fig:}
+\end{figure*}
+
 %\begin{figure*}\centering
 %\includegraphics[width=.6\columnwidth]{plots/beam_fng.png}
 %\caption{
