@@ -533,8 +533,9 @@ In Figure XXX, we show... [XXX uncomment out stuff below to talk about the simul
 %\end{figure}
 
 
+% XXX link these figures in to text
 \begin{figure}\centering
-\includegraphics[width=0.9\columnwidth]{plots/src_track.png}
+\includegraphics[width=0.9\columnwidth]{plots/src_track_flat.png}
 \caption{
 Fringe amplitude before (black) and after (red) the application
 of the fringe-rate filter described in \S\ref{sec:sim}.  From top to bottom,
@@ -544,11 +545,20 @@ for point sources
 passing through the fringe pattern at declinations of $0^\circ$,
 $-30^\circ$, and $-60^\circ$, respectively.  In this simulation,
 antenna elements have isotropic primary beams.
-}\label{fig:src_track}
+}\label{fig:src_track_flat}
 \end{figure}
 
+\begin{figure}\centering
+\includegraphics[width=0.9\columnwidth]{plots/src_track_beam.png}
+\caption{
+Same as Figure \ref{fig:src_track_flat}, but for antenna elements
+with the PAPER primary beam \citep{parsons_et_al2010,pober_et_al2012}.
+}\label{fig:src_track_beam}
+\end{figure}
+
+
 \begin{figure*}\centering
-\includegraphics[width=.9\columnwidth]{plots/eff_beam.png}
+\includegraphics[width=1.9\columnwidth]{plots/eff_beam.png}
 \caption{
 The effective primary beam response of a baseline, as determined from the simulations in \S\ref{sec:sim_pnt}.
 Panels indicate reconstructions of PAPER's model beam response used in the simulation (left), the 
