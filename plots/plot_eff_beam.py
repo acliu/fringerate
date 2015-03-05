@@ -59,6 +59,7 @@ gps = {
 p.figure(figsize=(10,3))
 for gp in gps:
     hmaps = [a.map.Map(nside=nside) for nside in [64,32,16,8]]
+    #hmaps = [a.map.Map(nside=nside) for nside in [64]]
 
     for filename in gps[gp]:
         print '    Reading', filename
@@ -79,8 +80,8 @@ for gp in gps:
     d,w = n.zeros(hmaps[0].npix()), n.zeros(hmaps[0].npix())
     mx,my,mz = hmaps[0].px2crd(n.arange(hmaps[0].npix()))
     for hmap in hmaps:
-        #hmap.set_interpol(True)
-        wgt = hmap.nside()
+        hmap.set_interpol(True)
+        wgt = hmap.nside()**2
         w += hmap.wgt[mx,my,mz] * wgt
         d += hmap.map[mx,my,mz] * wgt
     data  = n.where(w > 0, d/w, 0)
