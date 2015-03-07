@@ -32,18 +32,17 @@
 \newcommand{\rhat}{\hat{\mathbf{r}}}
 
 \begin{document}
-\title{Fringe-Rate Filtering}
+\title{Fringe-Rate Filtering FTW XXX}
 
 \author{
 Aaron R. Parsons\altaffilmark{1,2},
 Adrian Liu\altaffilmark{1,3},
 %James E. Aguirre\altaffilmark{3},
 Zaki S. Ali\altaffilmark{1},
-%David R. DeBoer\altaffilmark{2},
+Carina Cheng\altaffilmark{1}
 %Daniel C. Jacobs\altaffilmark{8},
 %David F. Moore\altaffilmark{3},
 %Jonathan C. Pober\altaffilmark{1},
-% XXX if includes paper data, needs full author list
 }
 
 \altaffiltext{1}{Astronomy Dept., U. California, Berkeley, CA}
@@ -355,7 +354,7 @@ fringe-rate transform taken over a two-hour time series.
 In this section, we discuss a practical implementation of fringe-rate filtering, which will be used in simulations to illustrate various applications of fringe-rate filtering later in the paper. In keeping with its origins targeting observations from the
 PAPER array, we simulate a model array based on PAPER, deployed at a latitude $-30^\circ$
 and featuring the beam response pattern characteristic of PAPER dipole elements \citep{parsons_et_al2008,pober_et_al2012}.
-The PAPER beam response pattern is illustrated in the left panel of Figure \ref{fig:beam_shape}.
+The PAPER beam response pattern is illustrated in the left panel of Figure \ref{fig:sim_beam}.
 For these simulations, we also choose a specific baseline to examine: a pair of antennas separated by 30 m in the 
 east-west direction, observing at 150 MHz.  This baseline corresponds to the most repeated (and hence,
 most sensitive) baseline length measured by the PAPER array in the maximum-redundancy array configuration it uses
@@ -540,7 +539,7 @@ In Figure XXX, we show... [XXX uncomment out stuff below to talk about the simul
 \includegraphics[width=0.9\columnwidth]{plots/src_track_flat.png}
 \caption{
 Fringe amplitude before (black) and after (red) the application
-of the fringe-rate filter described in \S\ref{sec:sim}.  From top to bottom,
+of the fringe-rate filter described in \S\ref{sec:Implementation}.  From top to bottom,
 the panels illustrate the real component of the visibility measured by
 a 30-m east-west baseline deployed at a latitude of $-30^\circ$ 
 for point sources 
@@ -600,7 +599,7 @@ blackman-harris window to damp the tails.
 \def\VQ{{V_{\rm Q}}}
 
 \begin{figure*}\centering
-\includegraphics[width=.9\columnwidth]{plots/pol_match.png}
+\includegraphics[width=1.9\columnwidth]{plots/pol_match.png}
 \caption{
 XXX elaborate
 Left to right: beams before matching XX and YY beams, after matching, matching with optimal sensitivity filter, 
@@ -767,6 +766,21 @@ Woodbury formula, giving
 
 \subsection{Minimizing Instrumental Systematics and Off-Axis Foregrounds}
 \label{sec:foregrounds}
+
+\begin{figure}\centering
+\includegraphics[width=.9\columnwidth]{plots/gsm.png}
+\caption{
+XXX cite this in paper
+Top: A projection of the global sky model \citep{deoliviera_et_al2008} as viewed from
+latitude -30$^\circ$ at a local sidereal time of 5h44, overlaid with the 
+PAPER beam response contours before (black) and after (red) the application of a fringe-rate filter
+optimized for sensitivity.  
+Bottom: a simulation of the corresponding RMS visibilites for a 30-m east-west baseline before (black) and
+after (red) the same fringe-rate filtering.
+The reduced presence of foregrounds in the simulated visibilities after fringe-rate filtering
+can be understood as coming from the spatial filter enacted by fringe-rate filtering.
+}\label{fig:gsm}
+\end{figure}
 
 % XXX cite ellingson somewhere?  what does his paper say?
 
