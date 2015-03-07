@@ -459,6 +459,7 @@ Having established these results, let us re-interpret Equation \eqref{eq:pspecEs
 
 Equation \eqref{eq:pspecEstCrossCorr} allows a power spectrum to be estimated from the cross-multiplication of any pair of fringe-rate bins. To increase signal-to-noise on the measurement, however, one ought to form all possible cross-multiplied pairs, which can then combined into a single power spectrum estimate via a weighted average. Suppressing the arguments of $\widehat{P}$ and $\widetilde{V}$ for notational cleanliness, we can write
 \begin{equation}
+\label{eq:wVV}
 \widehat{P} = \sum_{ij} w_{ij} \widetilde{V}_i \widetilde{V}_j^*,
 \end{equation}
 where $w_{ij}$ is the weight assigned to the cross-multiplication of the $i$th and $j$th fringe-rate bins. Our goal is to select weights that minimize the error bars on the final power spectrum estimate. 
@@ -469,6 +470,7 @@ For our optimization exercise, assume that errors are due to instrumental therma
 \end{equation}
 The error bar corresponding to this noise contribution is given by the square root of its variance, which takes the form
 \begin{eqnarray}
+\label{eq:NoiseVar}
 \textrm{Var}(\widehat{P}_\textrm{noise} ) &\equiv& \langle \widehat{P}_\textrm{noise}^2 \rangle - \langle \widehat{P}_\textrm{noise} \rangle^2 \nonumber \\
 &= & \sum_{ijkm} w_{ij} w_{km} \left[ \langle n_i n_j^* n_k n_m^* \rangle - \langle n_i n_j^*\rangle \langle n_k n_m^* \rangle \right] \nonumber \\
 &=&  \sum_{ij} w_{ij} w_{ji}\sigma^4,
@@ -684,6 +686,84 @@ through imaging in the dense sampling case, we will now show that it nonetheless
 over the naive summing of XX and YY visibility measurements.
 
 [XXX discuss results here ]
+
+[XXX: new math below]
+
+Mathematically, suppose the XX polarization product has an antenna power beam of $A_{\rm XX}$, while the YY 
+polarization product has an antenna power beam of $A_{\rm YY}$. The primary beam that we have denoted $A(\rhat)$ 
+in previous sections is given by $A_{\rm XX} + A_{\rm YY}$, which will be labeled as $A^I(\rhat)$ in this section to emphasize
+its meaning as the antenna response to the Stokes $I$ sky. Defining $A^Q(\rhat) \equiv A_{\rm XX} - A_{\rm YY}$, the
+Stokes $I$ visibility takes the form
+\begin{eqnarray}
+V_{b\nu}(t)= &&\int d\Omega \, {I_\nu(\rhat) A^I_\nu(\rhat,t) \exp \left[-i2\pi \frac{\nu}{c}  \mathbf{b}(t) \cdot \rhat\right]} + \nonumber \\
+&& \int d\Omega \, {Q_\nu(\rhat) A^Q_\nu(\rhat,t) \exp \left[-i2\pi \frac{\nu}{c}  \mathbf{b}(t) \cdot \rhat\right]}, \qquad
+\end{eqnarray}
+where $Q_\nu$ denotes the Stokes $Q$ sky at frequency $\nu$. The second term represents the $Q$ to $I$ leakage
+in the visibility measurement, which vanishes if $ A_{\rm XX} = A_{\rm YY}$, i.e., if the beams are symmetric. In what follows we consider how this leakage manifests itself in the power spectrum
+and how one's fringe-rate weights can be adjusted to mitigate its harmful effects.
+
+Like before, the correlation function of delay-transformed visibilities provides the connection between our
+measurements and our power spectra. Including the $Q$ to $I$ leakage term, Equation \eqref{eq:visCrossCorr}
+becomes
+\begin{equation}
+\label{eq:LeakyCorrelFct}
+\langle \widetilde{V}_i(\mathbf{u},\eta) \widetilde{V}_j(\mathbf{u},\eta)^*\rangle \approx S \left[P^I (\mathbf{k}) \Omega_{ij}^I + P^Q (\mathbf{k}) \Omega_{ij}^Q\right],
+\end{equation}
+where $S \equiv ( B / X^2 Y) ( 2 k_B / \lambda^2 )^2$ and $(X k_x, X k_y, Y k_z) \equiv 2 \pi (u , v, \eta)$, as before. The indices $i$ and $j$ again index fringe-rate
+bins. Beam integrals $\Omega^Q$ and $\Omega^I$ are defined analogously to Equation \eqref{eq:Omega_ij_def},
+but with superscripts indicating the Stokes components. The Stokes $I$ power spectrum $P^I$ is the same as the
+power spectrum $P$ defined in Section \ref{sec:PspecOptimization}, with the new notation serving only to
+distinguish it from the Stokes $Q$ power $P^Q$. In deriving Equation \eqref{eq:LeakyCorrelFct}, we made two
+key assumptions. The first is that the $I$ and $Q$ contributions to the sky are on average uncorrelated. Empirically, 
+this appears to be the case [XXX: cite someone?], and physically, one expects [XXX: insert good physical reason].
+The second assumption is that the polarized sky is describable by a power spectrum. At some level, one expects
+this assumption to fail, as there exist bright polarized sources that are not accounted for in a random realization
+of some power spectrum. However, since our ultimate goal is to measure power spectra, it is reasonable to
+define an effective Stokes Q power spectrum.
+
+Suppose we estimate the power spectrum by forming weighted averages of the visibility cross-correlations between all
+pairs of fringe-rate bins. The general form for such an estimator is given by Equation \eqref{eq:wVV}. However,
+as we found in Section \ref{sec:PspecOptimization}, one may approximate the different fringe-rate bins as being
+uncorrelated. The same approximation can be made here, allowing us to define $\gamma^I$ and $\gamma^Q$ by
+letting $\Omega_{ij}^I \equiv \delta_{ij} \gamma_i^I$ and $\Omega_{ij}^Q \equiv \delta_{ij} \gamma_i^Q$. With no
+correlations between fringe-rate bins, it becomes sufficient to estimate the power spectrum using auto-correlations
+only, with an estimator of the form
+\begin{equation}
+\widehat{P} = \sum_{i} g_{i}| \widetilde{V}_i |^2,
+\end{equation}
+where $g_i$ is the weight given to the auto-correlation of the $i$th fringe rate. Taking the ensemble average gives
+\begin{equation}
+\langle \widehat{P} \rangle = \left( S \sum_i g_i \gamma^I_i \right) P^I + \left( S \sum_i g_i \gamma^Q_i \right) P^Q.
+\end{equation}
+If, as before, we require our weights to be normalized so that $S \sum_i g_i \gamma^I_i =1$, the first term gives an
+unbiased estimator of the Stokes $I$ power spectrum. The second term is the bias in our final power spectrum estimate
+due to leakage from $Q$ to $I$. Ideally, the weights are chosen to mitigate this contribution. However, in attempting to
+minimize this systematic, one must be careful not to pick weights that dramatically amplify the instrumental noise
+contribution. We therefore choose to minimize an overall ``variance" that is the noise variance of Equation
+\eqref{eq:NoiseVar} plus the square of the Stokes $Q$ power spectrum bias (essentially adding the error bars
+from instrumental noise and polarization leakage in quadrature). In other words, we minimize
+\begin{equation}
+\mathcal L = \sigma^4 \mathbf{g} \cdot \mathbf{g} + \left(S P^Q \right)^2 \left(\mathbf{g} \cdot \boldsymbol \gamma^Q \right)^2 - \lambda \mathbf{g} \cdot \boldsymbol \gamma^I,
+\end{equation}
+where we have introduced a Lagrange multiplier $\lambda$ to enforce our normalization constraint, and have grouped
+the different fringe-rate weights into a vector $\mathbf{g}$, with the beam overlap integrals similarly grouped into
+vectors $\boldsymbol \gamma^I$ and $\boldsymbol \gamma^Q$. Now, notice that if we define
+\begin{equation}
+\mathbf{H} \equiv \sigma^4 \mathbf{I} + \left(S P^Q \right)^2 \boldsymbol \gamma^Q (\boldsymbol \gamma^Q)^t,
+\end{equation}
+our expression can be written as
+\begin{equation}
+\mathcal L = \mathbf{g}^t \mathbf{H} \mathbf{g} - \lambda \mathbf{g}^t \boldsymbol \gamma^I.
+\end{equation}
+Differentiating this, setting the result to zero, and solving for the normalized weights gives
+\begin{equation}
+\mathbf{g} =  \frac{\mathbf{H}^{-1}  \boldsymbol \gamma^I}{ S (\boldsymbol \gamma^I)^t  \mathbf{H}^{-1}  \boldsymbol \gamma^I}.
+\end{equation}
+This expression involves $\mathbf{H}^{-1}$ which can be evaluated quite explicitly in our case thanks to the
+Woodbury formula, giving
+\begin{equation}
+\mathbf{H}^{-1} = \sigma^{-4} \left( \mathbf{I} - \frac{(S P^Q / \sigma^2)^2 (\boldsymbol \gamma^Q)^t \boldsymbol \gamma^Q}}{1 + (S P^Q)^2 (\boldsymbol \gamma^Q)^t \boldsymbol \gamma^Q} \right)
+\end{equation}
 
 \subsection{Minimizing Instrumental Systematics and Off-Axis Foregrounds}
 \label{sec:foregrounds}
