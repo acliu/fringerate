@@ -492,25 +492,25 @@ w_{km} = \frac{\Omega_{km}}{S \sum_{ij} \Omega_{ij}^2}.
 
 To make intuitive sense of this, let us make a few more approximations. The key quantity here is $\Omega_{ij}$, which we can see from Equation \eqref{eq:Omega_ij_def} is the overlap integral between the effective primary beams of the $i$th and $j$th fringe-rate bins. In Section \ref{sec:overview}, we saw that if one takes the fringe-rate Fourier transform over a wide enough window in time, different fringe-rates map to different portions of the sky with relatively little overlap. If this is indeed the case, $\Omega_{ij}$ vanishes unless $i=j$. Defining
 \begin{equation}
-\gamma_i  \equiv \frac{1}{B} \int d\Omega d\nu A_i(\rhat,\nu)^2,
+\mu_i  \equiv \frac{1}{B} \int d\Omega d\nu A_i(\rhat,\nu)^2,
 \end{equation}
-we have $\Omega_{ij} \equiv \delta_{ij} \gamma_i$, so our optimal estimator for the power spectrum reduces to
+we have $\Omega_{ij} \equiv \delta_{ij} \mu_i$, so our optimal estimator for the power spectrum reduces to
 \begin{equation}
-\widehat{P} = \frac{1}{S \sum_j \gamma_j^2}\sum_i \gamma_i | \widetilde{V}_i |^2 .
+\widehat{P} = \frac{1}{S \sum_j \mu_j^2}\sum_i \mu_i | \widetilde{V}_i |^2 .
 \end{equation}
-Suppose we now define $\gamma_i^{1/2} \widetilde{V}_i$ to be an optimally weighted visibility in fringe-rate space. Transforming back to the time domain using Parseval's theorem, one obtains
+Suppose we now define $\mu_i^{1/2} \widetilde{V}_i$ to be an optimally weighted visibility in fringe-rate space. Transforming back to the time domain using Parseval's theorem, one obtains
 \begin{equation}
 \label{eq:finalEst}
-\widehat{P}(\mathbf{u}, \eta) = \left( \frac{\lambda^2}{2 k_B} \right)^2 \frac{X^2 Y}{B\sum_j \gamma_j^2} \sum_i |\widetilde{V}^\textrm{opt} (\mathbf{u}, \eta; t_i)|^2,
+\widehat{P}(\mathbf{u}, \eta) = \left( \frac{\lambda^2}{2 k_B} \right)^2 \frac{X^2 Y}{B\sum_j \mu_j^2} \sum_i |\widetilde{V}^\textrm{opt} (\mathbf{u}, \eta; t_i)|^2,
 \end{equation}
 where the optimally filtered visibility in the time domain $\widetilde{V}^\textrm{opt} (\mathbf{u}, \eta; t_i)$ is given by
 \begin{eqnarray}
-\widetilde{V}^\textrm{opt} (\mathbf{u}, \eta; t_i) &\equiv& \sum_i e^{i 2 \pi f t} \gamma_i^{1/2} \widetilde{V}_i \nonumber \\
+\widetilde{V}^\textrm{opt} (\mathbf{u}, \eta; t_i) &\equiv& \sum_i e^{i 2 \pi f t} \mu_i^{1/2} \widetilde{V}_i \nonumber \\
 &=&  \sum_i e^{i 2 \pi f t} \left[\frac{1}{B} \int d\Omega d\nu A_i(\rhat,\nu)^2\right]^\frac{1}{2} \widetilde{V}_i. \qquad
 \end{eqnarray}
 This is a rather remarkable result, in that the optimal power spectrum estimator for a single baseline interferometer consists of a squared statistic (i.e., one with no phase information) integrated in time. This may seem counterintuitive, particularly if one is accustomed to more conventional techniques where images are formed from the visibilities and averaged down before any squaring steps. There, it is crucial to average in time \emph{before} squaring, because data from different time steps can be sourced by the same Fourier modes on the celestial sphere. Integrating before squaring allows information from these modes to be coherently averaged together (since phase information has yet to be discarded), resulting in instrumental noise that integrates down as $1/\sqrt{t}$. This then becomes a $1/t$ dependence for the error bars on the final (squared) power spectrum results, and is a much quicker reduction of instrumental noise than if the data had been squared first, which would have resulted in a $1/\sqrt{t}$ dependence on the power spectrum errors.
 
-In our derivation, we showed that the optimal power spectrum estimator can in fact be obtained by squaring before integrating, \emph{provided} the power spectra formed at each time instant are first fringe-rate filtered with weights $ \gamma_i^{1/2}$, i.e., where each fringe-rate is weighted by the root-mean-square primary beam within the corresponding constant-fringe-rate contour on the sky. Essentially, the pre-processing step of fringe-rate filtering (with these specific weights) replaces the independent time samples with a set of correlated visibilities that have effectively already been coherently integrated in time. Note that these weights are \emph{not} in general the same as the ones derived in Section \ref{fringeRateIntro} for optimal mapmaking, where measurements were essentially weighted by an additional factor of the primary beam in fringe-rate space, rather than by the root-mean-square beam weighting suggested here. Put another way, to obtain the full power spectrum sensitivity of an interferometer, it is insufficient
+In our derivation, we showed that the optimal power spectrum estimator can in fact be obtained by squaring before integrating, \emph{provided} the power spectra formed at each time instant are first fringe-rate filtered with weights $ \mu_i^{1/2}$, i.e., where each fringe-rate is weighted by the root-mean-square primary beam within the corresponding constant-fringe-rate contour on the sky. Essentially, the pre-processing step of fringe-rate filtering (with these specific weights) replaces the independent time samples with a set of correlated visibilities that have effectively already been coherently integrated in time. Note that these weights are \emph{not} in general the same as the ones derived in Section \ref{fringeRateIntro} for optimal mapmaking, where measurements were essentially weighted by an additional factor of the primary beam in fringe-rate space, rather than by the root-mean-square beam weighting suggested here. Put another way, to obtain the full power spectrum sensitivity of an interferometer, it is insufficient
 to simply square the Fourier amplitudes outputted from a map, even if the mapmaking was optimized to minimize the error bars of the map.  Forming the power spectrum in such a way would be equivalent to restricting $w_{ij}$ to a form separable in $i$ and $j$, which is a restriction that precludes the form for $w_{ij}$ given by Equation \ref{eq:PspecOptWeights}, which minimizes the error bars of the power spectrum.
 
 Importantly, the result that we have derived here applies only when one is attempting to measure a power spectrum with a single baseline (or multiple baselines with the same baseline vector $\mathbf{b}$). This is a reasonable limit to work in for arrays such as PAPER, where a large fraction of the array's sensitivity comes from instantaneously redundant baselines \citep{parsons_et_al2012a}. For arrays that have less instantaneous redundancy, it becomes more important to combine data from multiple baselines. If multiple baselines are involved, Equation \eqref{eq:finalEst} no longer reduces to a single sum over the time axis. Said differently, it is no longer true that the full sensitivity of an array can be obtained by averaging together time-slice-by-time-slice estimates of the power spectrum estimation from fringe-rate filtered data. Instead, the optimal estimator involves a double sum over time, since with multiple baselines of roughly the same length, it is possible for baselines to rotate into one another. That is, rotation synthesis becomes an important contribution to an interferometer's sensitivity.
@@ -706,13 +706,13 @@ measurements and our power spectra. Including the $Q$ to $I$ leakage term, Equat
 becomes
 \begin{equation}
 \label{eq:LeakyCorrelFct}
-\langle \widetilde{V}_i(\mathbf{u},\eta) \widetilde{V}_j(\mathbf{u},\eta)^*\rangle \approx S \left[P^I (\mathbf{k}) \Omega_{ij}^I + P^Q (\mathbf{k}) \Omega_{ij}^Q\right],
+\langle \widetilde{V}_i(\mathbf{u},\eta) \widetilde{V}_j(\mathbf{u},\eta)^*\rangle \approx S \left[P_I (\mathbf{k}) \Omega_{ij}^I + P_Q (\mathbf{k}) \Omega_{ij}^Q\right],
 \end{equation}
 where $S \equiv ( B / X^2 Y) ( 2 k_B / \lambda^2 )^2$ and $(X k_x, X k_y, Y k_z) \equiv 2 \pi (u , v, \eta)$, as before. The indices $i$ and $j$ again index fringe-rate
 bins. Beam integrals $\Omega^Q$ and $\Omega^I$ are defined analogously to Equation \eqref{eq:Omega_ij_def},
-but with superscripts indicating the Stokes components. The Stokes $I$ power spectrum $P^I$ is the same as the
+but with superscripts indicating the Stokes components. The Stokes $I$ power spectrum $P_I$ is the same as the
 power spectrum $P$ defined in Section \ref{sec:PspecOptimization}, with the new notation serving only to
-distinguish it from the Stokes $Q$ power $P^Q$. In deriving Equation \eqref{eq:LeakyCorrelFct}, we made two
+distinguish it from the Stokes $Q$ power $P_Q$. In deriving Equation \eqref{eq:LeakyCorrelFct}, we made two
 key assumptions. The first is that the $I$ and $Q$ contributions to the sky are on average uncorrelated. Empirically, 
 this appears to be the case [XXX: cite someone?], and physically, one expects [XXX: insert good physical reason].
 The second assumption is that the polarized sky is describable by a power spectrum. At some level, one expects
@@ -723,8 +723,8 @@ define an effective Stokes Q power spectrum.
 Suppose we estimate the power spectrum by forming weighted averages of the visibility cross-correlations between all
 pairs of fringe-rate bins. The general form for such an estimator is given by Equation \eqref{eq:wVV}. However,
 as we found in Section \ref{sec:PspecOptimization}, one may approximate the different fringe-rate bins as being
-uncorrelated. The same approximation can be made here, allowing us to define $\gamma^I$ and $\gamma^Q$ by
-letting $\Omega_{ij}^I \equiv \delta_{ij} \gamma_i^I$ and $\Omega_{ij}^Q \equiv \delta_{ij} \gamma_i^Q$. With no
+uncorrelated. The same approximation can be made here, allowing us to define $\mu^I$ and $\mu^Q$ by
+letting $\Omega_{ij}^I \equiv \delta_{ij} \mu_i^I$ and $\Omega_{ij}^Q \equiv \delta_{ij} \mu_i^Q$. With no
 correlations between fringe-rate bins, it becomes sufficient to estimate the power spectrum using auto-correlations
 only, with an estimator of the form
 \begin{equation}
@@ -732,9 +732,9 @@ only, with an estimator of the form
 \end{equation}
 where $g_i$ is the weight given to the auto-correlation of the $i$th fringe rate. Taking the ensemble average gives
 \begin{equation}
-\langle \widehat{P} \rangle = \left( S \sum_i g_i \gamma^I_i \right) P^I + \left( S \sum_i g_i \gamma^Q_i \right) P^Q.
+\langle \widehat{P} \rangle = \left( S \sum_i g_i \mu^I_i \right) P_I + \left( S \sum_i g_i \mu^Q_i \right) P_Q.
 \end{equation}
-If, as before, we require our weights to be normalized so that $S \sum_i g_i \gamma^I_i =1$, the first term gives an
+If, as before, we require our weights to be normalized so that $S \sum_i g_i \mu^I_i =1$, the first term gives an
 unbiased estimator of the Stokes $I$ power spectrum. The second term is the bias in our final power spectrum estimate
 due to leakage from $Q$ to $I$. Ideally, the weights are chosen to mitigate this contribution. However, in attempting to
 minimize this systematic, one must be careful not to pick weights that dramatically amplify the instrumental noise
@@ -742,27 +742,72 @@ contribution. We therefore choose to minimize an overall ``variance" that is the
 \eqref{eq:NoiseVar} plus the square of the Stokes $Q$ power spectrum bias (essentially adding the error bars
 from instrumental noise and polarization leakage in quadrature). In other words, we minimize
 \begin{equation}
-\mathcal L = \sigma^4 \mathbf{g} \cdot \mathbf{g} + \left(S P^Q \right)^2 \left(\mathbf{g} \cdot \boldsymbol \gamma^Q \right)^2 - \lambda \mathbf{g} \cdot \boldsymbol \gamma^I,
+\mathcal L = \sigma^4 \mathbf{g} \cdot \mathbf{g} + \left(S P_Q \right)^2 \left(\mathbf{g} \cdot \boldsymbol \mu^Q \right)^2 - \lambda \mathbf{g} \cdot \boldsymbol \mu^I,
 \end{equation}
 where we have introduced a Lagrange multiplier $\lambda$ to enforce our normalization constraint, and have grouped
 the different fringe-rate weights into a vector $\mathbf{g}$, with the beam overlap integrals similarly grouped into
-vectors $\boldsymbol \gamma^I$ and $\boldsymbol \gamma^Q$. Now, notice that if we define
+vectors $\boldsymbol \mu^I$ and $\boldsymbol \mu^Q$. Now, notice that if we define
 \begin{equation}
-\mathbf{H} \equiv \sigma^4 \mathbf{I} + \left(S P^Q \right)^2 \boldsymbol \gamma^Q (\boldsymbol \gamma^Q)^t,
+\mathbf{H} \equiv \sigma^4 \mathbf{I} + \left(S P_Q \right)^2 \boldsymbol \mu^Q (\boldsymbol \mu^Q)^t,
 \end{equation}
 our expression can be written as
 \begin{equation}
-\mathcal L = \mathbf{g}^t \mathbf{H} \mathbf{g} - \lambda \mathbf{g}^t \boldsymbol \gamma^I.
+\mathcal L = \mathbf{g}^t \mathbf{H} \mathbf{g} - \lambda \mathbf{g}^t \boldsymbol \mu^I.
 \end{equation}
 Differentiating this, setting the result to zero, and solving for the normalized weights gives
 \begin{equation}
-\mathbf{g} =  \frac{\mathbf{H}^{-1}  \boldsymbol \gamma^I}{ S (\boldsymbol \gamma^I)^t  \mathbf{H}^{-1}  \boldsymbol \gamma^I}.
+\label{eq:PolOptWeights}
+\mathbf{g} =  \frac{\mathbf{H}^{-1}  \boldsymbol \mu^I}{ S (\boldsymbol \mu^I)^t  \mathbf{H}^{-1}  \boldsymbol \mu^I}.
 \end{equation}
-This expression involves $\mathbf{H}^{-1}$ which can be evaluated quite explicitly in our case thanks to the
+This expression involves $\mathbf{H}^{-1}$ which can be evaluated quite explicitly in our case using the
 Woodbury formula, giving
 \begin{equation}
-\mathbf{H}^{-1} = \sigma^{-4} \left( \mathbf{I} - \frac{(S P^Q / \sigma^2)^2 (\boldsymbol \gamma^Q)^t \boldsymbol \gamma^Q}{1 + (S P^Q)^2 (\boldsymbol \gamma^Q)^t \boldsymbol \gamma^Q} \right)
+\label{eq:Hinv}
+\mathbf{H}^{-1} = \sigma^{-4} \left[ \mathbf{I} - \frac{P_Q^2\boldsymbol \mu^Q (\boldsymbol \mu^Q)^t }{P_N^2 + P_Q^2 \boldsymbol \mu^Q \cdot \boldsymbol \mu^Q} \right],
 \end{equation}
+where $P_N$ is the noise power spectrum, which is equal to the root-mean-square visibility
+noise divided by by $S$. If the sky were completely unpolarized ($P_Q = 0$) or there were no polarization leakage due to mismatched beams ($\boldsymbol \mu^Q = 0$), then $\mathbf{H}^{-1} \propto \mathbf{I}$, and the optimal weighting would take the form
+$\mathbf{g} \propto \boldsymbol \mu^I$. Recalling that each component of a $\boldsymbol \mu$ vector corresponds
+to a different fringe rate, we see that $\mathbf{g} \propto \boldsymbol \mu^I$ is precisely the result derived in Section
+\ref{sec:PspecOptimization}, where each fringe-rate bin was weighted by the integrated square of the beam within the bin.
+
+With polarization leakage, Equation \eqref{eq:PolOptWeights} shows that as a first step, one should still weight by
+the square-integrated beam within each fringe-rate bin. However, one should then further weight by the more complicated
+form for $\mathbf{H}^{-1}$ given by Equation \eqref{eq:Hinv}. To gain some intuition for
+this operation, consider the limit of zero instrumental noise. One then obtains 
+\begin{equation}
+\mathbf{H}^{-1} \Big{|}_{P_N =0} \propto \mathbf{I} - \boldsymbol \mu^Q (\boldsymbol \mu^Q \cdot \boldsymbol
+\mu^Q )^{-1} (\boldsymbol \mu^Q )^t,
+\end{equation}
+which we immediately recognize as a projection matrix that projects out the vector $\boldsymbol \mu^Q$. Since the
+components of $\boldsymbol \mu^Q$ encode the polarization leakage response in various
+fringe-rate bins, $\mathbf{H}^{-1}$ projects out linear combinations of
+fringe rates that are indicative of $Q$ to $I$ leakage due to beam asymmetries. At the other
+extreme, if the polarization power spectrum is weak compared to the noise power spectrum,
+we have
+\begin{equation}
+\mathbf{H}^{-1} \Big{|}_{P_N \gg P_Q} \propto \mathbf{I} - \left(\frac{P_Q}{P_N} \right)^2 \boldsymbol \mu^Q  (\boldsymbol \mu^Q )^t,
+\end{equation}
+which is similar to a projection operator, but with the unwanted/projected piece tempered
+by the square of the small parameter $P_Q / P_N$. Intuitively, even modes that are
+contaminated by polarization leakage contain cosmological information, and it is advantageous
+to avoid too drastic a projection if possible. An overly aggressive subtraction of leakage
+modes results in a loss of cosmological signal, which when corrected for by the altered
+normalization of the power spectrum, results in a magnification of the error bars. For the
+general case of intermediate noise levels, the $\mathbf{H}^{-1}$ smoothly interpolates
+between the two extremes.
+
+While mathematically optimal, the fringe-rate weighting proposed here is currently difficult
+to put into practice. This is because the $Q$ power spectrum $P_Q$ has yet to be positively
+measured at low frequencies. For example, recent measurements in \citet{moore_et_al2015}
+[XXX: add other cites?] provide only upper limits on $P_Q$. With only upper limits, it is easy
+to inadvertently employ a weighting that downweights polarization leakage in an overly
+conservative manner, although it is of course welcome news that the polarized foregrounds
+seem to be rather dim.
+
+Absent a rigorous estimate of $P_Q$, we may turn once again to a more heuristic approach
+to fringe-rate weighting. Again, we make use of the fact that once a set of weights have been
+
 
 \subsection{Minimizing Instrumental Systematics and Off-Axis Foregrounds}
 \label{sec:foregrounds}
