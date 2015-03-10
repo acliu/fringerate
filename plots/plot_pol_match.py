@@ -72,7 +72,8 @@ bmYYm = bmYY * bm_pol
 hpol, bin_edges = n.histogram(fng, bins=bin_edges, weights=(bmXXm-bmYYm)**2)
 htot, bin_edges = n.histogram(fng, bins=bin_edges, weights=(bmXXm+bmYYm)**2)
 bins = 0.5 * (bin_edges[:-1] + bin_edges[1:])
-match = n.where(hpol > 0, htot/hpol, 0); match /= match.max()
+#match = n.where(hpol > 0, n.sqrt(htot/hpol), 0); match /= match.max() # XXX sqrt here or no?
+match = n.where(hpol > 0, htot/hpol, 0); match /= match.max() # XXX sqrt here or no?
 wgt_pol = scipy.interpolate.interp1d(bins, match, kind='linear', bounds_error=False, fill_value=0)
 tbins,firs,frbins,frfs= C.frf_conv.get_fringe_rate_kernels(n.array([wgt_pol]),42.9,403)
 frfs[0] /= frfs[0].max()
