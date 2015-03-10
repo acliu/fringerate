@@ -624,10 +624,10 @@ XXX add table about beam areas, polarization leakage, and leakage metric
 %Optimal PP beam area: 0.216822496348
 %Opt pol PP beam area: 0.13913102709
 
-In the previous section, we maximized our sensitivity to the power spectrum under the assumption that the measurements were limited by instrumental noise. In practice, however, there may other sources of noise or systematics that may limit our constraints. One example of this is the cross-contamination between Stokes terms in interferometric polarization measurements. Minimizing such contamination is of paramount importance for 21cm cosmology experiments that rely on
+In the previous section, we maximized our sensitivity to the power spectrum under the assumption that the measurements were limited by instrumental noise. In practice, however, there may other sources of noise or systematics that may limit our constraints. One example of this is the cross-contamination between Stokes terms in interferometric polarization measurements. Minimizing such contamination is of paramount importance for $21\,\textrm{cm}$ cosmology experiments that rely on
 the spectral axis to probe the line-of-sight direction at cosmological distances.  For these
 experiments, Faraday rotation combines
-with a spurious coupling between Stokes terms (typically Q to I) to produce polarization leakage whose 
+with a spurious coupling between Stokes terms (typically $Q$ to $I$) to produce polarization leakage whose 
 spectral structure poses a worrisome foreground
 to the cosmological signal \citep{jelic_et_al2008,moore_et_al2013,moore_et_al2015}.  Current interferometers
 targeting the 21cm signal at cosmological distances (LOFAR, MWA, PAPER, HERA, CHIME, LEDA) all employ linearly
@@ -639,8 +639,8 @@ dominant source of polarization leakage in the Stokes I measurement $\VI\equiv(\
 linearly polarized feeds.
 
 With an accurate beam model, it is trivial to rescale $\VXX$ and $\VYY$ 
-so that the XX and YY beam responses match in a chosen (typically, zenith) direction.  Their sum, $\VI$, then
-represents a perfect probe of the Stoke I parameter in that chosen direction, but will contain contamination
+so that the XX and YY beam responses match in one particular direction (typically the zenith).  Their sum, $\VI$, then
+represents a perfect probe of the Stokes I parameter in that chosen direction, but will contain contamination
 from $\VQ\equiv(\VXX-\VYY)/2$ in directions where the XX and YY beam responses do not match.
 The heart of the problem is the impossibility of creating a match between a pair of two-dimensional functions (the
 XX and YY beam responses) with a single degree of freedom (the amplitude of $\VXX$ relative to $\VYY$).  In order
@@ -651,7 +651,7 @@ of the sky along two dimensions.
 The typical technique for correcting the mismatch between the XX and YY polarization beams is to separately
 image these polarization products, correct each pixel in each image using modeled beam responses,
 and then to sum the corrected images together to form a Stokes I map 
-(e.g. \citealt{sullivan,lofar,bernardi}).  Mathematically, this technique is identical to convolving the sampled
+(e.g., \citealt{sullivan,lofar,bernardi}).  Mathematically, this technique is identical to convolving the sampled
 $uv$ plane by the Fourier transform of the directionally-dependent correction applied in the image domain, and for an ideal
 array that samples the $uv$ plane at scales significantly finer than the aperture of a single element, this technique can
 in principle perfectly correct mismatches between the XX and YY polariation beams.
@@ -673,7 +673,7 @@ apart contribute to corrections on finer angular scales, with the orientation of
 dictating the axis along which such corrections take effect in image domain.  Typically, earth-rotation synthesis
 is required to sample the $uv$ plane densely enough to allow for effective beam correction, although some array
 configurations are not dense enough to fully correct the beam even then.  One particularly relevant case that falls
-in this last category are many of the maximum redundancy configurations currently favored by several 21cm cosmology experiments
+in this last category are many of the maximum redundancy configurations currently favored by several $21\,\textrm{cm}$ cosmology experiments
 for their sensitivity benefits \citep{parsons_et_al2012a,P14}.
 
 However, even in the single-baseline case, earth-rotation synthesis provides dense $uv$ sampling along one direction: the
@@ -685,20 +685,18 @@ imaging the polarization products.  While this is not as effective at mitigating
 through imaging in the dense sampling case, we will now show that it nonetheless represents a substantial improvement
 over the naive summing of XX and YY visibility measurements.
 
-[XXX discuss results here ]
-
-[XXX: new math below]
-
-Mathematically, suppose the XX polarization product has an antenna power beam of $A_{\rm XX}$, while the YY 
+We begin by seeking mathematically optimized fringe-rate weights that
+simultaneously reduce polarization leakage and instrumental noise errors.
+Suppose the XX polarization product has an antenna power beam of $A_{\rm XX}$, while the YY 
 polarization product has an antenna power beam of $A_{\rm YY}$. The primary beam that we have denoted $A(\rhat)$ 
 in previous sections is given by $A_{\rm XX} + A_{\rm YY}$, which will be labeled as $A^I(\rhat)$ in this section to emphasize
-its meaning as the antenna response to the Stokes $I$ sky. Defining $A^Q(\rhat) \equiv A_{\rm XX} - A_{\rm YY}$, the
-Stokes $I$ visibility takes the form
+its meaning as the antenna response to the Stokes I sky. Defining $A^Q(\rhat) \equiv A_{\rm XX} - A_{\rm YY}$, the
+Stokes I visibility takes the form
 \begin{eqnarray}
 V_{b\nu}(t)= &&\int d\Omega \, {I_\nu(\rhat) A^I_\nu(\rhat,t) \exp \left[-i2\pi \frac{\nu}{c}  \mathbf{b}(t) \cdot \rhat\right]} + \nonumber \\
 && \int d\Omega \, {Q_\nu(\rhat) A^Q_\nu(\rhat,t) \exp \left[-i2\pi \frac{\nu}{c}  \mathbf{b}(t) \cdot \rhat\right]}, \qquad
 \end{eqnarray}
-where $Q_\nu$ denotes the Stokes $Q$ sky at frequency $\nu$. The second term represents the $Q$ to $I$ leakage
+where $Q_\nu$ denotes the Stokes Q sky at frequency $\nu$. The second term represents the $Q$ to $I$ leakage
 in the visibility measurement, which vanishes if $ A_{\rm XX} = A_{\rm YY}$, i.e., if the beams are symmetric. In what follows we consider how this leakage manifests itself in the power spectrum
 and how one's fringe-rate weights can be adjusted to mitigate its harmful effects.
 
@@ -711,9 +709,9 @@ becomes
 \end{equation}
 where $S \equiv ( B / X^2 Y) ( 2 k_B / \lambda^2 )^2$ and $(X k_x, X k_y, Y k_z) \equiv 2 \pi (u , v, \eta)$, as before. The indices $i$ and $j$ again index fringe-rate
 bins. Beam integrals $\Omega^Q$ and $\Omega^I$ are defined analogously to Equation \eqref{eq:Omega_ij_def},
-but with superscripts indicating the Stokes components. The Stokes $I$ power spectrum $P_I$ is the same as the
+but with superscripts indicating the Stokes components. The Stokes I power spectrum $P_I$ is the same as the
 power spectrum $P$ defined in Section \ref{sec:PspecOptimization}, with the new notation serving only to
-distinguish it from the Stokes $Q$ power $P_Q$. In deriving Equation \eqref{eq:LeakyCorrelFct}, we made two
+distinguish it from the Stokes Q power $P_Q$. In deriving Equation \eqref{eq:LeakyCorrelFct}, we made two
 key assumptions. The first is that the $I$ and $Q$ contributions to the sky are on average uncorrelated. Empirically, 
 this appears to be the case [XXX: cite someone?], and physically, one expects [XXX: insert good physical reason].
 The second assumption is that the polarized sky is describable by a power spectrum. At some level, one expects
@@ -736,11 +734,11 @@ where $g_i$ is the weight given to the auto-correlation of the $i$th fringe rate
 \langle \widehat{P} \rangle = \left( S \sum_i g_i \mu^I_i \right) P_I + \left( S \sum_i g_i \mu^Q_i \right) P_Q.
 \end{equation}
 If, as before, we require our weights to be normalized so that $S \sum_i g_i \mu^I_i =1$, the first term gives an
-unbiased estimator of the Stokes $I$ power spectrum. The second term is the bias in our final power spectrum estimate
+unbiased estimator of the Stokes I power spectrum. The second term is the bias in our final power spectrum estimate
 due to leakage from $Q$ to $I$. Ideally, the weights are chosen to mitigate this contribution. However, in attempting to
 minimize this systematic, one must be careful not to pick weights that dramatically amplify the instrumental noise
 contribution. We therefore choose to minimize an overall ``variance" that is the noise variance of Equation
-\eqref{eq:NoiseVar} plus the square of the Stokes $Q$ power spectrum bias (essentially adding the error bars
+\eqref{eq:NoiseVar} plus the square of the Stokes Q power spectrum bias (essentially adding the error bars
 from instrumental noise and polarization leakage in quadrature). In other words, we minimize
 \begin{equation}
 \mathcal L = \sigma^4 \mathbf{g} \cdot \mathbf{g} + \left(S P_Q \right)^2 \left(\mathbf{g} \cdot \boldsymbol \mu^Q \right)^2 - \lambda \mathbf{g} \cdot \boldsymbol \mu^I,
@@ -810,7 +808,7 @@ Absent a rigorous estimate of $P_Q$, we may turn once again to a more heuristic 
 to fringe-rate weighting. Again, we make use of the fact that given a set of weights, the effect
 of fringe-rate filtering can be approximately captured as a modification of the primary beam.
 Thus, we may use Equation \eqref{eq:pspecEstCrossCorr} (bearing in mind that the
-$\Omega_{ij}$ there is the Stokes $I$ version, i.e., $\Omega_{ij}^I$), but simply adjust for the
+$\Omega_{ij}$ there is the Stokes I version, i.e., $\Omega_{ij}^I$), but simply adjust for the
 modified effective beam area. From Equation \eqref{eq:LeakyCorrelFct}, we see that doing
 so gives a polarization leakage bias of $P_Q \Omega_{ij}^Q / \Omega_{ij}^I$. Thus, for any
 weights that we choose, a suitable metric for quantifying polarization leakage is
