@@ -583,13 +583,19 @@ the same order as in Figure \ref{fig:eff_beam}.
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=\columnwidth]{plots/fr_filter_slice.png}
+\includegraphics[width=\columnwidth]{plots/fringe_rate_cut.png}
 \caption{
-slice of a fringe rate filter at a frequency of 159MHz. Top is the
-filter in fringe rate domain. The bottom consists of the corresponding time
-domain filter gotten by fourier transforming and windowing with a
-blackman-harris window to damp the tails.
-[ move this figure into fringe-rate filter paper]
+Top: the optimal power-spectrum sensitivity weighting in fringe-rate space 
+for one of PAPER's 30-m east-west baselines at 150 MHz (black) is overlaid with
+the simple parametrization for optimal weighting used in (red; \citealt{ali_et_al2015}),
+which excises fringe rates at risk for contamination by crosstalk and smooths the
+weighting profile to provide a compact time-domain convolution kernel.  Also illustrated
+are the weighting for reducing polarization leakage (blue), as described in XXX, as well
+as a weighting that balances the needs of sensitivity, polarization leakage, crosstalk
+removal, and off-axis foregrounds (green).  Bottom: the time-domain convolution kernel
+corresponding to the red curve in the top panel.  Real and imaginary components are
+illustrated in blue and red, respectively, with the absolute amplitude illustrated
+in black.
 }
 \label{fig:fringe_rate_cut}
 \end{figure}
@@ -605,12 +611,16 @@ blackman-harris window to damp the tails.
 \begin{figure*}\centering
 \includegraphics[width=1.9\columnwidth]{plots/pol_match.png}
 \caption{
-XXX elaborate
-Left to right: beams before matching XX and YY beams, after matching, matching with optimal sensitivity filter, 
-matching with a filter for optimizing sensitivity and polarization match.  Top row shows the Stokes I beam 
-response in logrithmic units,
+Beam response patterns illustrating the application of fringe-rate filtering to minimizing polarization leakage.
+Panels from left to right illustrate the
+response before matching XX and YY polarization beams, the response after such matching, 
+the subsequent application of an optimal power-spectrum sensitivity filter, and the
+application of a filter optimizing both sensitivity and polarization match.
+The top row depicts the Stokes I beam response in logrithmic units; the
 bottom row shows the polarization match ${\rm XX-YY}/2$ in linear units.
-[XXX: perhaps good to mention that the 3rd column is essentially the one used for Zaki's paper]
+The fringe-rate filters optimizing sensitivity and polarization match correspond
+to the red and green curves in Figure \ref{fig:fringe_rate_cut}, respectively.
+The third column corresponds to the fringe-rate filter applied in \citet{ali_et_al2015}.
 }\label{fig:pol_match}
 \end{figure*}
 
@@ -833,7 +843,7 @@ XXX: insert numerical simulations here.
 \caption{
 XXX cite this in paper
 Top: A projection of the global sky model \citep{deoliviera_et_al2008} as viewed from
-latitude -30$^\circ$ at a local sidereal time of 5h44, overlaid with the 
+latitude -30$^\circ$ at a local sidereal time of 05:44, overlaid with the 
 PAPER beam response contours before (black) and after (red) the application of a fringe-rate filter
 optimized for sensitivity.  
 Bottom: a simulation of the corresponding RMS visibilites for a 30-m east-west baseline before (black) and
