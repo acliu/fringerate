@@ -89,7 +89,9 @@ for cnt,b1 in enumerate(bin_edges[:-1]):
 
 #p.subplot(232)
 #p.imshow(proj_hmap(fng,'e'), vmax=0, vmin=-.007, origin='lower')
-m.imshow(-proj_hmap(fng,'e'), origin='lower')
+m.imshow(-1e3*proj_hmap(fng,'e'), origin='lower')
+cb = p.colorbar(shrink=.7, orientation='horizontal', pad=.05)
+cb.set_label('Fringe Rate [mHz]')
 
 #p.subplot(233)
 #p.imshow(proj_hmap(f*bm,'e'), origin='lower', alpha=.5)

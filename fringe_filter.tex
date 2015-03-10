@@ -149,10 +149,10 @@ to time variation in $V_{b\nu}(t)$ as the Earth rotates.
 \includegraphics[width=.9\columnwidth]{plots/ew_fringe}
 \caption{
 The fringe pattern at 150 MHz of a 30-m east-west baseline, overlaid with arrows indicating
-the distance traversed by sources at various declinations over a two-hour span centered at transit.
+the distance traversed by sources at various declinations over a two-hour time span centered at transit.
 In a fixed time interval, sources near $\delta=0^\circ$ traverse more 
-fringe periods than sources nearer to the celestial poles, giving rise to different
-fringe rates that can be used to distinguish these sources in a timeseries measured with a single baseline.
+fringe periods than sources nearer to the celestial poles. This gives rise to different
+fringe rates that can be used to distinguish sources in a timeseries measured with a single baseline.
 }\label{fig:ew_fringe}
 \end{figure}
 
@@ -538,10 +538,11 @@ In Figure XXX, we show... [XXX uncomment out stuff below to talk about the simul
 \begin{figure}\centering
 \includegraphics[width=0.9\columnwidth]{plots/src_track_flat.png}
 \caption{
-Fringe amplitude before (black) and after (red) the application
-of the fringe-rate filter described in \S\ref{sec:Implementation}.  From top to bottom,
-the panels illustrate the real component of the visibility measured by
-a 30-m east-west baseline deployed at a latitude of $-30^\circ$ 
+The real component of the fringe amplitude simulated for a 30-m east-west
+baseline deployed at a latitude of $-30^\circ$
+before (black) and after (red) the application
+of the fringe-rate filter described in Section \ref{sec:Implementation}.  From top to bottom,
+the panels illustrate fringes
 for point sources 
 passing through the fringe pattern at declinations of $0^\circ$,
 $-30^\circ$, and $-60^\circ$, respectively.  In this simulation,
@@ -560,11 +561,14 @@ with the PAPER primary beam \citep{parsons_et_al2010,pober_et_al2012}.
 \begin{figure*}\centering
 \includegraphics[width=1.9\columnwidth]{plots/eff_beam.png}
 \caption{
-The effective primary beam response of a baseline, as determined from the simulations in \S\ref{sec:sim_pnt}.
-Panels indicate reconstructions of PAPER's model beam response used in the simulation (left), the 
-beam weighting that results from the application of a fringe-rate filter weighted to optimize SNR for
-a 30-m baseline with PAPER's beam response (center), and the effective primary beam response of the
-baseline after the application of the fringe-rate filter.
+The effective primary beam response of a baseline, as reconstructed from point-source simulations 
+described at the end of Section \ref{sec:PspecOptimization} and illustrated in Figures \ref{fig:src_track_flat} and
+\ref{fig:src_track_beam}. 
+The left panel shows that PAPER's model beam response is recovered from unfiltered
+visibilities; the center panel illustrates the
+beam weighting that results from applying a fringe-rate filter tuned to optimize sensitivity
+for power spectrum measurements, assuming an isotropic primary beam; the right panel
+shows the effective response after applying this fringe-rate filter to data including PAPER's model beam response.
 }\label{fig:eff_beam}
 \end{figure*}
 
@@ -573,7 +577,7 @@ baseline after the application of the fringe-rate filter.
 \caption{
 The model primary beam response of a baseline, simulated analytically using the interpretation
 of fringe-rate filtering as a spatial filter acting along fringe-rate contours.  Panels follow
-the same ordering described in Figure \ref{fig:eff_beam}.
+the same order as in Figure \ref{fig:eff_beam}.
 }\label{fig:sim_beam}
 \end{figure*}
 
