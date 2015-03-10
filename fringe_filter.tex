@@ -606,6 +606,7 @@ Left to right: beams before matching XX and YY beams, after matching, matching w
 matching with a filter for optimizing sensitivity and polarization match.  Top row shows the Stokes I beam 
 response in logrithmic units,
 bottom row shows the polarization match ${\rm XX-YY}/2$ in linear units.
+[XXX: perhaps good to mention that the 3rd column is essentially the one used for Zaki's paper]
 }\label{fig:pol_match}
 \end{figure*}
 
@@ -759,7 +760,7 @@ Differentiating this, setting the result to zero, and solving for the normalized
 \label{eq:PolOptWeights}
 \mathbf{g} =  \frac{\mathbf{H}^{-1}  \boldsymbol \mu^I}{ S (\boldsymbol \mu^I)^t  \mathbf{H}^{-1}  \boldsymbol \mu^I}.
 \end{equation}
-This expression involves $\mathbf{H}^{-1}$ which can be evaluated quite explicitly in our case using the
+This expression involves $\mathbf{H}^{-1}$, which can be evaluated quite explicitly in our case using the
 Woodbury formula, giving
 \begin{equation}
 \label{eq:Hinv}
@@ -806,7 +807,20 @@ conservative manner, although it is of course welcome news that the polarized fo
 seem to be rather dim.
 
 Absent a rigorous estimate of $P_Q$, we may turn once again to a more heuristic approach
-to fringe-rate weighting. Again, we make use of the fact that once a set of weights have been
+to fringe-rate weighting. Again, we make use of the fact that given a set of weights, the effect
+of fringe-rate filtering can be approximately captured as a modification of the primary beam.
+Thus, we may use Equation \eqref{eq:pspecEstCrossCorr} (bearing in mind that the
+$\Omega_{ij}$ there is the Stokes $I$ version, i.e., $\Omega_{ij}^I$), but simply adjust for the
+modified effective beam area. From Equation \eqref{eq:LeakyCorrelFct}, we see that doing
+so gives a polarization leakage bias of $P_Q \Omega_{ij}^Q / \Omega_{ij}^I$. Thus, for any
+weights that we choose, a suitable metric for quantifying polarization leakage is
+$\Omega_{ij}^Q / \Omega_{ij}^I$, as was also identified in \citet{moore_et_al2015}. This
+must be balanced by the thermal noise error bars, which are proportional to $1 / \Omega_{ij}^I$.
+This can be seen from Equation \eqref{eq:pspecEstCrossCorr}, recalling the fact that
+the instrumental noise enters at the visibilities, and therefore are magnified (or diminished) by
+a factor of $1 / \Omega_{ij}^I$ as one forms the power spectrum.
+
+XXX: insert numerical simulations here.
 
 
 \subsection{Minimizing Instrumental Systematics and Off-Axis Foregrounds}
