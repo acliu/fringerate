@@ -51,6 +51,7 @@ Carina Cheng\altaffilmark{1}
 %\altaffiltext{3}{Dept. of Physics and Astronomy, U. Pennsylvania, Philadelphia, PA}
 %\altaffiltext{8}{School of Earth and Space Exploration, Arizona State U., Tempe, AZ}
 
+%XXX need better pitch in abstract
 \begin{abstract}
 We generalize the technique of fringe-rate filtering for radio interferometry, where visibilities 
 are Fourier transformed in time into fringe-rate space and low-pass filtered. Different fringe rates
@@ -145,7 +146,7 @@ frequency.
 Here, we have adopted the convention that our coordinate system is fixed to the celestial sphere, because it will be convenient for our algebraic manipulations later. However, it is equally valid to understand the time-variation of the visibilities as arising from the movement of astronomical sources through the primary beam and the fringes arising from a baseline, which are fixed to a topocentric coordinate system. For drift-scan telescopes like PAPER, CHIME, or HERA, this view is particularly powerful because then the primary beam and the fringe pattern are locked to one another, and may together be considered an enveloped fringe pattern that gives rise
 to time variation in $V_{b\nu}(t)$ as the Earth rotates.
 
-\begin{figure}
+\begin{figure}\centering
 \includegraphics[width=.9\columnwidth]{plots/ew_fringe}
 \caption{
 The fringe pattern at 150 MHz of a 30-m east-west baseline, overlaid with arrows indicating
@@ -199,6 +200,17 @@ where $\boldsymbol \omega_\Earth$ is the angular velocity vector of the Earth's 
 =  \int d\Omega I_\nu(\rhat)  && \!\! A_{\nu} (\rhat,t)  e^{i2 \pi \frac{ \nu}{c} \mathbf{b}_t \cdot \rhat } \,\widetilde{\gamma} \! \left[ \frac{\nu}{c} (\boldsymbol \omega_\Earth \times \mathbf{b}_t) \cdot \rhat -f \right], \qquad
 \end{eqnarray}
 where $\tilde{\gamma}$ is the Fourier transform of $\gamma$. To the extent that $\gamma(t)$ can be chosen to be relatively broad without violating our approximations, $\tilde{\gamma}$ will be peaked around the point where its argument is zero. Its presence in Equation \eqref{eq:nextFR} therefore acts approximately like a delta function, selecting portions of the sky that have $\rhat$ satisfying the condition $f \approx \rhat \cdot \boldsymbol \omega_\Earth \times \mathbf{b} \nu / c $.
+
+\begin{figure}\centering
+\includegraphics[width=.9\columnwidth]{plots/fringe_contours}
+\caption{
+Fringe rate as a function of sky position, corresponding to the fringe pattern illustrated in
+Figure \ref{fig:ew_fringe}.  Fringe rates peak at $1.09\,\textrm{mHz}$ at $\delta=0^\circ$, hit zero at
+the south celestial pole, and become negative on the far side of the pole.  Grey shading indicates
+the approximate angular regions that correspond to alternating fringe-rate bins, assuming a
+fringe-rate transform taken over a two-hour time series.
+}\label{fig:fringe_contours}
+\end{figure}
 
 In words, what the above derivation shows is that as advertised, different fringe-rates correspond to different parts of the sky. This is illustrated in Figure \ref{fig:fringe_contours}, which shows contours of constant fringe-rate for the same baseline as the one simulated in Figure \ref{fig:ew_fringe}. Contours of constant fringe-rate correspond to locations on the sky $\rhat$ that have the same degenerate combination of $\rhat \cdot \boldsymbol \omega_\Earth \times \mathbf{b} $. Note that this combination can also be rewritten as $\boldsymbol \omega_\Earth \cdot \mathbf{b} \times \rhat $ or $\mathbf{b} \cdot \rhat \times  \boldsymbol \omega_\Earth $ by cyclic permutation. Thus, if any two of $\mathbf{b}$, $\omega_\Earth$, and $\rhat$ are parallel, their cross product---and hence the fringe-rate---will be zero. For example, the fringe-rate for astronomical sources located at either celestial pole will always be zero, since $\rhat$ would then be parallel to $\boldsymbol \omega_\Earth$. Similarly, a north-south only baseline located at the equator would have $\mathbf{b}$ parallel to $\boldsymbol \omega_\Earth$, resulting in $f=0$ because in such a scenario the fringes would have no azimuthal dependence, and thus there would be no fringe-crossings as the Earth rotates relative to the sky.
 
@@ -335,17 +347,6 @@ In this section, we have provided some basic intuition for fringe-rate filtering
 
 
 
-\begin{figure}
-\includegraphics[width=.9\columnwidth]{plots/fringe_contours}
-\caption{
-Fringe rate as a function of sky position, corresponding to the fringe pattern illustrated in
-Figure \ref{fig:ew_fringe}.  Fringe rates peak at $1.09\,\textrm{mHz}$ at $\delta=0^\circ$, hit zero at
-the south celestial pole, and become negative on the far side of the pole.  Grey shading indicates
-the approximate angular regions that correspond to alternating fringe-rate bins, assuming a
-fringe-rate transform taken over a two-hour time series.
-}\label{fig:fringe_contours}
-\end{figure}
-
 
 
 \section{Implementation}
@@ -361,10 +362,51 @@ most sensitive) baseline length measured by the PAPER array in the maximum-redun
 for power spectral measurements \citep{parsons_et_al2012a,P14,ali_et_al2015}.  As such, our simulations demonstrate the performance of fringe-rate filtering in the context of the specific instrument configuration
 that has recently been used to place the current best upper limits on $21\,\textrm{cm}$ emission from cosmic reionization \citep{P14,J14}.
 
-In the following sections, we will derive a number of different fringe-rate weights, each optimized for a different application. Often, these optimized weights depend on the detailed properties of one's instrument, and can therefore
-only be computed numerically, not analytically. For example, we will find in Section \ref{sec:PspecOptimization} that the optimal fringe-rate weights for power spectrum estimation involve computing the root-mean-square primary beam
-profile over contours of constant fringe-rate on the sky (such as those shown in Figure \ref{fig:fringe_contours}). A
-realistic primary beam will frequently require empirical modeling beyond analytic forms. It is therefore in general difficult to derive a completely analytic expression for an optimized fringe-rate filter profile. However, in the interests of being able to rapidly generate filters as a function of varying baseline lengths and observing frequencies, we frequently fit analytic forms (such as truncated Gaussians) to the numerical profiles. As long as the numerical profiles take the optimized forms that we will derive in Section \ref{sec:bmsculpt}, small deviations arising from an imperfect analytic fit are unlikely to significantly shift the final error properties of one's measurements. With the discussion of power spectrum measurements in Section \ref{sec:PspecOptimization}, for example, we minimize the noise variance by varying the fringe-rate weights. Because our analytic fits to these weights start from a local minimum in noise variance, any deviations in the weighting profile will only induce small second-order increases in the final error bars.
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{plots/fringe_rate_cut.png}
+\caption{
+Top: the optimal power-spectrum sensitivity weighting in fringe-rate space 
+for one of PAPER's 30-m east-west baselines at 150 MHz (black) is overlaid with
+the simple parametrization for optimal weighting used in (red; \citealt{ali_et_al2015}),
+which excises fringe rates at risk for contamination by crosstalk and smooths the
+weighting profile to provide a compact time-domain convolution kernel.  Also illustrated
+are the weighting for reducing polarization leakage (blue) described in Section \ref{sec:polbeams}, as well
+as a weighting that balances the needs of sensitivity, polarization leakage, crosstalk
+removal, and off-axis foregrounds (green).  Bottom: the time-domain convolution kernel
+corresponding to the red curve in the top panel.  Real and imaginary components are
+illustrated in blue and red, respectively, with the absolute amplitude illustrated
+in black.
+}
+\label{fig:fringe_rate_cut}
+\end{figure}
+
+
+In the following sections, we will derive a number of different fringe-rate
+weights, each optimized for a different application. Often, these optimized
+weights depend on the detailed properties of one's instrument, and can
+therefore only be computed numerically, not analytically. For example, we will
+find in Section \ref{sec:PspecOptimization} that the optimal fringe-rate
+weights for power spectrum estimation involve computing the root-mean-square
+(RMS) primary beam profile over contours of constant fringe rate on the sky
+(such as those shown in Figure \ref{fig:fringe_contours}).  An example of the
+binning of the RMS beam response in fringe rate is given by the black curve in
+the top panel of Figure \ref{fig:fringe_rate_cut}.  A realistic primary beam will
+frequently require empirical modeling beyond analytic forms. It is therefore in
+general difficult to derive a completely analytic expression for an optimized
+fringe-rate filter profile. However, in the interests of being able to rapidly
+generate filters as a function of varying baseline lengths and observing
+frequencies, we frequently fit analytic forms (such as truncated Gaussians) to
+the numerical profiles, as shown by the red curve in the top panel of Figure
+\ref{fig:fringe_rate_cut}.  As long as the numerical profiles take the
+optimized forms that we will derive in Section \ref{sec:bmsculpt}, small
+deviations arising from an imperfect analytic fit are unlikely to significantly
+shift the final error properties of one's measurements. With the discussion of
+power spectrum measurements in Section \ref{sec:PspecOptimization}, for
+example, we minimize the noise variance by varying the fringe-rate weights.
+Because our analytic fits to these weights start from a local minimum in noise
+variance, any deviations in the weighting profile will only induce small
+second-order increases in the final error bars.
 
 
 %
@@ -385,7 +427,8 @@ realistic primary beam will frequently require empirical modeling beyond analyti
 
 The next step in implementing the fringe-rate filter is translating the analytic filter profile in fringe-rate space into 
 a time-domain kernel that can be used to convolve the simulated time series of visibilities.  In effect, we implement
-the fringe-rate filter as a finite impulse response (FIR) filter.  Applying the fringe-rate filter as an FIR filter in
+the fringe-rate filter as a finite impulse response (FIR) filter.  The convolution kernel corresponding to this FIR
+filter is shown in the lower panel of Figure \ref{fig:fringe_rate_cut}.  Applying the fringe-rate filter as an FIR filter in
 the time domain, as opposed directly multiplying the desired filter to Fourier-transformed visibilities, has the advantage 
 that flagged or missing data can be naturally excluded from the filter by neglecting
 FIR taps (coefficient multiplies) that target the missing data. The summed output of the FIR filter are then renormalized to
@@ -580,25 +623,6 @@ of fringe-rate filtering as a spatial filter acting along fringe-rate contours. 
 the same order as in Figure \ref{fig:eff_beam}.
 }\label{fig:sim_beam}
 \end{figure*}
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=\columnwidth]{plots/fringe_rate_cut.png}
-\caption{
-Top: the optimal power-spectrum sensitivity weighting in fringe-rate space 
-for one of PAPER's 30-m east-west baselines at 150 MHz (black) is overlaid with
-the simple parametrization for optimal weighting used in (red; \citealt{ali_et_al2015}),
-which excises fringe rates at risk for contamination by crosstalk and smooths the
-weighting profile to provide a compact time-domain convolution kernel.  Also illustrated
-are the weighting for reducing polarization leakage (blue), as described in XXX, as well
-as a weighting that balances the needs of sensitivity, polarization leakage, crosstalk
-removal, and off-axis foregrounds (green).  Bottom: the time-domain convolution kernel
-corresponding to the red curve in the top panel.  Real and imaginary components are
-illustrated in blue and red, respectively, with the absolute amplitude illustrated
-in black.
-}
-\label{fig:fringe_rate_cut}
-\end{figure}
 
 
 \subsection{Minimizing polarization leakage}
