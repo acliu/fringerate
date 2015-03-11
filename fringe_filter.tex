@@ -153,7 +153,7 @@ to time variation in $V_{b\nu}(t)$ as the Earth rotates.
 \begin{figure}\centering
 \includegraphics[width=.9\columnwidth]{plots/ew_fringe}
 \caption{
-The fringe pattern at 150 MHz of a 30-m east-west baseline, overlaid with arrows indicating
+The fringe pattern at 150 MHz of a fiducial 30-m east-west baseline, overlaid with arrows indicating
 the distance traversed by sources at various declinations over a two-hour time span centered at transit.
 In a fixed time interval, sources near $\delta=0^\circ$ traverse more 
 fringe periods than sources nearer to the celestial poles. This gives rise to different
@@ -350,7 +350,8 @@ PAPER array, we simulate a model array based on PAPER, deployed at a latitude $-
 and featuring the beam response pattern characteristic of PAPER dipole elements \citep{parsons_et_al2008,pober_et_al2012}.
 The PAPER beam response pattern is illustrated in the left panel of Figure \ref{fig:sim_beam}.
 For these simulations, we also choose a specific baseline to examine: a pair of antennas separated by 30 m in the 
-east-west direction, observing at 150 MHz.  This baseline corresponds to the most repeated (and hence,
+east-west direction, deployed at a latitude of $-30^\circ$, and observing at 150 MHz.  This baseline, hereafter referred to as our {\it fiducial baseline}, 
+corresponds to the most repeated (and hence,
 most sensitive) baseline length measured by the PAPER array in the maximum-redundancy array configuration it uses
 for power spectral measurements \citep{parsons_et_al2012a,P14,ali_et_al2015}.  As such, our simulations demonstrate the performance of fringe-rate filtering in the context of the specific instrument configuration
 that has recently been used to place the current best upper limits on $21\,\textrm{cm}$ emission from cosmic reionization \citep{P14,J14}.
@@ -360,7 +361,7 @@ that has recently been used to place the current best upper limits on $21\,\text
 \includegraphics[width=\columnwidth]{plots/fringe_rate_cut.png}
 \caption{
 Top: the optimal power-spectrum sensitivity weighting in fringe-rate space 
-for one of PAPER's 30-m east-west baselines at 150 MHz (black) is overlaid with
+for our fiducial baselin (black) is overlaid with
 the simple parametrization for optimal weighting used in (red; \citealt{ali_et_al2015}),
 which excises fringe rates at risk for contamination by crosstalk and smooths the
 weighting profile to provide a compact time-domain convolution kernel.  Also illustrated
@@ -387,7 +388,7 @@ binning of the RMS beam response in fringe rate is given by the black curve in
 the top panel of Figure \ref{fig:fringe_rate_cut}.  A realistic primary beam will
 frequently require empirical modeling beyond analytic forms. It is therefore in
 general difficult to derive a completely analytic expression for an optimized
-fringe-rate filter profile. However, in the interests of being able to rapidly
+fringe-rate filter profile. However, in the interest of being able to rapidly
 generate filters as a function of varying baseline lengths and observing
 frequencies, we frequently fit analytic forms (such as truncated Gaussians) to
 the numerical profiles, as shown by the red curve in the top panel of Figure
@@ -551,9 +552,53 @@ to simply square the Fourier amplitudes outputted from a map, even if the mapmak
 
 Importantly, the result that we have derived here applies only when one is attempting to measure a power spectrum with a single baseline (or multiple baselines with the same baseline vector $\mathbf{b}$). This is a reasonable limit to work in for arrays such as PAPER, where a large fraction of the array's sensitivity comes from instantaneously redundant baselines \citep{parsons_et_al2012a}. For arrays that have less instantaneous redundancy, it becomes more important to combine data from multiple baselines. If multiple baselines are involved, Equation \eqref{eq:finalEst} no longer reduces to a single sum over the time axis. Said differently, it is no longer true that the full sensitivity of an array can be obtained by averaging together time-slice-by-time-slice estimates of the power spectrum estimation from fringe-rate filtered data. Instead, the optimal estimator involves a double sum over time, since with multiple baselines of roughly the same length, it is possible for baselines to rotate into one another. That is, rotation synthesis becomes an important contribution to an interferometer's sensitivity.
 
-In closing, we note that following fringe-rate filtering, the normalization of the power spectrum estimator must be modified accordingly. This can be seen in Equation \eqref{eq:finalEst}, where the scalar quantities in front of the sum are different than those found in Equation \eqref{eq:P14est}, which is applicable to non-fringe rate filtered data. To ensure that one's power spectrum estimates are correctly normalized, one can simply follow the prescription in Equation \eqref{eq:finalEst}. However, the derivation of Equation \eqref{eq:finalEst} involved a number of approximations. Additionally, as we discussed in Section \ref{sec:Implementation}, practical implementations of fringe-rate filtering may deviate from the optimal prescription outlined here. It may therefore be safer to instead compute the normalization of the power spectrum numerically. Once the fringe-rate weights have been specified, Equation \eqref{eq:EffectiveBeamDef} gives the effective beam. Since we know from Equation \eqref{eq:ShrunkBeam} that the measurement equation for fringe-rate filtered visibilities is the same as that for the original visibilities up to the revised beam, one can simply use Equation \eqref{eq:P14est} as long as the beam area is accordingly revised.
+We note that following fringe-rate filtering, the normalization of the power
+spectrum estimator must be modified accordingly. This can be seen in Equation
+\eqref{eq:finalEst}, where the scalar quantities in front of the sum are
+different than those found in Equation \eqref{eq:P14est}, which is applicable
+to non-fringe rate filtered data. To ensure that one's power spectrum estimates
+are correctly normalized, one can simply follow the prescription in Equation
+\eqref{eq:finalEst}. However, the derivation of Equation \eqref{eq:finalEst}
+involved a number of approximations. Additionally, as we discussed in Section
+\ref{sec:Implementation}, practical implementations of fringe-rate filtering
+may deviate from the optimal prescription outlined here. It may therefore be
+safer to instead compute the normalization of the power spectrum numerically.
+Once the fringe-rate weights have been specified, Equation
+\eqref{eq:EffectiveBeamDef} gives the effective beam. Since we know from
+Equation \eqref{eq:ShrunkBeam} that the measurement equation for fringe-rate
+filtered visibilities is the same as that for the original visibilities up to
+the revised beam, one can simply use Equation \eqref{eq:P14est} as long as the
+beam area is accordingly revised.
 
-In Figure XXX, we show... [XXX uncomment out stuff below to talk about the simulations]
+To verify the effective beam after fringe-rate filtering, we use simulated observations 
+of individual point sources positioned at declinations in $5^\circ$ increments, traversing
+through the primary beam and fringe pattern as a function of time.  As
+illustrated in Figure \ref{fig:src_track_flat}, we inject point sources of unity
+flux density and apply the FIR implementation of fringe-rate filtering described in Section \ref{sec:implementation}
+to the visibility time-series.  The change in amplitude of the filtered visibilities at each point
+along the time axis can then be 
+identified with a specific position on the sky for that point source.  We bin these responses on a
+HEALpix spherical grid \citep{gorski_et_al2005} to determine the effective beam response
+at that location.  We perform these simulations using both an isotropic primary beam (in Figure \ref{fig:src_track_flat})
+and with the PAPER primary beam (in Figure \ref{fig:src_track_beam}).  
+The effective beam responses that
+we recover are shown in Figure \ref{fig:eff_beam}.  These compare well with the effective beam response
+we predict by assigning a response to each position on the sky by looking up the filter response corresponding
+to the fringe rate at that position, and multiplying this by the original primary beam, as illustrated
+in Figure \ref{fig:sim_beam}.  As these simulations illustrate, the approximations we have made in our analytic
+derivation of the effect of fringe-rate filtering on the effective beam response are valid, with errors 
+dominated by binning effects associated with determining the effective beam from the point-source simulations.
+
+As a final check, we perform simulations assigning flux to pixels on the sky with a Gaussian random distribution
+and simulating the visibilities measured as a function of time for our fiducial baseline.  We compute the
+power spectrum amplitude for this simulated signal and a fringe-rate filtered version according to
+Equation (\ref{eq:P14est}), omitting the primary beam term $\Omega_{\rm PP}$ in both cases.  We then compute
+the ratio of the unnormalized $P(k)$ measurements and compare this ratio to the predicted change in effective
+beam area associated with the chosen fringe-rate filter.  We find that these ratios to be in agreement 
+to within the sample noise of our simulation.
+% XXX get the numbers from the simulation to be more quantitiative here.
+
+%In Figure XXX, we show... [XXX uncomment out stuff below to talk about the simulations]
 %To summarize, the simulations are based on a 30-m PAPER baseline observing at 150 MHz.  While the shape of the fringe-rate
 %filter is application-specific, we generally implement them as FIR filters, with time-domain kernels using coefficients that
 %are spaced to match the 43-second integrations recorded in our simulated observations.  Finally, we apply an window function to
@@ -574,7 +619,7 @@ In Figure XXX, we show... [XXX uncomment out stuff below to talk about the simul
 \begin{figure}\centering
 \includegraphics[width=0.9\columnwidth]{plots/src_track_flat.png}
 \caption{
-The real component of the fringe amplitude simulated for a 30-m east-west
+The real component of the fringe amplitude simulated for our fiducial 
 baseline deployed at a latitude of $-30^\circ$
 before (black) and after (red) the application
 of the fringe-rate filter described in Section \ref{sec:Implementation}.  From top to bottom,
@@ -891,8 +936,9 @@ long been applied to, e.g., PAPER observations \citep{parsons_et_al2010,jacobs_e
 As a time-domain filter, this crosstalk removal technique can also naturally be understood as a notch filter
 for removing signals with zero fringe-rate.  Because crosstalk removal uses a finite time interval for computing
 the average, applying this notch fringe-rate filter has the effect of removing emission from the region of
-sky corresponding to the zero fringe-rate bin.  As illustrated in Figure \ref{fig:fringe_contours}, for
-a 30-m baseline observing at 150 MHz, this corresponds to the unshaded region intersecting the south celestial pole.
+sky corresponding to the zero fringe-rate bin.  As illustrated in Figure \ref{fig:fringe_contours}, for our
+fiducial baseline,
+this corresponds to the unshaded region intersecting the south celestial pole.
 For PAPER, this region is sufficiently low in the beam that its removal has little impact, but in general, 
 subsequent analysis of crosstalk-removed data may require accounting for the beam-sculpting effects of
 the crosstalk removal filter.
