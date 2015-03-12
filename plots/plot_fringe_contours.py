@@ -18,7 +18,7 @@ if False:
 if False: aa.lat = '0:00'; aa.update()
 lat = aa.lat
 print lat
-fig = p.figure(figsize=(5,5))
+fig = p.figure(figsize=(4,5))
 fig.subplots_adjust(left=.05, top=.95, bottom=.05, right=0.95)
 m = Basemap(projection='ortho', lat_0=lat, lon_0=180, rsphere=1.)
 h = a.healpix.HealpixMap(nside=128)
