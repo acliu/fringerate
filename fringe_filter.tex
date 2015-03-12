@@ -465,7 +465,7 @@ To verify the effective beam after fringe-rate filtering, we use simulated obser
 of individual point sources positioned at declinations in $5^\circ$ increments, traversing
 through the primary beam and fringe pattern as a function of time.  As
 illustrated in Figure \ref{fig:src_track_flat}, we inject point sources of unity
-flux density and apply the FIR implementation of fringe-rate filtering described in Section \ref{sec:implementation}
+flux density and apply the FIR implementation of fringe-rate filtering described in Section \ref{sec:Implementation}
 to the visibility time-series.  The change in amplitude of the filtered visibilities at each point
 along the time axis can then be 
 identified with a specific position on the sky for that point source.  We bin these responses on a
@@ -473,10 +473,9 @@ HEALpix spherical grid \citep{gorski_et_al2005} to determine the effective beam 
 at that location.  We perform these simulations using both an isotropic primary beam (in Figure \ref{fig:src_track_flat})
 and with the PAPER primary beam (in Figure \ref{fig:src_track_beam}).  
 The effective beam responses that
-we recover are shown in Figure \ref{fig:eff_beam}.  These compare well with the effective beam response
-we predict by assigning a response to each position on the sky by looking up the filter response corresponding
-to the fringe rate at that position, and multiplying this by the original primary beam, as illustrated
-in Figure \ref{fig:sim_beam}.  As these simulations illustrate, the approximations we have made in our analytic
+we recover are shown in Figure \ref{fig:eff_beam}.  These compare well to the results shown in Figure \ref{fig:sim_beam}, 
+where we show the effective beam response by looking up the filter response corresponding
+to the fringe rate at each sky position, i.e., by using Equation \eqref{eq:EffectiveBeamDef}.  As these simulations illustrate, the approximations we have made in our analytic
 derivation of the effect of fringe-rate filtering on the effective beam response are valid, with errors 
 dominated by binning effects associated with determining the effective beam from the point-source simulations.
 
@@ -486,7 +485,9 @@ power spectrum amplitude for this simulated signal and a fringe-rate filtered ve
 Equation (\ref{eq:P14est}), omitting the primary beam term $\Omega_{\rm PP}$ in both cases.  We then compute
 the ratio of the unnormalized $P(k)$ measurements and compare this ratio to the predicted change in effective
 beam area associated with the chosen fringe-rate filter.  We find that these ratios to be in agreement 
-to within the sample noise of our simulation.
+to within the sample noise of our simulation. This legitimizes the approach advocated above, where
+Equation \eqref{eq:P14est} can be used for power spectrum estimation provided the effective beam
+squared integral is used instead of the beam squared integral for $\Omega_{pp}$.
 % XXX get the numbers from the simulation to be more quantitiative here.
 
 %In Figure XXX, we show... [XXX uncomment out stuff below to talk about the simulations]
@@ -1073,25 +1074,25 @@ becomes
 \begin{eqnarray}
 \label{flatSkyVis}
 V_{b\nu}(t) &&= \int A_\nu(\rhat) I_\nu(\rhat) \exp \left[ -i 2 \pi \left( \frac{b_0}{\lambda}  \sin(\alpha - \omega_\Earth t )\right) \right] \nonumber\\
-&&\!\!\! \times \exp \left[-i 2 \pi \left( \frac{b_y}{\lambda} \cos \eta \cos \delta \right) + i \psi(t) \right] d\Omega +n(t), \qquad
+&&\!\!\! \times \exp \left[-i 2 \pi \left( \frac{b_y}{\lambda} \cos \eta \sin \delta \right) + i \psi(t) \right] d\Omega +n(t), \qquad
 \end{eqnarray}
-[XXX: check this equation]
 where we have assumed for simplicity that the center of our small field is
 directly above the equator, and that a time-dependent phase $\psi(t)$ has been
 applied.  With this, the optimal combination of time-ordered data becomes
 \begin{eqnarray}
-\left( \A^\dagger \N^{-1} \vis \right)_{(\delta,\alpha)}^\textrm{flat} &&  = \frac{A_\nu(\delta,\alpha)}{\sigma^2} e^{i 2 \pi \frac{b_y}{\lambda} \cos \eta \cos \delta}  \nonumber  \\
-&&\!\!\! \times \sum_b \int  dt \,\,e^{ i 2 \pi  \frac{b_x}{\lambda} \sin(\alpha - \omega_\Earth t ) -i \psi (t) } V_{b\nu}(t). \qquad
+\left( \A^\dagger \N^{-1} \vis \right)_{(\delta,\alpha)}^\textrm{flat} &&  = \frac{A_\nu(\delta,\alpha)}{\sigma^2} e^{-i 2 \pi \frac{b_y}{\lambda} \cos \eta \sin \delta}  \nonumber  \\
+&&\!\!\! \times \sum_b \int  dt \,\,e^{ -i 2 \pi  \frac{b_x}{\lambda} \sin(\alpha - \omega_\Earth t ) +i \psi (t) } V_{b\nu}(t). \qquad
 \end{eqnarray}
 This is still not quite a simple average in time because there is no choice of
 $\psi(t)$ that can cancel out the time-dependence of $\sin (\alpha -
 \omega_\Earth t)$ for all $\varphi$ and all $t$.  Another way to phrase the
 problem is to note that even in the flat-sky approximation, one cannot expand
 Taylor expand $\sin (\alpha - \omega_\Earth t)$ over long observation times.
-With short observations, however, an expansion is justified, and picking
-$\psi(t) = 2 \pi \frac{b_x}{\lambda} \omega_\Earth t$ gives
+With short observations, however, an expansion is justified. Performing this
+expansion, invoking the narrow field-of-view approximation in the $\alpha$ direction, and picking
+$\psi(t) = -2 \pi \frac{b_x}{\lambda} \omega_\Earth t$ gives
 \begin{eqnarray}
-\left( \A^\dagger \N^{-1} \vis \right)_{(\delta,\alpha)}^\textrm{flat,short} =  &&\frac{A_\nu(\delta,\alpha)}{\sigma^2} e^{i 2 \pi \left( \frac{b_y}{\lambda} \cos \eta \cos \delta + \frac{b_x}{\lambda} \sin\alpha \right)} \nonumber \\
+\left( \A^\dagger \N^{-1} \vis \right)_{(\delta,\alpha)}^\textrm{flat,short} =  &&\frac{A_\nu(\delta,\alpha)}{\sigma^2} e^{-i 2 \pi \left( \frac{b_y}{\lambda} \cos \eta \cos \delta + \frac{b_x}{\lambda} \sin\alpha \right)} \nonumber \\
 && \times \sum_b   \int  dt \, V_{b\nu}(t),
 \end{eqnarray}
 which is a simple averaging in time.  In short, then, integrating in time is an
@@ -1099,7 +1100,7 @@ optimal way to combine time-ordered data only if a number of criteria are met:
 the flat-sky approximation must hold, the primary beam must track the field,
 the visibilities must be phased to track the center of the field, and the
 observations must be short.
-[XXX: maybe say that we're essentially clarifying the conditions necessary for fringe-stopping to work]
+
 \subsection{Optimized fringe-rate filtering for imaging}
 \label{fringeRateIntro}
 
@@ -1261,7 +1262,7 @@ Given its efficiency, flexibility, and close alignment with the natural observin
 basis of radio interferometers, we anticipate that fringe-rate filtering is likely to be
 an important analysis tool for current 21cm experiments, as well as future instruments
 such as the Hydrogen Epoch of Reionization Array (HERA; \citealt{pober_et_al2014}) and
-the Square Kilometre Array (SKA; \citealt{XXX}).
+the Square Kilometre Array (SKA; \citealt{carilli2014}).
 
 
 \section{Acknowledgments}
