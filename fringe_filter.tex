@@ -498,22 +498,7 @@ to within the sample noise of our simulation. This legitimizes the approach advo
 Equation \eqref{eq:P14est} can be used for power spectrum estimation provided the effective beam
 squared integral is used instead of the beam squared integral for $\Omega_{pp}$.
 % XXX get the numbers from the simulation to be more quantitiative here.
-
-%In Figure XXX, we show... [XXX uncomment out stuff below to talk about the simulations]
-%To summarize, the simulations are based on a 30-m PAPER baseline observing at 150 MHz.  While the shape of the fringe-rate
-%filter is application-specific, we generally implement them as FIR filters, with time-domain kernels using coefficients that
-%are spaced to match the 43-second integrations recorded in our simulated observations.  Finally, we apply an window function to
-%truncate the wings of this time-domain kernel to increase its compactness in time.  As demonstrated in Figure \ref{fig:fringe_weights},
-%% XXX add this part to the plot
-%this windowing increases the power-averaged RMS deviation from the ideal filter to XXX\%, but the improvement in computational cost,
-%the reduction in impact for any spurious systematics, and the relative insensitivity of the applications described below on the specific
-%filter shape, make this an advantageous trade-off.
-%
-%\begin{figure}\centering
-%\includegraphics[width=.9\columnwidth]{plots/fringe_wgts.png}
-%\caption{
-%}\label{fig:fringe_weights}
-%\end{figure}
+% XXX match Omega_PP throughout text
 
 
 % XXX link these figures in to text
@@ -586,19 +571,22 @@ The third column corresponds to the fringe-rate filter applied in \citet{ali_et_
 }\label{fig:pol_match}
 \end{figure*}
 
-XXX add table about beam areas, polarization leakage, and leakage metric
-%Unweighted: 0.0404663016895
-%Matched:    0.035510649066
-%Optimal SN: 0.0297091563881
-%Opt pol+SN: 0.0261530198971
-%Unweighted: 0.00163752157243
-%Matched:    0.00126100619709
-%Optimal SN: 0.000882633973294
-%Opt pol+SN: 0.000683980449739
-%Whole PP beam area: 0.321620240492
-%Matched PP beam area: 0.320884836514
-%Optimal PP beam area: 0.216822496348
-%Opt pol PP beam area: 0.13913102709
+\begin{table}[ht]
+\caption{PAPER STOKES I BEAM METRICS WITH FRINGE-RATE FILTERING}
+\begin{center}
+\begin{tabular}{rlll}
+& Power & Power$^2$ & Polarization \\
+& Beam & Beam & Leakage\\
+\hline
+Raw Beam & 0.74 sr & 0.32 sr & $1.64\cdot10^{-3}$ \\
+Matched XX/YY & 0.74 sr & 0.32 sr & $1.26\cdot10^{-3}$ \\
+Optimal Sensitivity & 0.49 sr & 0.22 sr & $0.88\cdot10^{-3}$ \\
+Leakage Weighted & 0.34 sr & 0.14 sr & $0.68\cdot10^{-3}$ \\
+\end{tabular}
+\end{center}
+\label{tbl:beam_metrics}
+\end{table}%
+% XXX link table in to text
 
 In the previous section, we maximized our sensitivity to the power spectrum under the assumption that the measurements were limited by instrumental noise. In practice, however, there may other sources of noise or systematics that may limit our constraints. One example of this is the cross-contamination between Stokes terms in interferometric polarization measurements. Minimizing such contamination is of paramount importance for $21\,\textrm{cm}$ cosmology experiments that rely on
 the spectral axis to probe the line-of-sight direction at cosmological distances.  For these
