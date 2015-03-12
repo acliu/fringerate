@@ -73,8 +73,6 @@ deep observations.
 % XXX fringe weighting profile
 % XXX delay spectrum not violated by freq-dependent fringe rate weights
 
-% XXX Shorten introduction and move rest of material into a Background/FR filter basics section
-
 
 \section{Introduction}
 
@@ -204,6 +202,17 @@ where $\boldsymbol \omega_\Earth$ is the angular velocity vector of the Earth's 
 =  \int d\Omega I_\nu(\rhat)  && \!\! A_{\nu} (\rhat,t)  e^{-i2 \pi \frac{ \nu}{c} \mathbf{b}_t \cdot \rhat } \,\widetilde{\gamma} \! \left[ \frac{\nu}{c} (\mathbf{b}_t \times \boldsymbol \omega_\Earth) \cdot \rhat -f \right], \qquad
 \end{eqnarray}
 where $\tilde{\gamma}$ is the Fourier transform of $\gamma$. To the extent that $\gamma(t)$ can be chosen to be relatively broad without violating our approximations, $\tilde{\gamma}$ will be peaked around the point where its argument is zero. Its presence in Equation \eqref{eq:nextFR} therefore acts approximately like a delta function, selecting portions of the sky that have $\rhat$ satisfying the condition $f \approx \rhat \cdot \mathbf{b} \times \boldsymbol \omega_\Earth \nu / c $.
+
+\begin{figure}\centering
+\includegraphics[width=.9\columnwidth]{plots/fringe_contours}
+\caption{
+Fringe rate as a function of sky position, corresponding to the fringe pattern illustrated in
+Figure \ref{fig:ew_fringe}.  Fringe rates peak at $1.09\,\textrm{mHz}$ at $\delta=0^\circ$, hit zero at
+the south celestial pole, and become negative on the far side of the pole.  Grey shading indicates
+the approximate angular regions that correspond to alternating fringe-rate bins, assuming a
+fringe-rate transform taken over a two-hour time series.
+}\label{fig:fringe_contours}
+\end{figure}
 
 In words, what the above derivation shows is that as advertised, different fringe-rates correspond to different parts of the sky. This is illustrated in Figure \ref{fig:fringe_contours}, which shows contours of constant fringe-rate for the same baseline as the one simulated in Figure \ref{fig:ew_fringe}. Contours of constant fringe-rate correspond to locations on the sky $\rhat$ that have the same degenerate combination of $\rhat \cdot \boldsymbol \omega_\Earth \times \mathbf{b} $. Note that this combination can also be rewritten as $\boldsymbol \omega_\Earth \cdot \mathbf{b} \times \rhat $ or $\mathbf{b} \cdot \rhat \times  \boldsymbol \omega_\Earth $ by cyclic permutation. Thus, if any two of $\mathbf{b}$, $\omega_\Earth$, and $\rhat$ are parallel, their cross product---and hence the fringe-rate---will be zero. For example, the fringe-rate for astronomical sources located at either celestial pole will always be zero, since $\rhat$ would then be parallel to $\boldsymbol \omega_\Earth$. Similarly, a north-south only baseline located at the equator would have $\mathbf{b}$ parallel to $\boldsymbol \omega_\Earth$, resulting in $f=0$ because in such a scenario the fringes would have no azimuthal dependence, and thus there would be no fringe-crossings as the Earth rotates relative to the sky.
 
