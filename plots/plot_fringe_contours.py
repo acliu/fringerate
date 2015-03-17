@@ -11,6 +11,7 @@ NBINS = len(bin_edges)
 def mk_fng(bl, ex, ey, ez):
     #f = -(bl[0]*n.sin(lons) + bl[1]*n.cos(lons)) * n.cos(lats)
     return -2*n.pi/a.const.sidereal_day * (bl[0]*ex + bl[1]*ey) * n.sqrt(1 - ez**2) # Hz
+from capo.frf_conv import mk_fng
 
 aa = a.cal.get_aa('psa898_v003', n.array([FQ]))
 if False:
@@ -68,7 +69,7 @@ def nos(dat, t):
 
 #print beam_area(bm), beam_area(bm**2), nos(bm, 1.), nos(bm,1.) / n.sqrt(NBINS)
 
-xyz = (xyz[1],xyz[0],xyz[2])
+#xyz = (xyz[1],xyz[0],xyz[2])
 #bl = n.array([100, 0, 0])
 bl = aa.get_baseline(0,16,'r') * FQ
 #bl = aa.get_baseline(0,28,'r') * FQ
@@ -90,7 +91,7 @@ for cnt,b1 in enumerate(bin_edges[:-1]):
 #p.subplot(232)
 #p.imshow(proj_hmap(fng,'e'), vmax=0, vmin=-.007, origin='lower')
 m.imshow(-1e3*proj_hmap(fng,'e'), origin='lower')
-cb = p.colorbar(shrink=.7, orientation='horizontal', pad=.05)
+cb = p.colorbar(shrink=1., orientation='horizontal', pad=.05)
 cb.set_label('Fringe Rate [mHz]')
 
 #p.subplot(233)

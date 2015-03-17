@@ -34,7 +34,8 @@
 \newcommand{\pasa}{PASA}
 
 \begin{document}
-\title{Fringe-Rate Filtering FTW XXX}
+\title{Beam Sculpting with Generalized Fringe-Rate Filters}
+% XXX how's that?
 
 \author{
 Aaron R. Parsons\altaffilmark{1,2},
@@ -70,7 +71,6 @@ of fringe-rate filtering to successfully boost sensitivity and reduce the impact
 deep observations.
 \end{abstract}
 
-% XXX fringe weighting profile
 % XXX delay spectrum not violated by freq-dependent fringe rate weights
 
 
@@ -165,7 +165,6 @@ The rate at which angular structure on the sky moves relative to the fringe patt
 %the variation in phase response across the sky --- is fixed in topocentric coordinates.  Hence, time
 %variation in $V_\nu(t)$ can be regarded as resulting from the motion of spatial structures in $I$ through
 %the fringe pattern and primary beam response pattern.  Moreover, for interferometers such as PAPER, CHIME, and HERA 
-%% XXX others? cite here or before?
 %that do not point, but instead drift-scan the sky as it rotates by, the primary beam response pattern and the
 %phase response pattern are locked to one another, and may together be considered the fringe pattern that gives rise
 %to time variation in $V_\nu(t)$ as the Earth rotates.
@@ -182,7 +181,6 @@ with an amplitude that is determined by the strength of the source and the ampli
 and a frequency that corresponds to the number of fringe periods traversed in a given time interval.  Hence, the frequency or {\it fringe-rate} of oscillations in $V_\nu(t)$
 ranges from a maximum at $\delta=0^\circ$ to zero at $\delta=-90^\circ$, and can even become negative
 for emission from the far side of the celestial pole.
-% XXX is there a name for the far side of the celestial pole?
 
 Let us now derive this intuition mathematically, assuming a drift-scan telescope. To sort our time-variable visibilities into different fringe-rates $f$, we take the Fourier transform of our visibility over a short interval of time centered at time $t$ to get
 \begin{equation}
@@ -492,16 +490,17 @@ As a final check, we perform simulations assigning flux to pixels on the sky wit
 and simulating the visibilities measured as a function of time for our fiducial baseline.  We compute the
 power spectrum amplitude for this simulated signal and a fringe-rate filtered version according to
 Equation (\ref{eq:P14est}), omitting the primary beam term $\Omega_{\rm PP}$ in both cases.  We then compute
-the ratio of the unnormalized $P(k)$ measurements and compare this ratio to the predicted change in effective
-beam area associated with the chosen fringe-rate filter.  We find that these ratios to be in agreement 
-to within the sample noise of our simulation. This legitimizes the approach advocated above, where
+the ratio of the unnormalized $P(k)$ measurements before/after fringe-rate filtering and compare 
+this ratio to the change in effective
+beam area associated with the chosen fringe-rate filter.  Dividing the signal loss associated with
+fringe-rate filtering by the change in beam area, we obtain a ratio of $1.016\pm0.011$ (1$\sigma$), 
+indicating that these ratios are in agreement 
+within the sample noise of our simulation. This legitimizes the approach advocated above, where
 Equation \eqref{eq:P14est} can be used for power spectrum estimation provided the effective beam
 squared integral is used instead of the beam squared integral for $\Omega_{pp}$.
-% XXX get the numbers from the simulation to be more quantitiative here.
 % XXX match Omega_PP throughout text
 
 
-% XXX link these figures in to text
 \begin{figure}\centering
 \includegraphics[width=0.9\columnwidth]{plots/src_track_flat.png}
 \caption{
@@ -718,26 +717,39 @@ the instrumental noise errors $\Delta \widehat{P}_I$ in our power spectrum estim
 \end{equation}
 For instrumental noise sensitivity, then, the crucial quantity is $\sigma^2_\textrm{filt} / \Omega^{II}_\textrm{eff}$. In Table \ref{tbl:beam_metrics} we show list the value of this metric for the various
 weighting schemes considered in this section, along with the fractional power spectrum
-leakage $\Omega^{QQ}_\textrm{eff}/\Omega^{II}_\textrm{eff}$. One sees that [XXX: insert
-discussion once the actual numbers are available].
+leakage $\Omega^{QQ}_\textrm{eff}/\Omega^{II}_\textrm{eff}$. One sees that, despite a 25\% reduction
+in effective beam area, fringe-rate filtering for optimal sensitivity (the red curve in
+Figure \ref{fig:fringe_rate_cut}) improves the bottom-line
+sensitivity for power spectral measurements by almost a factor of two.  This weighting, which only
+optimizes for sensitivity, also reduces polarization leakage by a factor of two relative to the
+raw PAPER beam, although a significant fraction of this improvement comes from an intermediate
+separate step: the separate filtering of the XX and YY beams to improve the polarization
+match before summing them to form a Stokes I visibility.  Finally, we see that fringe weights can be
+chosen that explicitly
+minimize leakage while retaining significant sensitivity; the last row of Table \ref{tbl:beam_metrics},
+corresponding to the green curve in Figure \ref{fig:fringe_rate_cut}, illustrates how an additional
+$\sim25$\% decrease in polarization leakage can be obtained with a $\sim$10\% degredation
+in sensitivity.
+% XXX should make clear that we only benefit from the square root of sigma^2 filt, since we get incoherent baselines back in quadrature
 
 
 \begin{table}[ht]
 \caption{PAPER STOKES I BEAM METRICS WITH FRINGE-RATE FILTERING}
 \begin{center}
-\begin{tabular}{rlll}
-& Power & Power$^2$ & Polarization \\
-& Beam & Beam & Leakage\\
+\begin{tabular}{rlllll}
+& Power & Power$^2$ & Integration& Polarization & Power Spectrum\\
+& Beam & Beam & Time & Leakage & Sensitivity\\
 \hline
-Raw Beam & 0.74 sr & 0.32 sr & $1.64\cdot10^{-3}$ \\
-Matched XX/YY & 0.74 sr & 0.32 sr & $1.26\cdot10^{-3}$ \\
-Optimal Sensitivity & 0.49 sr & 0.22 sr & $0.88\cdot10^{-3}$ \\
-Leakage Weighted & 0.34 sr & 0.14 sr & $0.68\cdot10^{-3}$ \\
+Raw Beam & 0.74 sr & 0.32 sr & 420 s & $1.64\cdot10^{-3}$  & 1. \\
+Matched XX/YY & 0.74 sr & 0.32 sr & 420 s & $1.26\cdot10^{-3}$ & 1. \\
+Optimal Sensitivity & 0.51 sr & 0.24 sr & 2930 s & $0.88\cdot10^{-3}$ & 1.9\\ % reduced by reduction in independent modes
+Leakage Weighted & 0.36 sr & 0.15 sr & 5570 s & $0.68\cdot10^{-3}$ & 1.7 \\
 \end{tabular}
 \end{center}
 \label{tbl:beam_metrics}
 \end{table}%
-% XXX link table in to text
+% XXX format table better
+% XXX Check out if we can get better polarization match with correct weighting
 
 In addition our attempts to match primary beams in order to minimize polarization leakage, it may also
 be possible to use fringe-rate filtering to correct for leakage after the fact. In the rest of this section, we
@@ -875,7 +887,7 @@ For the purposes of this discussion, we consider instrumental crosstalk to be a 
 correlation introduced between otherwise uncorrelated signals
 as a result of electromagnetic coupling in the instrument (typically between adjacent, unshielded signal lines)
 or because a non-celestial source has injected a correlated signal (e.g. switching noise on power supplies).
-Although crosstalk can be suppressed using Walsh switching (XXX cite), it is always present at some level
+Although crosstalk can be suppressed using phase switching \citep{ryle1952}, it is always present at some level
 in interferometric observations.  If it is temporally stable, however, it is possible to significantly
 suppress crosstalk in data by averaging visibilities over a long period (so that the fringing celestial
 signal washes out) and then subtracting the average complex additive offset from the data.  This 
@@ -1300,8 +1312,8 @@ that fringe-rate filtering naturally arises as part of optimized mapmaking presc
 described in \citet{T97mapmaking}, \citet{morales_matejek2009}, or \citet{dillon_et_al2015}.
 
 We also show that fringe-rate filtering can alternately be interpreted as a per-baseline
-operation for sculpting the primary beam along the declination direction [XXX: it doesn't have to be
-just declination?].  Using analytic
+operation for sculpting the primary beam along one dimension.
+Using analytic
 derivations and simulations, we highlight several important applications of such beam
 sculpting.  One key application for 21cm cosmological experiments starved for sensitivity
 is the ability to re-weight visibility data according to the SNR in each fringe-rate bin.
