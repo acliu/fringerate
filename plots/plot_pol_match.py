@@ -104,6 +104,17 @@ bmQm_fng = bmQm * fng_wgt
 bmIm_fngpol = bmIm_fng * pol_wgt
 bmQm_fngpol = bmQm_fng * pol_wgt
 
+frf_fngpol = wgt_pol(frbins) * wgt(frbins)
+skypass = n.where(n.abs(frbins) < .0012, 1., 0)
+crit_noise_lev = n.sum(skypass**2) / frbins.size
+fng_noise_lev = n.sum(n.abs(frf_fngpol)**2)/ frbins.size
+print 'Eff Int Time:', 42.9/crit_noise_lev, 42.9/fng_noise_lev
+print 'Noise Redux:', fng_noise_lev / crit_noise_lev
+print 'Sensitivity:', n.sqrt(crit_noise_lev / fng_noise_lev) * n.sum(bmIm_fngpol**2)/n.sum(bmI**2)
+
+print beam_area(bmI), beam_area(bmIm), beam_area(bmIm_fng), beam_area(bmIm_fngpol)
+print beam_area(bmI**2), beam_area(bmIm**2), beam_area(bmIm_fng**2), beam_area(bmIm_fngpol**2)
+
 print 'Unweighted:', n.sqrt(n.sum(bmQ**2)/n.sum(bmI**2))
 print 'Matched:   ', n.sqrt(n.sum(bmQm**2)/n.sum(bmIm**2))
 print 'Optimal SN:', n.sqrt(n.sum(bmQm_fng**2)/n.sum(bmIm_fng**2))
@@ -113,6 +124,11 @@ print 'Unweighted:', (n.sum(bmQ**2)/n.sum(bmI**2))
 print 'Matched:   ', (n.sum(bmQm**2)/n.sum(bmIm**2))
 print 'Optimal SN:', (n.sum(bmQm_fng**2)/n.sum(bmIm_fng**2))
 print 'Opt pol+SN:', (n.sum(bmQm_fngpol**2)/n.sum(bmIm_fngpol**2))
+
+print 'Whole P beam area:', beam_area(bmI)
+print 'Matched P beam area:', beam_area(bmIm)
+print 'Optimal P beam area:', beam_area(bmIm_fng)
+print 'Opt pol P beam area:', beam_area(bmIm_fngpol)
 
 print 'Whole PP beam area:', beam_area(bmI**2)
 print 'Matched PP beam area:', beam_area(bmIm**2)
