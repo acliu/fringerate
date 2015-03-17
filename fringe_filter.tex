@@ -10,6 +10,7 @@
 \usepackage{natbib}
 %\usepackage{pdflscape}
 %\usepackage{lscape}
+\usepackage{ctable}
 \citestyle{aa}
 
 \def\b{\mathbf{b}}
@@ -34,8 +35,9 @@
 \newcommand{\pasa}{PASA}
 
 \begin{document}
-\title{Beam Sculpting with Generalized Fringe-Rate Filters}
+\title{Optimized Beam Sculpting with Generalized Fringe-Rate Filters}
 % XXX how's that?
+% XXX I added "optimized"
 
 \author{
 Aaron R. Parsons\altaffilmark{1,2},
@@ -57,7 +59,7 @@ Carina Cheng\altaffilmark{1}
 %XXX need better pitch in abstract
 \begin{abstract}
 We generalize the technique of fringe-rate filtering for radio interferometry, where visibilities 
-are Fourier transformed in time into fringe-rate space and low-pass filtered. Different fringe rates
+are Fourier transformed in time into fringe-rate space and weighted. Different fringe rates
 are sourced by emission from different parts of the sky, and we capitalize on this geometric
 interpretation to show how fringe-rate filters can be optimized for various applications.
 These
@@ -103,8 +105,8 @@ from the data.
 In this paper, we extend ideas introduced in \citet{parsons_backer2009} (as well as similar ideas in \citealt{offringa_et_al2012} and \citealt{shaw_et_al2013}) to optimize the process of combining time-ordered data. The key realization is that fringe-rates---the Fourier dual to time---is a
 more natural space to enact time-averaging. Traditional time-averaging (say, a running box-car average)
 is equivalent to multiplying by a sinc filter in the fringe-rate domain. Generalizing this process, the
-convolution theorem ensures that time integration can be achieved by low-pass filtering the data (i.e.,
-weighting the data) in the fringe-rate domain. The fringe-rate domain provides a natural basis for time-averaging interferometric
+convolution theorem ensures that time integration can be achieved by 
+weighting the data in the fringe-rate domain. The fringe-rate domain provides a natural basis for time-averaging interferometric
 data because astronomical sources are locked to the celestial sphere, and therefore appear at
 predictable fringe-rates in the data. In particular, for a given interferometric baseline, there exists
 a maximum allowable fringe-rate, beyond which there is only instrumental noise. Fringe-rate filtering
@@ -732,26 +734,45 @@ $\sim25$\% decrease in polarization leakage can be obtained with a $\sim$10\% de
 in sensitivity.
 % XXX should make clear that we only benefit from the square root of sigma^2 filt, since we get incoherent baselines back in quadrature
 
+\begin{table*}[htbp]
+   \caption{Sensitivity and polarization leakage metrics for different fringe-rate filters.}
+   \centering
+   %\topcaption{Table captions are better up top} % requires the topcapt package
+   \begin{tabular}{@{} rccccc @{}} % Column formatting, @{} suppresses leading/trailing space
+      \toprule
+       & Integrated & Square-integrated & Effective  & Polarization leakage& Normalized power\\
+       & power beam [sr] & power beam [sr] &integration time [s] &  ($\Omega^{QQ}_\textrm{eff}/\Omega^{II}_\textrm{eff}$) & spectrum sensitivity\\
+      \midrule
+       No fringe-rate filter & 0.74& 0.32 & 420 & $1.64\times10^{-3}$  & 1. \\
+       Polarization-matched fringe-rate filter & 0.74  & 0.32  & 420& $1.26\times10^{-3}$ & 1. \\
+       Sensitivity-optimized fringe-rate filter & 0.51  & 0.24  & 2930 & $0.88\times10^{-3}$ & 1.9\\ % reduced by reduction in independent modes
+       Polarization and sensitivity-optimized & 0.36  & 0.15  & 5570 & $0.68\times10^{-3}$ & 1.7 \\
+      \bottomrule
+   \end{tabular}
 
-\begin{table}[ht]
-\caption{PAPER STOKES I BEAM METRICS WITH FRINGE-RATE FILTERING}
-\begin{center}
-\begin{tabular}{rlllll}
-& Power & Power$^2$ & Integration& Polarization & Power Spectrum\\
-& Beam & Beam & Time & Leakage & Sensitivity\\
-\hline
-Raw Beam & 0.74 sr & 0.32 sr & 420 s & $1.64\cdot10^{-3}$  & 1. \\
-Matched XX/YY & 0.74 sr & 0.32 sr & 420 s & $1.26\cdot10^{-3}$ & 1. \\
-Optimal Sensitivity & 0.51 sr & 0.24 sr & 2930 s & $0.88\cdot10^{-3}$ & 1.9\\ % reduced by reduction in independent modes
-Leakage Weighted & 0.36 sr & 0.15 sr & 5570 s & $0.68\cdot10^{-3}$ & 1.7 \\
-\end{tabular}
-\end{center}
-\label{tbl:beam_metrics}
-\end{table}%
-% XXX format table better
+   \label{tbl:beam_metrics}
+\end{table*}
+
 % XXX Check out if we can get better polarization match with correct weighting
 
-In addition our attempts to match primary beams in order to minimize polarization leakage, it may also
+%\begin{table}[ht]
+%\caption{PAPER STOKES I BEAM METRICS WITH FRINGE-RATE FILTERING}
+%\begin{center}
+%\begin{tabular}{rlllll}
+%& Power & Power$^2$ & Integration& Polarization & Power Spectrum\\
+%& Beam & Beam & Time & Leakage & Sensitivity\\
+%\hline
+%Raw Beam & 0.74 sr & 0.32 sr & 420 s & $1.64\cdot10^{-3}$  & 1. \\
+%Matched XX/YY & 0.74 sr & 0.32 sr & 420 s & $1.26\cdot10^{-3}$ & 1. \\
+%Optimal Sensitivity & 0.51 sr & 0.24 sr & 2930 s & $0.88\cdot10^{-3}$ & 1.9\\ % reduced by reduction in independent modes
+%Leakage Weighted & 0.36 sr & 0.15 sr & 5570 s & $0.68\cdot10^{-3}$ & 1.7 \\
+%\end{tabular}
+%\end{center}
+%\label{tbl:beam_metrics}
+%\end{table}%
+
+
+In addition to our attempts to match primary beams in order to minimize polarization leakage, it may also
 be possible to use fringe-rate filtering to correct for leakage after the fact. In the rest of this section, we
 will derive a scheme by which the signatures of leaked emission can be predicted from the mismatched
 primary beams and then suppressed in the time-ordered data. Suppose we estimate the power spectrum by forming weighted averages of the visibility cross-correlations between all
@@ -1268,10 +1289,10 @@ Putting together the optimal prescription as we did above, we have
 In words, this recipe instructs us to move into fringe-rate space (where the
 sky emission is already concentrated in $f_n$) and to further downweight by
 $\sum_{q} \widetilde{B}_q^* J_{n-q} \left( \frac{2 \pi b_0}{\lambda} \cos \delta \right)$, which, as we have argued above, is small for high fringe
-rates.  Thus, low-pass fringe-rate filtering is the optimal way to combine
+rates.  Thus, filtering away the high fringe-rates is the optimal way to combine
 time-ordered data from an interferometer.
 
-In summary, we see that low-pass fringe-rate filtering once again appears as an integral part of an optimal
+In summary, we see that downweighting high fringe-rates once again appears as an integral part of an optimal
 recipe, this time for mapmaking. While we made some assumptions (such as a separable beam) for analytic
 convenience, our qualitative conclusions are general. To generalize our treatment, one can simply return
 to Equation \eqref{fringeVis}, numerically evaluating the integral over time. One can then read off an expression
@@ -1346,7 +1367,7 @@ the Square Kilometre Array (SKA; \citealt{carilli2014}).
 
 \section{Acknowledgments}
 
-It gives us great pleasure to thank James Aguirre, David Moore, Daniel Jacobs, 
+It gives us great pleasure to thank James Aguirre, Gianni Bernardi, Daniel Jacobs, David Moore, 
 Miguel Morales, and Jonathan Pober for helpful discussions.  This research
 was supported by the National Science Foundation, award \#1129258.
 
