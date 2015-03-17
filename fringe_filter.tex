@@ -36,8 +36,6 @@
 
 \begin{document}
 \title{Optimized Beam Sculpting with Generalized Fringe-Rate Filters}
-% XXX how's that?
-% XXX I added "optimized"
 
 \author{
 Aaron R. Parsons\altaffilmark{1,2},
@@ -56,15 +54,17 @@ Carina Cheng\altaffilmark{1}
 %\altaffiltext{3}{Dept. of Physics and Astronomy, U. Pennsylvania, Philadelphia, PA}
 %\altaffiltext{8}{School of Earth and Space Exploration, Arizona State U., Tempe, AZ}
 
-%XXX need better pitch in abstract
 \begin{abstract}
-We generalize the technique of fringe-rate filtering for radio interferometry, where visibilities 
-are Fourier transformed in time into fringe-rate space and weighted. Different fringe rates
-are sourced by emission from different parts of the sky, and we capitalize on this geometric
-interpretation to show how fringe-rate filters can be optimized for various applications.
-These
-include mapmaking, the minimization of polarization leakage, minimizing instrumental systematics,
-and power spectrum estimation. We show that fringe-rate filtering arises naturally in minimum variance
+We generalize the technique of fringe-rate filtering, whereby visibilities 
+measured by a radio interferometer are re-weighted according to their temporal variation.
+As the Earth rotates, radio sources traverse through an interferometer's fringe pattern
+at rates that depend on their position on the sky.  Capitalizing on a geometric interpretation
+of fringe-rate filtering, we employ time-domain convolution kernels to
+sculpt the effective primary beam of antennas in an interferometer.   As we show,
+beam sculpting through fringe-rate filtering 
+can be used to optimize measurements for a variety of applications,
+including mapmaking, minimizing polarization leakage, suppressing instrumental systematics,
+and enhancing the sensitivity of power-spectrum measurements. We show that fringe-rate filtering arises naturally in minimum variance
 treatments of many of these problems, enabling optimal visibility-based approaches to analyses of
 interferometric data that avoid systematics that may be induced by traditional approaches such as imaging. Our techniques have
 recently been demonstrated in \citet{ali_et_al2015}, where new upper limits
@@ -753,8 +753,6 @@ in sensitivity.
    \label{tbl:beam_metrics}
 \end{table*}
 
-% XXX Check out if we can get better polarization match with correct weighting
-
 %\begin{table}[ht]
 %\caption{PAPER STOKES I BEAM METRICS WITH FRINGE-RATE FILTERING}
 %\begin{center}
@@ -895,8 +893,6 @@ The reduced presence of foregrounds in the simulated visibilities after fringe-r
 can be understood as coming from the spatial filter enacted by fringe-rate filtering.
 }\label{fig:gsm}
 \end{figure}
-
-% XXX cite ellingson somewhere?  what does his paper say?
 
 A final application of beam sculpting with fringe-rate filters targets the suppression of systematics in data.
 We will consider two systematics: additive phase terms associated with instrumental crosstalk, and sidelobes
@@ -1348,7 +1344,7 @@ avoid many analysis-induced systematics associated with gridding data on the $uv
 %This operation, which is effectively a one-dimensional case of the optimal beam
 %weighting described in \citet{morales_matejek2009} and \citet{bhatnagar_et_al2008}, 
 %can improve the sensitivity achieved in a per-baseline power spectral analysis by a factor
-%of several % XXX check
+%of several % 
 %while avoiding many of the systematics associated with gridding data in the $uv$ plane.
 %Crucially, this 
 Other important application include improving the match between polarization beam to

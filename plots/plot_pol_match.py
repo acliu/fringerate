@@ -57,10 +57,12 @@ print 'Baseline:', bl
 fng = C.frf_conv.mk_fng(bl, *xyz)
 binwidth = .00005
 bin_edges = n.arange(-.01+binwidth/2,.01,binwidth)
+hXX, bin_edges = n.histogram(fng, bins=bin_edges, weights=bmXX*bmXX)
 hXY, bin_edges = n.histogram(fng, bins=bin_edges, weights=bmXX*bmYY)
 hYY, bin_edges = n.histogram(fng, bins=bin_edges, weights=bmYY*bmYY)
 bins = 0.5 * (bin_edges[:-1] + bin_edges[1:])
-polmatch = n.where(hYY > 0, hXY / hYY, 0)
+#polmatch = n.where(hYY > 0, hXY / hYY, 0)
+polmatch = n.where(hYY > 0, n.sqrt(hXX / hYY), 0)
 polmatch = scipy.interpolate.interp1d(bins, polmatch, kind='linear', bounds_error=False, fill_value=0)
 #p.plot(bins, hXX); p.plot(bins, hYY); p.show()
 #p.plot(bins, n.where(hXX>0,hYY/hXX,0)); p.show()
