@@ -58,15 +58,15 @@ Carina Cheng\altaffilmark{1}
 We generalize the technique of fringe-rate filtering, whereby visibilities 
 measured by a radio interferometer are re-weighted according to their temporal variation.
 As the Earth rotates, radio sources traverse through an interferometer's fringe pattern
-at rates that depend on their position on the sky.  Capitalizing on a geometric interpretation
-of fringe-rate filtering, we employ time-domain convolution kernels to
-sculpt the effective primary beam of antennas in an interferometer.   As we show,
+at rates that depend on their position on the sky.  Capitalizing on this geometric interpretation
+of fringe rates, we employ time-domain convolution kernels to
+enact fringe-rate filters that sculpt the effective primary beam of antennas in an interferometer.   As we show,
 beam sculpting through fringe-rate filtering 
 can be used to optimize measurements for a variety of applications,
 including mapmaking, minimizing polarization leakage, suppressing instrumental systematics,
 and enhancing the sensitivity of power-spectrum measurements. We show that fringe-rate filtering arises naturally in minimum variance
 treatments of many of these problems, enabling optimal visibility-based approaches to analyses of
-interferometric data that avoid systematics that may be introduced by traditional approaches such as imaging. Our techniques have
+interferometric data that avoid systematics potentially introduced by traditional approaches such as imaging. Our techniques have
 recently been demonstrated in \citet{ali_et_al2015}, where new upper limits
 were placed on the $21\,\textrm{cm}$ power spectrum from reionization, showcasing the ability
 of fringe-rate filtering to successfully boost sensitivity and reduce the impact of systematics in
@@ -102,7 +102,7 @@ Long time-integrations are therefore crucial not only for generating the requisi
 detection of the cosmological signal, but also to allow faint systematics to be detected and excised
 from the data.
 
-In this paper, we extend ideas introduced in \citet{parsons_backer2009} (as well as similar ideas in \citealt{offringa_et_al2012} and \citealt{shaw_et_al2013}) to optimize the process of combining time-ordered data. The key realization is that fringe-rates---the Fourier dual to time---is a
+In this paper, we extend ideas introduced in \citet{parsons_backer2009} (as well as similar ideas in \citealt{offringa_et_al2012} and \citealt{shaw_et_al2013}) to optimize the process of combining time-ordered data. The key realization is that fringe-rate---the Fourier dual to time---is a
 more natural space to enact time-averaging. Traditional time-averaging (say, a running box-car average)
 is equivalent to multiplying by a sinc filter in the fringe-rate domain. Generalizing this process, the
 convolution theorem ensures that time integration can be achieved by 
@@ -120,7 +120,7 @@ of cosmological power spectra, the reduction of polarization leakage, and the do
 contaminating sources far from the central regions of the sky that one is attempting to observe.
 Importantly, these filters can be implemented on a per-baseline basis, providing cleaner views
 of systematics in the data, which are often easier to identify when described baseline-by-baseline,
-instead of being mixed together in an image-domain map. However, we will also show that the
+instead of being mixed together in an image-domain map. However, we will also show that 
 optimally weighted mapmaking can also be more conveniently conceptualized in a mathematical
 framework operating in the fringe-rate basis.
 
@@ -148,7 +148,7 @@ frequency.
 %a function of time, $t$, even for a static sky because the Earth's rotation makes the expression of $I$ 
 %in topocentric coordinates a time-dependent quantity.
 We adopt the convention that our coordinate system is fixed to the celestial sphere, because it will be convenient for our algebraic manipulations later. However, it is equally valid to understand the time-variation of the visibilities as arising from the movement of astronomical sources through the primary beam and the fringes arising from a baseline, which are fixed to a topocentric coordinate system. For drift-scan telescopes like PAPER, CHIME, or HERA, this view is particularly powerful because then the primary beam and the fringe pattern are locked to one another, and may together be considered an enveloped fringe pattern that gives rise
-to time variation in $V_{b\nu}(t)$ as the Earth rotates.
+to time-variation in $V_{b\nu}(t)$ as the Earth rotates.
 
 \begin{figure}\centering
 \includegraphics[width=.9\columnwidth]{plots/ew_fringe}
@@ -245,10 +245,10 @@ In this section, we have provided some basic intuition for fringe-rate filtering
 \section{Implementation}
 \label{sec:Implementation}
 
-In this section, we discuss a practical implementation of fringe-rate filtering, which will be used in simulations later in the paper that illustrate various applications of fringe-rate filtering. In keeping with its origins targeting observations from the
+In this section, we discuss a practical implementation of the aforementioned ideas. We will use this implementation in simulations later in the paper to illustrate various applications of fringe-rate filtering. In keeping with its origins targeting observations from the
 PAPER array, we simulate a model array based on PAPER, deployed at a latitude of $-30^\circ$
 and featuring the beam response pattern characteristic of PAPER dipole elements \citep{parsons_et_al2008,pober_et_al2012}.
-The PAPER beam response pattern is illustrated in the left panel of Figure \ref{fig:sim_beam}.
+The PAPER beam response pattern is illustrated in the leftmost panel of Figure \ref{fig:sim_beam}.
 For these simulations, we also choose a specific baseline to examine: a pair of antennas separated by 30 m in the 
 east-west direction, deployed at a latitude of $-30^\circ$, and observing at 150 MHz.  This baseline, hereafter referred to as our {\it fiducial baseline}, 
 corresponds to the most repeated (and hence,
@@ -324,7 +324,7 @@ The next step in implementing the fringe-rate filter is translating the analytic
 a time-domain kernel that can be used to convolve the simulated time series of visibilities.  In effect, we implement
 the fringe-rate filter as a finite impulse response (FIR) filter.  The convolution kernel corresponding to this FIR
 filter is shown in the lower panel of Figure \ref{fig:fringe_rate_cut}.  Applying the fringe-rate filter as an FIR filter in
-the time domain, as opposed directly multiplying the desired filter to Fourier-transformed visibilities, has the advantage 
+the time domain, as opposed to directly multiplying the desired filter to Fourier-transformed visibilities, has the advantage 
 that flagged or missing data can be naturally excluded from the filter by neglecting
 FIR taps (coefficient multiplies) that target the missing data. The summed output of the FIR filter are then renormalized to
 account for the missing samples.  Another advantage of the FIR implementation of the fringe-rate filter is the potential for
@@ -449,10 +449,10 @@ where the optimally filtered visibility in the time domain $\widetilde{V}^\textr
 \end{eqnarray}
 This is a rather remarkable result, in that the optimal power spectrum estimator for a single baseline interferometer consists of a squared statistic (i.e., one with no phase information) integrated in time. This may seem counterintuitive, particularly if one is accustomed to more conventional techniques where images are formed from the visibilities and averaged down before any squaring steps. There, it is crucial to average in time \emph{before} squaring, because data from different time steps can be sourced by the same Fourier modes on the celestial sphere. Integrating before squaring allows information from these modes to be coherently averaged together (since phase information has yet to be discarded), resulting in instrumental noise that integrates down as $1/\sqrt{t}$. This then becomes a $1/t$ dependence for the error bars on the final (squared) power spectrum results, and is a much quicker reduction of instrumental noise than if the data had been squared first, which would have resulted in a $1/\sqrt{t}$ dependence on the power spectrum errors.
 
-In our derivation, we showed that the optimal power spectrum estimator can in fact be obtained by squaring before integrating, \emph{provided} the power spectra formed at each time instant are first fringe-rate filtered with weights $ \mu_i^{1/2}$, i.e., where each fringe-rate is weighted by the RMS primary beam within the corresponding constant-fringe-rate contour on the sky. Essentially, the pre-processing step of fringe-rate filtering (with these specific weights) replaces the independent time samples with a set of correlated visibilities that have effectively already been coherently integrated in time. Note that these weights are \emph{not} generally the same as the ones derived in Section \ref{fringeRateIntro} for optimal mapmaking, where measurements were essentially weighted by an additional factor of the primary beam in fringe-rate space, rather than by the RMS beam weighting suggested here. Put another way, to obtain the full power spectrum sensitivity of an interferometer, it is insufficient
-to simply square the Fourier amplitudes outputted from a map, even if the mapmaking was optimized to minimize the error bars of the map.  Forming the power spectrum in such a way would be equivalent to restricting $w_{ij}$ to a form separable in $i$ and $j$, which is a restriction that precludes the form for $w_{ij}$ given by Equation \eqref{eq:PspecOptWeights}, which minimizes the error bars of the power spectrum.
+In our derivation, we showed that the optimal power spectrum estimator can in fact be obtained by squaring before integrating, \emph{provided} the power spectra formed at each time instant are first fringe-rate filtered with weights $ \mu_i^{1/2}$, i.e., where each fringe-rate is weighted by the RMS primary beam within the corresponding constant-fringe-rate contour on the sky. Essentially, the pre-processing step of fringe-rate filtering (with these specific weights) replaces the independent time samples with a set of correlated visibilities that have effectively already been coherently integrated in time. Note that these weights are \emph{not} generally the same as the ones derived in Section \ref{fringeRateIntro} for optimal mapmaking, where measurements will essentially be weighted by an additional factor of the primary beam in fringe-rate space, rather than by the RMS beam weighting suggested here. Put another way, to obtain the full power spectrum sensitivity of an interferometer, it is insufficient
+to simply square the Fourier amplitudes outputted from a map, even if the mapmaking was optimized to minimize the error bars of the map.  Forming the power spectrum in such a way would be equivalent to restricting $g_{ij}$ to a form separable in $i$ and $j$. This restriction precludes the form for $w_{ij}$ given by Equation \eqref{eq:PspecOptWeights}, which minimizes the error bars of the power spectrum.
 
-Importantly, the result that we have derived here applies only when one is attempting to measure a power spectrum with a single baseline (or multiple baselines with the same baseline vector $\mathbf{b}$). This is a reasonable limit to work in for arrays such as PAPER, where a large fraction of the array's sensitivity comes from instantaneously redundant baselines \citep{parsons_et_al2012a}. For arrays that have less instantaneous redundancy, it becomes more important to combine data from multiple baselines. If multiple baselines are involved, Equation \eqref{eq:finalEst} no longer reduces to a single sum over the time axis. Said differently, it is no longer true that the full sensitivity of an array can be obtained by averaging together time-slice-by-time-slice estimates of the power spectrum estimation from fringe-rate filtered data. Instead, the optimal estimator involves a double sum over time, since with multiple baselines of roughly the same length, it is possible for baselines to rotate into one another. That is, rotation synthesis becomes an important contribution to an interferometer's sensitivity.
+Importantly, the result that we have derived here applies only when one is attempting to measure a power spectrum with a single baseline (or multiple baselines with the same baseline vector $\mathbf{b}$). This is a reasonable limit to work in for arrays such as PAPER, where a large fraction of the array's sensitivity comes from instantaneously redundant baselines \citep{parsons_et_al2012a}. For arrays that have less instantaneous redundancy, it becomes more important to combine data from multiple baselines. If multiple baselines are involved, Equation \eqref{eq:finalEst} no longer reduces to a single sum over the time axis. Said differently, it is no longer true that the full sensitivity of an array can be obtained by averaging together time-slice-by-time-slice estimates of the power spectrum estimation from fringe-rate filtered data. Instead, the optimal estimator involves a double sum over time, since with multiple baselines of roughly the same length, it is possible for baselines to rotate into one another on the $uv$ plane. That is, rotation synthesis becomes an important contribution to an interferometer's sensitivity.
 
 We note that following fringe-rate filtering, the normalization of the power
 spectrum estimator must be modified accordingly. This can be seen in Equation
@@ -493,7 +493,7 @@ Explicitly, the relevant integral is $\frac{1}{B} \int d\Omega d\nu A^\textrm{ef
 \begin{equation}
 \frac{1}{B} \int d\Omega d\nu A_{\nu} ( \rhat, \nu)^2 \,w^2\!\left( \frac{\nu}{c} \mathbf{b}_t \times \boldsymbol \omega_\Earth \cdot \rhat  \right),
 \end{equation}
-where we made the approximation that $ \tilde{\gamma}$ is a reasonably compact function in Equation \eqref{eq:EffectiveBeamDef}.
+where we made the approximation that $ \tilde{\gamma}$ is a reasonably compact (delta function-like) function in Equation \eqref{eq:EffectiveBeamDef}.
 Suppose we now evaluate this integral by splitting the sky into rings of constant fringe-rate, i.e., regions within which
 we have $ \mathbf{b}_t \times \boldsymbol \omega_\Earth \cdot \rhat$ equal to a constant. By construction, the function $w$ is
 constant within each of these regions, and denoting its value in the $j$th region as $w_j$, the integral becomes
@@ -546,8 +546,8 @@ this ratio to the change in effective
 beam area associated with the chosen fringe-rate filter.  Dividing the signal loss associated with
 fringe-rate filtering by the change in beam area, we obtain a ratio of $1.016\pm0.011$ (1$\sigma$), 
 indicating that these ratios are in agreement 
-within the sample noise of our simulation. This legitimizes the approach advocated above, where
-Equation \eqref{eq:P14est} can be used for power spectrum estimation provided the effective beam
+within the sample noise of our simulation. This numerically legitimizes the approach advocated above, where
+we used approximate analytic arguments to argue that Equation \eqref{eq:P14est} can be used for power spectrum estimation provided the effective beam
 squared integral is used instead of the beam squared integral for $\Omega_{pp}$.
 
 
@@ -647,7 +647,7 @@ Stokes I visibility takes the form (see, e.g., \citealt{moore_et_al2015})
 V_{b\nu}(t)= &&\int d\Omega \, {I_\nu(\rhat) A^I_\nu(\rhat,t) \exp \left[-i2\pi \frac{\nu}{c}  \mathbf{b}(t) \cdot \rhat\right]} + \nonumber \\
 && \int d\Omega \, {Q_\nu(\rhat) A^Q_\nu(\rhat,t) \exp \left[-i2\pi \frac{\nu}{c}  \mathbf{b}(t) \cdot \rhat\right]}, \qquad
 \end{eqnarray}
-where $Q_\nu$ denotes the Stokes Q sky at frequency $\nu$. The second term represents the $Q$ to $I$ leakage
+where $Q_\nu$ denotes the Stokes Q sky at frequency $\nu$. The second term represents the Q to I leakage
 in the visibility measurement, which does not vanish if $ A_{\rm XX} \neq A_{\rm YY}$, i.e., if there are
 any asymmetries in the beams. For a single baseline at a given instant in time, this leakage term
 cannot be eliminated. The heart of the problem is the impossibility of creating a match between a pair of two-dimensional functions (the
@@ -685,7 +685,7 @@ in this last category are many of the maximum redundancy configurations currentl
 for their sensitivity benefits \citep{parsons_et_al2012a,P14}.
 
 However, even in the single-baseline case, earth-rotation synthesis provides dense $uv$ sampling along one direction: the
-direction the baseline traverses in the $uv$ plane as its project toward the phase center changes.  The appropriate
+direction the baseline traverses in the $uv$ plane.  The appropriate
 convolution kernel can combine samples along this track so as to correct the primary beam mismatch along one axis.
 Of course, what we have just described---a convolution kernel acting along a time series
 of samples from a single baseline---is precisely fringe-rate filtering.  Put another way, since fringe-rate filtering has the effect of modifying one's primary beams, it is possible to tailor fringe-rates to improve the match between the XX and YY polarization beams. In the case of sparse array sampling, the result will be identical to the best that can be achieved by independently
@@ -700,9 +700,9 @@ a one-dimensional beam profile in fringe-rate space. Repeating the same exercise
 one can then form the ratio between the two profiles, quantifying the mismatch between the XX and YY
 beams in a one-dimensional projection. This ratio is plotted for PAPER as the blue dashed curve in the
 top panel of Figure \ref{fig:fringe_rate_cut}. If one then uses this curve as a set of fringe-rate weights
-for the $\VYY$, the resulting effective beams will be more closely matched to one another, as
-shown by the improvement in polarization leakage between the first and second rows in Table
-\ref{tbl:beam_metrics}. Note that
+for the $\VYY$, the resulting effective beams will be more closely matched to one another, which we
+will demonstrate later in this section when we quantitatively estimate polarization leakage for various fringe-rate filtering
+schemes. Note that
 we use the RMS rather than the beam itself because ultimately we seek a measurement
 of the power spectrum, which is a squared quantity.
 
@@ -739,7 +739,7 @@ bins. Beam integrals $\Omega^{QQ}$ and $\Omega^{II}$ are defined analogously to 
 but with superscripts indicating the Stokes components. The Stokes I power spectrum $P_I$ is the same as the
 power spectrum $P$ defined in Section \ref{sec:PspecOptimization}, with the new notation serving only to
 distinguish it from the Stokes Q power $P_Q$. In deriving Equation \eqref{eq:LeakyCorrelFct}, we made two
-key assumptions. The first is that the $I$ and $Q$ contributions to the sky are on average uncorrelated. Empirically, 
+key assumptions. The first is that the I and Q contributions to the sky are on average uncorrelated. Empirically, 
 this appears to be the case \citep{wieringa_et_al1993,gaensler_et_al2001,bernardi_et_al2003}, and physically, one expects this to be so since foreground interstellar medium clouds affect polarized and unpolarized
 emission differently.
 The second assumption is that the polarized sky is describable by a power spectrum. At some level, one expects
@@ -747,47 +747,6 @@ this assumption to fail, as there exist bright polarized sources that are not ac
 of some power spectrum. However, since our ultimate goal is to measure power spectra, it is reasonable to
 define an effective Stokes Q power spectrum.
 
-Like before, rather than considering individual correlations between different fringe-rate bins, one may
-insert fringe-rate filtered delay-space visibilities $\widetilde{V}^\textrm{filt} $ on the left-hand side of Equation \eqref{eq:LeakyCorrelFct}. The
-same equation then holds with the fringe-rate bin indices omitted (since the fringe-rates have already
-been combined in a weighted combination) and $\Omega^{QQ}$ and $\Omega^{II}$ replaced
-by the square integral of the \emph{effective} beams, which we denote $\Omega^{QQ}_\textrm{eff}$ and $\Omega^{II}_\textrm{eff}$. One sees then that a suitable estimator of
-the Stokes I power spectrum is
-\begin{equation}
-\widehat{P}_I (\mathbf{k}) =\frac{ | \widetilde{V}^\textrm{filt} (\mathbf{u}, \eta) |^2}{S \Omega^{II}_\textrm{eff}}.
-\end{equation}
-Ensemble-averaging both sides and inserting the fringe-rate filtered version of Equation \eqref{eq:LeakyCorrelFct} yields
-\begin{equation}
-\langle \widehat{P}_I (\mathbf{k}) \rangle = P_I (\mathbf{k}) + \frac{\Omega^{QQ}_\textrm{eff}}{\Omega^{II}_\textrm{eff}} P_Q (\mathbf{k}).
-\end{equation}
-The second term is the polarization leakage in our final power spectrum estimate. The key quantity is $\Omega^{QQ}_\textrm{eff}/\Omega^{II}_\textrm{eff}$, which quantifies the effectiveness of
-one's polarization leakage suppression scheme. On the other hand, if the fringe-rate filtered
-visibilities have an instrumental noise variance of $\sigma^2_\textrm{filt}$ (as we assumed in the previous section),
-the instrumental noise errors $\Delta \widehat{P}_I$ in our power spectrum estimator are
-\begin{equation}
-\Delta \widehat{P}_I (\mathbf{k}) \equiv \left(\textrm{Var} \left[\widehat{P}_I (\mathbf{k}) \right]\right)^\frac{1}{2} = \frac{\sigma^2_\textrm{filt}}{S\Omega^{II}_\textrm{eff}}.
-\end{equation}
-For instrumental noise sensitivity, then, the crucial quantity is $\sigma^2_\textrm{filt} / \Omega^{II}_\textrm{eff}$. In Table \ref{tbl:beam_metrics} we show list the value of this metric
-(rightmost column) for the various weighting schemes considered in this section, normalized to the value
-obtained with no fringe-rate filtering. We also show the integrated power beam $\int A^\textrm{eff} (\rhat) d\Omega$, the
-square-integrated power beam $\Omega^{II}_\textrm{eff} \equiv \int A^\textrm{eff} (\rhat)^2 d\Omega$, the
-effective integration time implied by each fringe-rate filter, and the fractional power spectrum
-leakage $\Omega^{QQ}_\textrm{eff}/\Omega^{II}_\textrm{eff}$. One sees that, despite a 25\% reduction
-in effective beam area, fringe-rate filtering for optimal sensitivity (the red curve in
-Figure \ref{fig:fringe_rate_cut}) improves the bottom-line
-sensitivity for power spectral measurements by almost a factor of two.  This improvement takes
-into account the improvement in sensitivity of each independent power-spectrum sample, but
-also the corresponding decrease in the number of independent modes available.  This weighting, which only
-optimizes for sensitivity, also reduces polarization leakage by a factor of two relative to the
-raw PAPER beam, although a significant fraction of this improvement comes from an intermediate
-separate step: the separate filtering of the XX and YY beams to improve the polarization
-match before summing them to form a Stokes I visibility.  Finally, we see that fringe weights can be
-chosen that explicitly
-minimize leakage while retaining significant sensitivity; the last row of Table \ref{tbl:beam_metrics},
-corresponding to the green curve in Figure \ref{fig:fringe_rate_cut}, illustrates how an additional
-$\sim25$\% decrease in polarization leakage can be obtained with a $\sim$10\% degradation
-in sensitivity.
-% XXX should make clear that we only benefit from the square root of sigma^2 filt, since we get incoherent baselines back in quadrature
 
 \begin{table*}[htbp]
    \caption{Sensitivity and polarization leakage metrics for different fringe-rate filters.}
@@ -808,6 +767,52 @@ in sensitivity.
    \label{tbl:beam_metrics}
 \end{table*}
 
+
+Like before, rather than considering individual correlations between different fringe-rate bins, one may
+insert fringe-rate filtered delay-space visibilities $\widetilde{V}^\textrm{filt} $ on the left-hand side of Equation \eqref{eq:LeakyCorrelFct}. The
+same equation then holds with the fringe-rate bin indices omitted (since the fringe-rates have already
+been combined in a weighted combination) and $\Omega^{QQ}$ and $\Omega^{II}$ replaced
+by the square integral of the \emph{effective} beams, which we denote $\Omega^{QQ}_\textrm{eff}$ and $\Omega^{II}_\textrm{eff}$, respectively. One sees then that a suitable estimator of
+the Stokes I power spectrum is
+\begin{equation}
+\widehat{P}_I (\mathbf{k}) =\frac{ | \widetilde{V}^\textrm{filt} (\mathbf{u}, \eta) |^2}{S \Omega^{II}_\textrm{eff}}.
+\end{equation}
+Ensemble-averaging both sides and inserting the fringe-rate filtered version of Equation \eqref{eq:LeakyCorrelFct} yields
+\begin{equation}
+\langle \widehat{P}_I (\mathbf{k}) \rangle = P_I (\mathbf{k}) + \frac{\Omega^{QQ}_\textrm{eff}}{\Omega^{II}_\textrm{eff}} P_Q (\mathbf{k}).
+\end{equation}
+The second term is the polarization leakage in our final power spectrum estimate. The key quantity is $\Omega^{QQ}_\textrm{eff}/\Omega^{II}_\textrm{eff}$, which quantifies the effectiveness of
+one's polarization leakage suppression scheme. On the other hand, if the fringe-rate filtered
+visibilities have an instrumental noise variance of $\sigma^2_\textrm{filt}$ (as we assumed in the previous section),
+the instrumental noise errors $\Delta \widehat{P}_I$ in our power spectrum estimator are
+\begin{equation}
+\Delta \widehat{P}_I (\mathbf{k}) \equiv \left(\textrm{Var} \left[\widehat{P}_I (\mathbf{k}) \right]\right)^\frac{1}{2} = \frac{\sigma^2_\textrm{filt}}{S\Omega^{II}_\textrm{eff}}.
+\end{equation}
+For instrumental noise sensitivity, then, the crucial quantity is $\sigma^2_\textrm{filt} / \Omega^{II}_\textrm{eff}$. In Table \ref{tbl:beam_metrics} we list the value of this metric
+(rightmost column) for the various weighting schemes considered in this section, normalized to the value
+obtained with no fringe-rate filtering. We also show the integrated power beam $\int A^\textrm{eff} (\rhat) d\Omega$, the
+square-integrated power beam $\Omega^{II}_\textrm{eff} \equiv \int A^\textrm{eff} (\rhat)^2 d\Omega$, the
+effective integration time implied by each fringe-rate filter, and the fractional power spectrum
+leakage $\Omega^{QQ}_\textrm{eff}/\Omega^{II}_\textrm{eff}$. One sees that, despite a 25\% reduction
+in effective beam area, fringe-rate filtering for optimal power spectrum sensitivity (the red curve in
+Figure \ref{fig:fringe_rate_cut}; third row of Table \ref{tbl:beam_metrics}) improves the bottom-line
+sensitivity for power spectral measurements by almost a factor of two.  This improvement takes
+into account the improvement in sensitivity of each independent power-spectrum sample, but
+also the corresponding decrease in the number of independent time samples available. (Recall that fringe-rate filtering
+effectively averages together nearby time samples, and thus returns a time series where instrumental noise
+is no longer independent from time slice to time slice). This weighting, which only
+optimizes for sensitivity, also reduces polarization leakage by a factor of two relative to the
+raw PAPER beam. On the other hand, while simply filtering the XX and YY beams to improve the polarization match
+(second row of Table \ref{tbl:beam_metrics}) also reduces polarization leakage, the effect is less pronounced
+than for the sensitivity-optimized case. Moreover, there is no boost in power spectrum sensitivity.
+Finally, as we discussed above, it is possible to choose fringe weights that explicitly
+minimize leakage while retaining significant sensitivity. This is done by first beam-matching and then
+fringe-rate filtering the resulting Stokes I visibilities. The results are shown in the last row of Table \ref{tbl:beam_metrics},
+corresponding to the green curve in Figure \ref{fig:fringe_rate_cut}, and illustrate how an additional
+$\sim25$\% decrease in polarization leakage can be obtained with just a $\sim$10\% degradation
+in sensitivity.
+% XXX should make clear that we only benefit from the square root of sigma^2 filt, since we get incoherent baselines back in quadrature
+
 %\begin{table}[ht]
 %\caption{PAPER STOKES I BEAM METRICS WITH FRINGE-RATE FILTERING}
 %\begin{center}
@@ -825,7 +830,7 @@ in sensitivity.
 %\end{table}%
 
 
-In addition to our attempts to match primary beams in order to minimize polarization leakage, it may also
+In addition to the methods we have explored so far, it may also
 be possible to use fringe-rate filtering to correct for leakage after the fact. In the rest of this section, we
 will derive a scheme by which the signatures of leaked emission can be predicted from the mismatched
 primary beams and then suppressed in the time-ordered data. Suppose we estimate the power spectrum by forming weighted averages of the visibility cross-correlations between all
@@ -864,7 +869,7 @@ Differentiating this, setting the result to zero, and solving for the normalized
 \label{eq:PolOptWeights}
 \mathbf{m} =  \frac{\mathbf{H}^{-1}  \boldsymbol \mu^I}{ S (\boldsymbol \mu^I)^t  \mathbf{H}^{-1}  \boldsymbol \mu^I}.
 \end{equation}
-This expression involves $\mathbf{H}^{-1}$, which can be evaluated explicitly in our case using the
+This expression involves $\mathbf{H}^{-1}$, and can be evaluated explicitly in our case using the
 Woodbury formula, giving
 \begin{equation}
 \label{eq:Hinv}
@@ -887,19 +892,19 @@ this operation, consider the limit of zero instrumental noise. One then obtains
 which we immediately recognize as a projection matrix that projects out the vector $\boldsymbol \mu^Q$. Since the
 components of $\boldsymbol \mu^Q$ encode the polarization leakage response in various
 fringe-rate bins, $\mathbf{H}^{-1}$ projects out linear combinations of
-fringe rates that are indicative of $Q$ to $I$ leakage due to beam asymmetries. At the other
+fringe rates that are indicative of Q to I leakage due to beam asymmetries. At the other
 extreme, if the polarization power spectrum is weak compared to the noise power spectrum,
 we have
 \begin{equation}
 \mathbf{H}^{-1} \Big{|}_{P_N \gg P_Q} \propto \mathbf{I} - \left(\frac{P_Q}{P_N} \right)^2 \boldsymbol \mu^Q  (\boldsymbol \mu^Q )^t,
 \end{equation}
-which is similar to a projection operator, but with the unwanted/projected piece tempered
+which is similar to a projection operator, but with the unwanted or projected piece tempered
 by the square of the small parameter $P_Q / P_N$. Intuitively, even modes that are
 contaminated by polarization leakage contain cosmological information, and it is advantageous
 to avoid too drastic a projection if possible. An overly aggressive subtraction of leakage
 modes results in a loss of cosmological signal, which when corrected for by the altered
 normalization of the power spectrum, results in a magnification of the error bars. For the
-general case of intermediate noise levels, the $\mathbf{H}^{-1}$ smoothly interpolates
+general case of intermediate noise levels, the $\mathbf{H}^{-1}$ matrix smoothly interpolates
 between the two extremes.
 
 While mathematically optimal, the fringe-rate weighting proposed here is currently difficult
@@ -1023,7 +1028,7 @@ Section \ref{sec:PspecOptimization}.
 \section{Fringe-rate filtering as mapmaking from time-ordered data}
 \label{sec:Mapmaking}
 
-In the previous sections, we have focused on applications of fringe-rate filtering that operate on a single baseline basis. These applications are particularly powerful for maximally redundant arrays such at PAPER, which have most of their sensitivity concentrated in multiple identical copies of a small handful of baseline types. By design, maximally redundant arrays are not optimized for imaging, which instead require arrays that sample a large number of unique baselines. In this section, we turn our attention to such arrays, tackling the imaging (i.e., mapmaking) problem for multi-baseline arrays. We will find once that the fringe-rate space is particularly well-suited for implementing time integration for interferometric data.
+In the previous sections, we have focused on applications of fringe-rate filtering that operate on a single baseline basis. These applications are particularly powerful for maximally redundant arrays such at PAPER, which have most of their sensitivity concentrated in multiple identical copies of a small handful of baseline types. By design, maximally redundant arrays are not optimized for imaging, which instead require arrays that sample a large number of unique baselines. In this section, we turn our attention to such arrays, tackling the imaging (i.e., mapmaking) problem for multi-baseline arrays. We will find once again that the fringe-rate space is particularly well-suited for implementing time integration for interferometric data.
 
 %In this section, our goal is to examine how time-ordered visibilities from an
 %interferometer should be best combined into information about the sky (such as
@@ -1169,7 +1174,7 @@ time and uncorrelated between baselines.
 
 To see how the optimal prescription of Equation \eqref{optEst} combines
 information from different times, we need only evaluate $\A^\dagger \N^{-1}
-\vis$, for the $\mathbf{M}$ has no time index, so its application has no impact
+\vis$, for the $\mathbf{M}$ matrix has no time index, so its application has no impact
 on how time-ordered data is combined. In our toy model, we
 have
 \begin{equation}
@@ -1182,13 +1187,12 @@ prescription does not call for the integration of visibilities in time.
 Instead, our expression calls for the \emph{convolution} of the visibility data
 with a kernel that is specified by the primary beam shape and the baseline.
 
-Now, recall from the convolution theorem that convolution in time is equivalent
-to multiplication in the Fourier dual space of time.  For an interferometer
-baseline, this Fourier dual space is fringe-rate.  Equation \eqref{toyComb}
+Now, recall from our application of the convolution theorem in previous sections
+that for interferometric data, convolution in time is equivalent to multiplication 
+in fringe-rate space.  Equation \eqref{toyComb}
 therefore suggests that the optimal way to combine different time samples is to
 express visibilities in fringe-rate space, and then to weight different
-fringe-rates appropriately before summing.  We will develop this application of
-fringe-rate filtering in greater generality in Section \ref{fringeRateIntro}.
+fringe-rates appropriately before summing.  We will develop this method for mapmaking more generally in Section \ref{fringeRateIntro}.
 
 %It is also important to emphasize that the technique of instantaneous
 %snapshots---where one uses information from different baselines to form an
@@ -1199,7 +1203,7 @@ fringe-rate filtering in greater generality in Section \ref{fringeRateIntro}.
 \subsection{The special case where integrating in time is optimal}
 
 Before proceeding, it is instructive to establish the special case where time
-integration is the optimal technique, since it is frequently employed in the
+integration is the optimal technique for an initial data reduction step in mapmaking, since it is frequently employed in the
 literature.  An inspection of Equation \eqref{toyComb} shows that were it not
 for the time-dependence in the primary beam and the time-dependence of the sky
 moving through a baseline's fringes, the optimal recipe would indeed reduce to
@@ -1376,8 +1380,8 @@ Using a mapping between the timescale of variation in visibility data and positi
 on the sky for a chosen baseline, we have seen that the rectangular time windows typically
 used when integrating visibilities are almost always sub-optimal, and motivate 
 filtering on the basis of fringe rate
-as step for optimally combining time-ordered visibility data.  In Section \ref{sec:Mapmaking}, we found
-that fringe-rate filtering naturally arises as part of optimized mapmaking prescriptions such as those
+as a step for optimally combining time-ordered visibility data.  In Section \ref{sec:Mapmaking}, we found
+that fringe-rate filtering also naturally arises as part of optimized mapmaking prescriptions such as those
 described in \citet{T97mapmaking}, \citet{morales_matejek2009}, or \citet{dillon_et_al2015}.
 
 We also showed that fringe-rate filtering can alternately be interpreted as a per-baseline
