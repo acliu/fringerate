@@ -616,7 +616,7 @@ The top row depicts the Stokes I beam response in logarithmic units; the
 bottom row shows the polarization match ${\rm XX-YY}/2$ in linear units.
 The fringe-rate filters optimizing sensitivity and polarization match correspond
 to the red and green curves in Figure \ref{fig:fringe_rate_cut}, respectively.
-The third column corresponds to the fringe-rate filter applied in \citet{ali_et_al2015}.
+The third column most closely corresponds to the fringe-rate filter applied in \citet{ali_et_al2015}.
 }\label{fig:pol_match}
 \end{figure*}
 
@@ -713,17 +713,32 @@ However, substantial power remains in the mismatched beam $A^Q (\rhat)$ because 
 filtering can only alter beam shapes in a one-dimensional family of fringe-rate rings (as we discussed in
 Section \ref{sec:overview}). A perfect matching would require a set of two-dimensional weights.
 
-Interestingly, one sees that beam matching can be improved simply by applying the weights
-proposed in Section \ref{sec:PspecOptimization} for optimizing power spectrum estimation. These
-were the weights applied in \citet{ali_et_al2015}, and the resulting effective beam and beam mismatch
-are shown in the third column of Figure \ref{fig:pol_match}. The narrowing of the effective beam for
-power spectrum optimization simply downweights parts of the sky that have some of the worst
-beam mismatches, allowing polarization leakage to be reduced without an explicit attempt to do so.
-Of course, one can choose to perform all of these weightings, first weighting the $\VXX$ and $\VYY$
-visibilities separately to match their respective beam as much as possible, and then applying a second fringe-rate weighting to the combined $V_I$ visibility that balances power spectrum sensitivity and polarization match.
-In the last column of Figure \ref{fig:pol_match} we show the results of such a procedure, and one
-sees that the mismatch (and thus the polarization leakage) is more suppressed than any
-of the other weightings considered so far.
+Interestingly, the beam matching can be improved with one further weighting that 
+is not specifically targeted at polarization matching, namely the sensitivity-optimized weighting
+proposed in Section \ref{sec:PspecOptimization}. These were the weights applied in \citet{ali_et_al2015},
+and the results of applying these weights to combined $V_I$ visibilities following the beam-matching procedure are shown
+in the third column of Figure \ref{fig:pol_match}. While this extra weighting step was not designed
+to deal with polarization in mind, it is still effective at mitigating leakage because it
+downweights portions of the sky that have some of the worst beam mismatches.
+
+Finally, one may use knowledge of the mismatched beam $A^Q (\rhat)$ to further inform one's weighting.
+In particular, one may take the scheme that we have outlined so far (applying fringe-rate filters to first match XX and YY beams, then to maximize sensitivity), and add one final filter that downweights
+portions of the sky where the mismatched beam is known to be large. In the fourth column of
+Figure \ref{fig:pol_match}, we additionally weight each fringe-rate by the ratio of the RMS $A^I (\rhat)$ fringe-rate beam profile to the RMS $A^Q (\rhat)$ fringe-rate beam profile. The effective fringe-rate
+weights that are applied to the Stokes I visibilities are given by the green curve of Figure \ref{fig:fringe_rate_cut}. From Figure \ref{fig:pol_match}, we see that this hybrid sensitivity- and leakage-
+optimized weighting significantly reduces the beam mismatch.
+
+%Interestingly, one sees that beam matching can be improved simply by applying the weights
+%proposed in Section \ref{sec:PspecOptimization} for optimizing power spectrum estimation. These
+%were the weights applied in \citet{ali_et_al2015}, and the resulting effective beam and beam mismatch
+%are shown in the third column of Figure \ref{fig:pol_match}. The narrowing of the effective beam for
+%power spectrum optimization simply downweights parts of the sky that have some of the worst
+%beam mismatches, allowing polarization leakage to be reduced without an explicit attempt to do so.
+%Of course, one can choose to perform all of these weightings, first weighting the $\VXX$ and $\VYY$
+%visibilities separately to match their respective beam as much as possible, and then applying a second fringe-rate weighting to the combined $V_I$ visibility that balances power spectrum sensitivity and polarization match.
+%In the last column of Figure \ref{fig:pol_match} we show the results of such a procedure, and one
+%sees that the mismatch (and thus the polarization leakage) is more suppressed than any
+%of the other weightings considered so far.
 
 In minimizing polarization leakage, one must be careful not to enact an overly aggressive
 scheme that narrows the effective beam to such an extent that there is a substantial loss of
@@ -793,24 +808,40 @@ For instrumental noise sensitivity, then, the crucial quantity is $\sigma^2_\tex
 obtained with no fringe-rate filtering. We also show the integrated power beam $\int A^\textrm{eff} (\rhat) d\Omega$, the
 square-integrated power beam $\Omega^{II}_\textrm{eff} \equiv \int A^\textrm{eff} (\rhat)^2 d\Omega$, the
 effective integration time implied by each fringe-rate filter, and the fractional power spectrum
-leakage $\Omega^{QQ}_\textrm{eff}/\Omega^{II}_\textrm{eff}$. One sees that, despite a 25\% reduction
-in effective beam area, fringe-rate filtering for optimal power spectrum sensitivity (the red curve in
-Figure \ref{fig:fringe_rate_cut}; third row of Table \ref{tbl:beam_metrics}) improves the bottom-line
-sensitivity for power spectral measurements by almost a factor of two.  This improvement takes
+leakage $\Omega^{QQ}_\textrm{eff}/\Omega^{II}_\textrm{eff}$.
+
+With only a polarization-matching filter applied (second row of Table \ref{tbl:beam_metrics}; second column of Figure \ref{fig:pol_match}), we see that
+the fractional polarization leakage is reduced from $1.64 \times 10^{-3}$ to $1.26 \times 10^{-3}$. Applying
+an additional sensitivity weighting step from Section \ref{sec:PspecOptimization} (third row of Table \ref{tbl:beam_metrics}; third column of Figure \ref{fig:pol_match}) further reduces the fractional
+polarization leakage to $0.88 \times 10^{-3}$, and though there is a 25\% reduction in effective
+beam area, the power spectrum sensitivity is boosted by almost a factor of two. This improvement takes
 into account the improvement in sensitivity of each independent power-spectrum sample, but
 also the corresponding decrease in the number of independent time samples available. (Recall that fringe-rate filtering
 effectively averages together nearby time samples, and thus returns a time series where instrumental noise
-is no longer independent from time slice to time slice). This weighting, which only
-optimizes for sensitivity, also reduces polarization leakage by a factor of two relative to the
-raw PAPER beam. On the other hand, while simply filtering the XX and YY beams to improve the polarization match
-(second row of Table \ref{tbl:beam_metrics}) also reduces polarization leakage, the effect is less pronounced
-than for the sensitivity-optimized case. Moreover, there is no boost in power spectrum sensitivity.
-Finally, as we discussed above, it is possible to choose fringe weights that explicitly
-minimize leakage while retaining significant sensitivity. This is done by first beam-matching and then
-fringe-rate filtering the resulting Stokes I visibilities. The results are shown in the last row of Table \ref{tbl:beam_metrics},
-corresponding to the green curve in Figure \ref{fig:fringe_rate_cut}, and illustrate how an additional
-$\sim25$\% decrease in polarization leakage can be obtained with just a $\sim$10\% degradation
+is no longer independent from time slice to time slice). Finally, applying
+another filter to minimize leakage (fourth row of Table \ref{tbl:beam_metrics}; fourth column of Figure \ref{fig:pol_match}; green curve of Figure \ref{fig:fringe_rate_cut}), results in another $\sim25$\% decrease in polarization leakage with only a $\sim$10\% degradation
 in sensitivity.
+
+
+%One sees that, despite a 25\% reduction
+%in effective beam area, fringe-rate filtering for optimal power spectrum sensitivity (the red curve in
+%Figure \ref{fig:fringe_rate_cut}; third row of Table \ref{tbl:beam_metrics}) improves the bottom-line
+%sensitivity for power spectral measurements by almost a factor of two.  This improvement takes
+%into account the improvement in sensitivity of each independent power-spectrum sample, but
+%also the corresponding decrease in the number of independent time samples available. (Recall that fringe-rate filtering
+%effectively averages together nearby time samples, and thus returns a time series where instrumental noise
+%is no longer independent from time slice to time slice). This weighting, which only
+%optimizes for sensitivity, also reduces polarization leakage by a factor of two relative to the
+%raw PAPER beam. On the other hand, while simply filtering the XX and YY beams to improve the polarization match
+%(second row of Table \ref{tbl:beam_metrics}) also reduces polarization leakage, the effect is less pronounced
+%than for the sensitivity-optimized case. Moreover, there is no boost in power spectrum sensitivity.
+%Finally, as we discussed above, it is possible to choose fringe weights that explicitly
+%minimize leakage while retaining significant sensitivity. This is done by first beam-matching and then
+%fringe-rate filtering the resulting Stokes I visibilities. The results are shown in the last row of Table \ref{tbl:beam_metrics},
+%corresponding to the green curve in Figure \ref{fig:fringe_rate_cut}, and illustrate how an additional
+%$\sim25$\% decrease in polarization leakage can be obtained with just a $\sim$10\% degradation
+%in sensitivity.
+
 % XXX should make clear that we only benefit from the square root of sigma^2 filt, since we get incoherent baselines back in quadrature
 
 %\begin{table}[ht]
@@ -829,11 +860,9 @@ in sensitivity.
 %\label{tbl:beam_metrics}
 %\end{table}%
 
-
-In addition to the methods we have explored so far, it may also
-be possible to use fringe-rate filtering to correct for leakage after the fact. In the rest of this section, we
-will derive a scheme by which the signatures of leaked emission can be predicted from the mismatched
-primary beams and then suppressed in the time-ordered data. Suppose we estimate the power spectrum by forming weighted averages of the visibility cross-correlations between all
+Our final, best-performing weighting scheme for minimizing polarization was in some sense a rather
+arbitrary weighting. This is unavoidable, since the power spectrum of low-frequency polarized emission is unknown at fine angular scales. We now show how our final weighting step may be optimized if the
+polarized power spectrum is known. Suppose we estimate the power spectrum by forming weighted averages of the visibility cross-correlations between all
 pairs of fringe-rate bins. The general form for such an estimator is given by Equation \eqref{eq:wVV}. However,
 as we found in Section \ref{sec:PspecOptimization}, one may approximate the different fringe-rate bins as being
 uncorrelated. The same approximation can be made here, allowing us to define $\mu^I$ and $\mu^Q$ by
