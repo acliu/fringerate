@@ -157,7 +157,7 @@ The fringe pattern at 150 MHz of a fiducial 30-m east-west baseline, overlaid wi
 the distance traversed by sources at various declinations over a two-hour time span centered at transit.
 In a fixed time interval, sources near $\delta=0^\circ$ traverse more 
 fringe periods than sources nearer to the celestial poles. This gives rise to different
-fringe rates that can be used to distinguish sources in a timeseries measured with a single baseline.
+fringe rates that can be used to distinguish sources in a time-series measured with a single baseline.
 }\label{fig:ew_fringe}
 \end{figure}
 
@@ -261,7 +261,7 @@ that has recently been used to place the current best upper limits on $21\,\text
 \includegraphics[width=\columnwidth]{plots/fringe_rate_cut.png}
 \caption{
 Top: the optimal power-spectrum sensitivity weighting in fringe-rate space 
-for our fiducial baselin (black) is overlaid with
+for our fiducial baseline (black) is overlaid with
 the simple parametrization for optimal weighting used in (red; \citealt{ali_et_al2015}),
 which excises fringe rates at risk for contamination by crosstalk and smooths the
 weighting profile to provide a compact time-domain convolution kernel.  Also illustrated
@@ -565,7 +565,7 @@ Panels from left to right illustrate the
 response before matching XX and YY polarization beams, the response after such matching, 
 the subsequent application of an optimal power-spectrum sensitivity filter, and the
 application of a filter optimizing both sensitivity and polarization match.
-The top row depicts the Stokes I beam response in logrithmic units; the
+The top row depicts the Stokes I beam response in logarithmic units; the
 bottom row shows the polarization match ${\rm XX-YY}/2$ in linear units.
 The fringe-rate filters optimizing sensitivity and polarization match correspond
 to the red and green curves in Figure \ref{fig:fringe_rate_cut}, respectively.
@@ -606,7 +606,7 @@ any asymmetries in the beams. For a single baseline at a given instant in time, 
 cannot be eliminated. The heart of the problem is the impossibility of creating a match between a pair of two-dimensional functions (the
 XX and YY beam responses) with a single degree of freedom (the amplitude of $\VXX$ relative to $\VYY$).  In order
 to improve the match between polarization beams in interferometric measurements, many interferometric measurements
-from distinct points in the $uv$ plane will have to be combined with appropriate weights to effect a reweighting
+from distinct points in the $uv$ plane will have to be combined with appropriate weights to effect a re-weighting
 of the sky along two dimensions.
 
 The typical technique for correcting the mismatch between the XX and YY polarization beams is to separately
@@ -735,7 +735,7 @@ match before summing them to form a Stokes I visibility.  Finally, we see that f
 chosen that explicitly
 minimize leakage while retaining significant sensitivity; the last row of Table \ref{tbl:beam_metrics},
 corresponding to the green curve in Figure \ref{fig:fringe_rate_cut}, illustrates how an additional
-$\sim25$\% decrease in polarization leakage can be obtained with a $\sim$10\% degredation
+$\sim25$\% decrease in polarization leakage can be obtained with a $\sim$10\% degradation
 in sensitivity.
 % XXX should make clear that we only benefit from the square root of sigma^2 filt, since we get incoherent baselines back in quadrature
 
@@ -892,7 +892,7 @@ Top: A projection of the global sky model of \citet{deoliveiracosta_et_al2008} a
 latitude $-30^\circ$ at a local sidereal time of 05:44, overlaid with the 
 PAPER beam response contours before (black) and after (red) the application of a fringe-rate filter
 optimized for sensitivity.  
-Bottom: a simulation of the corresponding RMS visibilites for a 30-m east-west baseline before (black) and
+Bottom: a simulation of the corresponding RMS visibilities for a 30-m east-west baseline before (black) and
 after (red) the same fringe-rate filtering.
 The reduced presence of foregrounds in the simulated visibilities after fringe-rate filtering
 can be understood as coming from the spatial filter enacted by fringe-rate filtering.
@@ -929,7 +929,7 @@ the crosstalk removal filter.
 Thus, when considering instrumental systematics, there may be additional criteria that influence one's
 choice of fringe-rate filter besides optimizing signal-to-noise; one may choose to excise the zero fringe-rate
 bin to improve data quality at a very modest cost to sensitivity.  Similarly, it is common to encounter situations
-where celestial emission that is low in the primary beam is bright enough to introduce undesireable 
+where celestial emission that is low in the primary beam is bright enough to introduce undesirable 
 sidelobe structure or other systematics in observations targeting an area nearer to beam center.  In this case,
 one may again find it desirable to depart from optimal weighting derived in Section \ref{sec:PspecOptimization}
 by further down-weighting regions of low sensitivity in order to gain improvements in foreground systematics.
