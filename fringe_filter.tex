@@ -265,12 +265,13 @@ for our fiducial baselin (black) is overlaid with
 the simple parametrization for optimal weighting used in (red; \citealt{ali_et_al2015}),
 which excises fringe rates at risk for contamination by crosstalk and smooths the
 weighting profile to provide a compact time-domain convolution kernel.  Also illustrated
-are the weighting for reducing polarization leakage (blue) described in Section \ref{sec:polbeams}, as well
+are the weightings for matching the XX and YY polarization beams (blue dashed) and
+for reducing polarization leakage (blue solid) described in Section \ref{sec:polbeams}, as well
 as a weighting that balances the needs of sensitivity, polarization leakage, crosstalk
 removal, and off-axis foregrounds (green).  Bottom: the time-domain convolution kernel
 corresponding to the red curve in the top panel.  Real and imaginary components are
-illustrated in blue and red, respectively, with the absolute amplitude illustrated
-in black.
+illustrated in cyan and magenta, respectively, with the absolute amplitude illustrated
+in brown.
 }
 \label{fig:fringe_rate_cut}
 \end{figure}
@@ -344,6 +345,7 @@ In Section \ref{sec:Implementation}, we discussed how a fringe-rate filter can b
 In \citet{parsons_et_al2012a} and \citet{P14}, it was shown that estimates of the three-dimensional power spectrum of $21\,\textrm{cm}$ brightness temperature fluctuations could be obtained from a single baseline by Fourier transforming visibility data along the frequency axis (forming a ``delay spectrum"), and then taking the absolute square of the results. Here, we will show how fringe-rate weights can be chosen to maximize the sensitivity of a single-baseline-derived power spectrum.
 
 We begin by considering a generalization of the derivation in \citet{P14}, where it was assumed that the primary beams of all elements in the interferometer are identical. We now consider the possibility of probing the power spectrum via a cross-correlation of two baselines with different primary beams. To be clear, our eventual discussion will be based on the analysis of fringe-rate filtered visibilities from a \emph{single} baseline. However, from Section \ref{sec:overview}, we saw that to a good approximation, selecting different fringe-rates is equivalent to observing the sky with different effective beams. Thus, the cross-correlation of visibilities from two different fringe-rate bins is mathematically identical to cross-correlating two baselines with different beams. To begin, suppose that the $i$th baseline consists of antenna elements with primary beam $A_i (\rhat)$. The delay-transformed visibility takes the form
+% XXX i,j are used as antenna indices here, later fringe-rate indices.  maybe choose different letters?
 \begin{equation}
 \widetilde{V}_i(\mathbf{u},\eta) = \frac{2 k_B}{\lambda^2} \int  d^2 \mathbf{u}^\prime \, d\eta^\prime \widetilde{A}_i (\mathbf{u} -\mathbf{u}^\prime, \eta-\eta^\prime) \widetilde{T}(\mathbf{u}^\prime , \eta^\prime),
 \end{equation}
@@ -447,7 +449,7 @@ where the optimally filtered visibility in the time domain $\widetilde{V}^\textr
 \end{eqnarray}
 This is a rather remarkable result, in that the optimal power spectrum estimator for a single baseline interferometer consists of a squared statistic (i.e., one with no phase information) integrated in time. This may seem counterintuitive, particularly if one is accustomed to more conventional techniques where images are formed from the visibilities and averaged down before any squaring steps. There, it is crucial to average in time \emph{before} squaring, because data from different time steps can be sourced by the same Fourier modes on the celestial sphere. Integrating before squaring allows information from these modes to be coherently averaged together (since phase information has yet to be discarded), resulting in instrumental noise that integrates down as $1/\sqrt{t}$. This then becomes a $1/t$ dependence for the error bars on the final (squared) power spectrum results, and is a much quicker reduction of instrumental noise than if the data had been squared first, which would have resulted in a $1/\sqrt{t}$ dependence on the power spectrum errors.
 
-In our derivation, we showed that the optimal power spectrum estimator can in fact be obtained by squaring before integrating, \emph{provided} the power spectra formed at each time instant are first fringe-rate filtered with weights $ \mu_i^{1/2}$, i.e., where each fringe-rate is weighted by the root-mean-square primary beam within the corresponding constant-fringe-rate contour on the sky. Essentially, the pre-processing step of fringe-rate filtering (with these specific weights) replaces the independent time samples with a set of correlated visibilities that have effectively already been coherently integrated in time. Note that these weights are \emph{not} in general the same as the ones derived in Section \ref{fringeRateIntro} for optimal mapmaking, where measurements were essentially weighted by an additional factor of the primary beam in fringe-rate space, rather than by the root-mean-square beam weighting suggested here. Put another way, to obtain the full power spectrum sensitivity of an interferometer, it is insufficient
+In our derivation, we showed that the optimal power spectrum estimator can in fact be obtained by squaring before integrating, \emph{provided} the power spectra formed at each time instant are first fringe-rate filtered with weights $ \mu_i^{1/2}$, i.e., where each fringe-rate is weighted by the RMS primary beam within the corresponding constant-fringe-rate contour on the sky. Essentially, the pre-processing step of fringe-rate filtering (with these specific weights) replaces the independent time samples with a set of correlated visibilities that have effectively already been coherently integrated in time. Note that these weights are \emph{not} generally the same as the ones derived in Section \ref{fringeRateIntro} for optimal mapmaking, where measurements were essentially weighted by an additional factor of the primary beam in fringe-rate space, rather than by the RMS beam weighting suggested here. Put another way, to obtain the full power spectrum sensitivity of an interferometer, it is insufficient
 to simply square the Fourier amplitudes outputted from a map, even if the mapmaking was optimized to minimize the error bars of the map.  Forming the power spectrum in such a way would be equivalent to restricting $w_{ij}$ to a form separable in $i$ and $j$, which is a restriction that precludes the form for $w_{ij}$ given by Equation \eqref{eq:PspecOptWeights}, which minimizes the error bars of the power spectrum.
 
 Importantly, the result that we have derived here applies only when one is attempting to measure a power spectrum with a single baseline (or multiple baselines with the same baseline vector $\mathbf{b}$). This is a reasonable limit to work in for arrays such as PAPER, where a large fraction of the array's sensitivity comes from instantaneously redundant baselines \citep{parsons_et_al2012a}. For arrays that have less instantaneous redundancy, it becomes more important to combine data from multiple baselines. If multiple baselines are involved, Equation \eqref{eq:finalEst} no longer reduces to a single sum over the time axis. Said differently, it is no longer true that the full sensitivity of an array can be obtained by averaging together time-slice-by-time-slice estimates of the power spectrum estimation from fringe-rate filtered data. Instead, the optimal estimator involves a double sum over time, since with multiple baselines of roughly the same length, it is possible for baselines to rotate into one another. That is, rotation synthesis becomes an important contribution to an interferometer's sensitivity.
@@ -491,7 +493,7 @@ dominated by binning effects associated with determining the effective beam from
 As a final check, we perform simulations assigning flux to pixels on the sky with a Gaussian random distribution
 and simulating the visibilities measured as a function of time for our fiducial baseline.  We compute the
 power spectrum amplitude for this simulated signal and a fringe-rate filtered version according to
-Equation (\ref{eq:P14est}), omitting the primary beam term $\Omega_{\rm PP}$ in both cases.  We then compute
+Equation (\ref{eq:P14est}), omitting the primary beam term $\Omega_{pp}$ in both cases.  We then compute
 the ratio of the unnormalized $P(k)$ measurements before/after fringe-rate filtering and compare 
 this ratio to the change in effective
 beam area associated with the chosen fringe-rate filter.  Dividing the signal loss associated with
@@ -500,7 +502,6 @@ indicating that these ratios are in agreement
 within the sample noise of our simulation. This legitimizes the approach advocated above, where
 Equation \eqref{eq:P14est} can be used for power spectrum estimation provided the effective beam
 squared integral is used instead of the beam squared integral for $\Omega_{pp}$.
-% XXX match Omega_PP throughout text
 
 
 \begin{figure}\centering
@@ -572,7 +573,7 @@ The third column corresponds to the fringe-rate filter applied in \citet{ali_et_
 }\label{fig:pol_match}
 \end{figure*}
 
-In the previous section, we maximized our sensitivity to the power spectrum under the assumption that the measurements were limited by instrumental noise. In practice, however, there may other sources of noise or systematics that may limit our constraints. One example of this is the cross-contamination between Stokes terms in interferometric polarization measurements. Minimizing such contamination is of paramount importance for $21\,\textrm{cm}$ cosmology experiments that rely on
+In the previous section, we maximized our sensitivity to the power spectrum under the assumption that the measurements were limited by instrumental noise. In practice, however, there may other sources of noise or systematics that limit our constraints. One example of this is the cross-contamination between Stokes terms in interferometric polarization measurements. Minimizing such contamination is of importance for $21\,\textrm{cm}$ cosmology experiments that rely on
 the spectral axis to probe the line-of-sight direction at cosmological distances.  For these
 experiments, Faraday rotation combines
 with a spurious coupling between Stokes terms (typically $Q$ to $I$) to produce polarization leakage whose 
@@ -593,7 +594,7 @@ from $\VQ\equiv(\VXX-\VYY)/2$ in directions where the XX and YY beam responses d
 More precisely, suppose the XX polarization product has an antenna power beam of $A_{\rm XX}$, while the YY 
 polarization product has an antenna power beam of $A_{\rm YY}$. The primary beam that we have denoted $A(\rhat)$ 
 in previous sections is given by $(A_{\rm XX} + A_{\rm YY})/2$, which will be labeled as $A^I(\rhat)$ in this section to emphasize
-its meaning as the antenna response to the Stokes I sky. Defining $A^Q(\rhat) \equiv (A_{\rm XX} - A_{\rm YY})/2$, [XXX: factor of 2?] the
+its meaning as the antenna response to the Stokes I sky. Defining $A^Q(\rhat) \equiv (A_{\rm XX} - A_{\rm YY})/2$, the
 Stokes I visibility takes the form (see, e.g., \citealt{moore_et_al2015})
 \begin{eqnarray}
 V_{b\nu}(t)= &&\int d\Omega \, {I_\nu(\rhat) A^I_\nu(\rhat,t) \exp \left[-i2\pi \frac{\nu}{c}  \mathbf{b}(t) \cdot \rhat\right]} + \nonumber \\
@@ -645,15 +646,17 @@ imaging the polarization products.  While this is not as effective at mitigating
 through imaging in the dense sampling case, we will now show that it nonetheless represents a substantial improvement
 over the naive summing of XX and YY visibility measurements.
 
-Suppose for every frequency channel in our observations, we compute the same-mean-square $A_{\rm XX} (\rhat)$ along
+Suppose for every frequency channel in our observations, we compute the RMS $A_{\rm XX} (\rhat)$ along
 the spatial ring corresponding to each fringe-rate bin, using the relation $f \approx \rhat \cdot \mathbf{b}
 \times \boldsymbol \omega_\Earth \nu / c$ derived in Section \ref{sec:overview}. The result is
 a one-dimensional beam profile in fringe-rate space. Repeating the same exercise for $A_{\rm YY}$,
 one can then form the ratio between the two profiles, quantifying the mismatch between the XX and YY
-beams in a one-dimensional projection. This ratio is plotted for PAPER as the blue curve in the
+beams in a one-dimensional projection. This ratio is plotted for PAPER as the blue dashed curve in the
 top panel of Figure \ref{fig:fringe_rate_cut}. If one then uses this curve as a set of fringe-rate weights
-for the $\VYY$, the resulting effective beams will be more closely matched to one another. Note that
-we use the root-mean-square rather than the beam itself because ultimately we seek a measurement
+for the $\VYY$, the resulting effective beams will be more closely matched to one another, as
+shown by the improvement in polarization leakage between the first and second rows in Table
+\ref{tbl:beam_metrics}. Note that
+we use the RMS rather than the beam itself because ultimately we seek a measurement
 of the power spectrum, which is a squared quantity.
 
 In the second column of Figure \ref{fig:pol_match}, we show the effective beam (top row) and the beam
@@ -663,19 +666,19 @@ However, substantial power remains in the mismatched beam $A^Q (\rhat)$ because 
 filtering can only alter beam shapes in a one-dimensional family of fringe-rate rings (as we discussed in
 Section \ref{sec:overview}). A perfect matching would require a set of two-dimensional weights.
 
-Interestingly, one sees that better beam matching can be achieved simply by applying the weights
+Interestingly, one sees that beam matching can be improved simply by applying the weights
 proposed in Section \ref{sec:PspecOptimization} for optimizing power spectrum estimation. These
 were the weights applied in \citet{ali_et_al2015}, and the resulting effective beam and beam mismatch
 are shown in the third column of Figure \ref{fig:pol_match}. The narrowing of the effective beam for
 power spectrum optimization simply downweights parts of the sky that have some of the worst
 beam mismatches, allowing polarization leakage to be reduced without an explicit attempt to do so.
-Of course, one can choose to perform both weightings, first weighting the $\VXX$ and $\VYY$
-visibilities separately to match their respective beam as much as possible, before applying a second fringe-rate weighting to the combined $V_I$ visibility to maximize power spectrum sensitivity.
+Of course, one can choose to perform all of these weightings, first weighting the $\VXX$ and $\VYY$
+visibilities separately to match their respective beam as much as possible, and then applying a second fringe-rate weighting to the combined $V_I$ visibility that balances power spectrum sensitivity and polarization match.
 In the last column of Figure \ref{fig:pol_match} we show the results of such a procedure, and one
 sees that the mismatch (and thus the polarization leakage) is more suppressed than any
 of the other weightings considered so far.
 
-In minimizing polarization leakage, however, one must be careful not to enact an overly aggressive
+In minimizing polarization leakage, one must be careful not to enact an overly aggressive
 scheme that narrows the effective beam to such an extent that there is a substantial loss of
 power spectrum sensitivity. To quantify this trade-off, consider a generalization of Equation
 \eqref{eq:visCrossCorr} to include polarization leakage. Performing a derivation similar to the one
@@ -722,7 +725,9 @@ weighting schemes considered in this section, along with the fractional power sp
 leakage $\Omega^{QQ}_\textrm{eff}/\Omega^{II}_\textrm{eff}$. One sees that, despite a 25\% reduction
 in effective beam area, fringe-rate filtering for optimal sensitivity (the red curve in
 Figure \ref{fig:fringe_rate_cut}) improves the bottom-line
-sensitivity for power spectral measurements by almost a factor of two.  This weighting, which only
+sensitivity for power spectral measurements by almost a factor of two.  This improvement takes
+into account the improvement in sensitivity of each independent power-spectrum sample, but
+also the corresponding decrease in the number of independent modes available.  This weighting, which only
 optimizes for sensitivity, also reduces polarization leakage by a factor of two relative to the
 raw PAPER beam, although a significant fraction of this improvement comes from an intermediate
 separate step: the separate filtering of the XX and YY beams to improve the polarization
@@ -812,13 +817,13 @@ Differentiating this, setting the result to zero, and solving for the normalized
 \label{eq:PolOptWeights}
 \mathbf{g} =  \frac{\mathbf{H}^{-1}  \boldsymbol \mu^I}{ S (\boldsymbol \mu^I)^t  \mathbf{H}^{-1}  \boldsymbol \mu^I}.
 \end{equation}
-This expression involves $\mathbf{H}^{-1}$, which can be evaluated quite explicitly in our case using the
+This expression involves $\mathbf{H}^{-1}$, which can be evaluated explicitly in our case using the
 Woodbury formula, giving
 \begin{equation}
 \label{eq:Hinv}
 \mathbf{H}^{-1} = \sigma^{-4} \left[ \mathbf{I} - \frac{P_Q^2\boldsymbol \mu^Q (\boldsymbol \mu^Q)^t }{P_N^2 + P_Q^2 \boldsymbol \mu^Q \cdot \boldsymbol \mu^Q} \right],
 \end{equation}
-where $P_N$ is the noise power spectrum, which is equal to the root-mean-square visibility
+where $P_N$ is the noise power spectrum, which is equal to the RMS visibility
 noise divided by by $S$. If the sky were completely unpolarized ($P_Q = 0$) or there were no polarization leakage due to mismatched beams ($\boldsymbol \mu^Q = 0$), then $\mathbf{H}^{-1} \propto \mathbf{I}$, and the optimal weighting would take the form
 $\mathbf{g} \propto \boldsymbol \mu^I$. Recalling that each component of a $\boldsymbol \mu$ vector corresponds
 to a different fringe rate, we see that $\mathbf{g} \propto \boldsymbol \mu^I$ is precisely the result derived in Section
@@ -853,12 +858,13 @@ between the two extremes.
 While mathematically optimal, the fringe-rate weighting proposed here is currently difficult
 to put into practice. This is because the $Q$ power spectrum $P_Q$ has yet to be positively
 measured at low frequencies. For example, recent measurements in \citet{moore_et_al2015}
-provide only upper limits on $P_Q$, at least on the moderate to high $k$ scales that are the
-most promising for a first detection of the EoR signal. With only upper limits, it is easy
-to inadvertently employ a weighting that downweights polarization leakage in an overly
-conservative manner, although it is of course welcome news that the polarized foregrounds
-seem to be rather dim. In the future, when the foreground $P_Q$ is positively measured,
-it may be fruitful to employ the projection-like techniques suggested here.
+provide only upper limits on $P_Q$, at least at the $k$-scales that are the
+most promising for a first detection of the 21cm signal.
+%With only upper limits, it is easy
+%to inadvertently employ a weighting that downweights polarization leakage in an overly
+%conservative manner, although it is of course welcome news that the polarized foregrounds
+%seem to be rather dim. In the future, when the foreground $P_Q$ is positively measured,
+%it may be fruitful to employ the projection-like techniques suggested here.
 %
 %Absent a rigorous estimate of $P_Q$, we may turn once again to a more heuristic approach
 %to fringe-rate weighting. Again, we make use of the fact that given a set of weights, the effect
@@ -874,7 +880,6 @@ it may be fruitful to employ the projection-like techniques suggested here.
 %the instrumental noise enters at the visibilities, and therefore are magnified (or diminished) by
 %a factor of $1 / \Omega_{ij}^{II}$ as one forms the power spectrum.
 %
-%XXX: insert numerical simulations here.
 
 
 \subsection{Minimizing Instrumental Systematics and Off-Axis Foregrounds}
@@ -941,7 +946,7 @@ bright Galactic plane emission. In solid red are the contours for the effective 
 the application of a power-spectrum optimized fringe-rate filter (see Section \ref{sec:PspecOptimization}).
 The reduced effective beam size means that less of the Galactic plane contributes to the measured
 power. This can be seen in the bottom panel of Figure \ref{fig:gsm}, where we show the corresponding
-root-mean-square visibilities. The red curve is clearly reduced compared to the black curve, indicating
+RMS visibilities. The red curve is clearly reduced compared to the black curve, indicating
 reduced foreground contamination. If desired, the contamination can be further mitigated by picking
 a different set of fringe-rate weights that downweight the edges of the primary beam even more. However,
 this extra foreground suppression must be carefully balanced with the increase in instrumental noise error
@@ -1112,7 +1117,7 @@ $t$ and $t^\prime$ as
 \label{eq:noiseCovar}
 N_{bb^\prime} (t, t^\prime) = \sigma^2 \delta_{bb^\prime} \delta(t-t^\prime),
 \end{equation}
-where $\sigma$ is an root-mean-square noise level assumed to be uncorrelated in
+where $\sigma$ is an RMS noise level assumed to be uncorrelated in
 time and uncorrelated between baselines.
 
 To see how the optimal prescription of Equation \eqref{optEst} combines
@@ -1242,7 +1247,7 @@ Equation \eqref{fringeVis} and making the substitution $\psi \equiv
 \overline{V}_{b\nu} && (f_n)= \int d\Omega \, T(\rhat) B_\delta (\delta) e^{-i 2 \pi  \frac{b_y}{\lambda} \cos \eta \sin \delta} \nonumber \\
 && \times \sum_q \frac{\overline{B}_q e^{-i n \varphi}}{2 \pi} \int_{-\pi -\varphi}^{\pi+\varphi} d\psi \, e^{i (q-n) \psi +i \frac{2 \pi b_0}{\lambda} \cos \delta \sin \psi}. \qquad
 \end{eqnarray}
-Now, note that the integral over $\psi$ is of a periodic function over one
+Now, the integral over $\psi$ is of a periodic function over one
 period.  We may therefore freely shift the limits of the integral by a constant
 amount without affecting the result.  In particular, we may remove the
 $+\varphi$ terms in the limits (the only restriction being that having performed a $\varphi$-dependent shift, it is no longer legal to permute the various integrals), and
@@ -1321,19 +1326,19 @@ for $\mathbf{A}$ from the remaining integral, and proceed as before.
 In this paper, we have revisited the concept of filtering the visibility time-series
 measured by an interferometric baseline that was presented in \citet{parsons_backer2009}.
 Using a mapping between the timescale of variation in visibility data and position
-on the sky for a chosen baseline, we show that the rectangular time windows typically
+on the sky for a chosen baseline, we have seen that the rectangular time windows typically
 used when integrating visibilities are almost always sub-optimal, and motivate 
 filtering on the basis of fringe rate
-as step for optimally combining time-ordered visibility data.  In Section \ref{sec:Mapmaking}, we show 
+as step for optimally combining time-ordered visibility data.  In Section \ref{sec:Mapmaking}, we found
 that fringe-rate filtering naturally arises as part of optimized mapmaking prescriptions such as those
 described in \citet{T97mapmaking}, \citet{morales_matejek2009}, or \citet{dillon_et_al2015}.
 
-We also show that fringe-rate filtering can alternately be interpreted as a per-baseline
+We also showed that fringe-rate filtering can alternately be interpreted as a per-baseline
 operation for sculpting the primary beam along one dimension.
 Using analytic
 derivations and simulations, we highlight several important applications of such beam
 sculpting.  One key application for 21cm cosmological experiments starved for sensitivity
-is the ability to re-weight visibility data according to the SNR in each fringe-rate bin.
+is the ability to re-weight visibility data according to the signal-to-noise ratio in each fringe-rate bin.
 As shown in Section \ref{sec:PspecOptimization}, pre-processing the visibilities in such a way
 allows an optimal (minimum variance) estimate of the power spectrum to be formed by
 squaring visibilities time-slice-by-time-slice before averaging the results together. This
@@ -1347,7 +1352,7 @@ avoid many analysis-induced systematics associated with gridding data on the $uv
 %of several % 
 %while avoiding many of the systematics associated with gridding data in the $uv$ plane.
 %Crucially, this 
-Other important application include improving the match between polarization beam to
+Other important applications include improving the match between polarization beam to
 reduce polarization leakage, and down-weighting areas low in the primary beam
 to reduce systematics from off-axis foregrounds.
 
@@ -1364,8 +1369,8 @@ the Square Kilometre Array (SKA; \citealt{carilli2014}).
 \section{Acknowledgments}
 
 It gives us great pleasure to thank James Aguirre, Gianni Bernardi, Daniel Jacobs, David Moore, 
-Miguel Morales, and Jonathan Pober for helpful discussions.  This research
-was supported by the National Science Foundation, award \#1129258.
+Miguel Morales, and Jonathan Pober for helpful discussions.  
+This research was supported in part by the NSF CAREER award No. 1352519 and the NSF AST grant No. 1129258.
 
 % ---------------------------------------------------------------------
 % ---------------------------------------------------------------------
