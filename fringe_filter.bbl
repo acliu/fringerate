@@ -1,4 +1,4 @@
-\begin{thebibliography}{42}
+\begin{thebibliography}{43}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Ali} {et~al.}(2015){Ali}, {Parsons}, {Zheng}, {Pober}, {Liu},
@@ -202,6 +202,9 @@ Gaensler, B.~M., Dickey, J.~M., McClure-Griffiths, N.~M., Green, A.~J.,
   {Bradley}, {Carilli}, {DeBoer}, {Hewitt}, {Jacobs}, {McQuinn}, {Morales},
   {Parsons}, {Tegmark}, \& {Werthimer}}]{pober_et_al2014}
 ---. 2014, \apj, 782, 66
+
+\bibitem[{{Ryle}(1952)}]{ryle1952}
+{Ryle}, M. 1952, Royal Society of London Proceedings Series A, 211, 351
 
 \bibitem[{{Shaw} {et~al.}(2013{\natexlab{a}}){Shaw}, {Sigurdson}, {Pen},
   {Stebbins}, \& {Sitwell}}]{shaw_et_al2013}
