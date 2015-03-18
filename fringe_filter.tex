@@ -348,7 +348,7 @@ We begin by considering a generalization of the derivation in \citet{P14}, where
 \widetilde{V}_i(\mathbf{u},\eta) = \frac{2 k_B}{\lambda^2} \int  d^2 \mathbf{u}^\prime \, d\eta^\prime \widetilde{A}_i (\mathbf{u} -\mathbf{u}^\prime, \eta-\eta^\prime) \widetilde{T}(\mathbf{u}^\prime , \eta^\prime),
 \end{equation}
 where $\eta$ is the Fourier dual to frequency\footnote{This equation can be derived by Fourier transforming Equation 
-\ref{eq:originalVis} along the frequency axis and re-expressing the angular integral in $uv$ coordinates assuming the flat-sky approximation. However, it also makes the crucial assumption that one can neglect the frequency-dependent nature of the mapping of baseline $\mathbf{b}$ to $\mathbf{u}$ coordinate. In practice, this is a good approximation only for short baselines \citep{parsons_et_al2012b,liu_et_al2014a} such as those used for power spectrum analyses in the PAPER experiment \citep{P14,J14,ali_et_al2015}.
+\eqref{eq:originalVis} along the frequency axis and re-expressing the angular integral in $uv$ coordinates assuming the flat-sky approximation. However, it also makes the crucial assumption that one can neglect the frequency-dependent nature of the mapping of baseline $\mathbf{b}$ to $\mathbf{u}$ coordinate. In practice, this is a good approximation only for short baselines \citep{parsons_et_al2012b,liu_et_al2014a} such as those used for power spectrum analyses in the PAPER experiment \citep{P14,J14,ali_et_al2015}.
 }, $\widetilde{A}_i $ is the Fourier transform of $A_i (\rhat)$ in both the angular and spectral directions, $\widetilde{T}$ is the brightness temperature field in Fourier space, $k_B$ is Boltzmann's constant, $\lambda$ is the central observation frequency, and it is implicitly assumed that the baseline length is given by $\mathbf{b} = \mathbf{u} \lambda$, with $\mathbf{u} \equiv (u,v)$. From this, we can see that two baselines with different primary beams, but located at the same location on the $uv$ plane have a delay-spectrum cross-correlation given by
 \begin{eqnarray}
 \label{eq:visCrossCorr}
@@ -396,35 +396,35 @@ Having established these results, let us re-interpret Equation \eqref{eq:pspecEs
 Equation \eqref{eq:pspecEstCrossCorr} allows a power spectrum to be estimated from the cross-multiplication of any pair of fringe-rate bins. To increase signal-to-noise on the measurement, however, one ought to form all possible cross-multiplied pairs, which can then combined into a single power spectrum estimate via a weighted average. Suppressing the arguments of $\widehat{P}$ and $\widetilde{V}$ for notational cleanliness, we can write
 \begin{equation}
 \label{eq:wVV}
-\widehat{P} = \sum_{ij} w_{ij} \widetilde{V}_i \widetilde{V}_j^*,
+\widehat{P} = \sum_{ij} g_{ij} \widetilde{V}_i \widetilde{V}_j^*,
 \end{equation}
-where $w_{ij}$ is the weight assigned to the cross-multiplication of the $i$th and $j$th fringe-rate bins. Our goal is to select weights that minimize the error bars on the final power spectrum estimate. 
+where $g_{ij}$ is the weight assigned to the cross-multiplication of the $i$th and $j$th fringe-rate bins. Our goal is to select weights that minimize the error bars on the final power spectrum estimate. 
 
 For our optimization exercise, assume that errors are due to instrumental thermal noise only. If the $i$th fringe-rate bin has a noise contribution of $n_i$, the noise contribution to our estimator is
 \begin{equation}
-\widehat{P}_\textrm{noise} = \sum_{ij} w_{ij} n_i n_j^*.
+\widehat{P}_\textrm{noise} = \sum_{ij} g_{ij} n_i n_j^*.
 \end{equation}
 The error bar corresponding to this noise contribution is given by the square root of its variance, which takes the form
 \begin{eqnarray}
 \label{eq:NoiseVar}
 \textrm{Var}(\widehat{P}_\textrm{noise} ) &\equiv& \langle \widehat{P}_\textrm{noise}^2 \rangle - \langle \widehat{P}_\textrm{noise} \rangle^2 \nonumber \\
-&= & \sum_{ijkm} w_{ij} w_{km} \left[ \langle n_i n_j^* n_k n_m^* \rangle - \langle n_i n_j^*\rangle \langle n_k n_m^* \rangle \right] \nonumber \\
-&=&  \sum_{ij} w_{ij} w_{ji}\sigma^4,
+&= & \sum_{ijkm} g_{ij} g_{km} \left[ \langle n_i n_j^* n_k n_m^* \rangle - \langle n_i n_j^*\rangle \langle n_k n_m^* \rangle \right] \nonumber \\
+&=&  \sum_{ij} g_{ij} g_{ji}\sigma^4,
 \end{eqnarray}
 where in the last equality we assumed that the noise is Gaussian, enabling the fourth moment term to be written as a sum of second moment (variance) terms. We further assumed that the real and imaginary components of the noise are uncorrelated with each other and between different fringe-rate bins, so that if $n_i \equiv a_i + i b_i$, we have $\langle a_i a_j \rangle = \langle b_i b_j \rangle = \delta_{ij} \sigma^2/2 $ and $\langle a_i b_j \rangle= 0$ for all $i$ and $j$.
 
 In minimizing the noise variance, care must be taken to ensure that there is no signal loss in the power spectrum estimation. To do so, we first note that taking the ensemble average of $\widehat{P}$ gives
 \begin{equation}
-\langle \widehat{P} \rangle = \sum_{ij} w_{ij} \langle \widetilde{V}_i \widetilde{V}_j^* \rangle = S \sum_{ij} w_{ij} \Omega_{ij} P,
+\langle \widehat{P} \rangle = \sum_{ij} g_{ij} \langle \widetilde{V}_i \widetilde{V}_j^* \rangle = S \sum_{ij} g_{ij} \Omega_{ij} P,
 \end{equation}
-where we used an ensemble-averaged version of Equation \eqref{eq:pspecEstCrossCorr} to relate the true cross-correlation to the true power spectrum, and defined $S \equiv ( B / X^2 Y) ( 2 k_B / \lambda^2 )^2$. Ensuring that there is no signal loss is thus tantamount to requiring that $ S \sum_{ij} w_{ij} \Omega_{ij} =1$, so that $\langle \widehat{P} \rangle = P$. We may impose this constraint by introducing a Lagrange multiplier $\lambda$ in our minimization of the noise variance, minimizing
+where we used an ensemble-averaged version of Equation \eqref{eq:pspecEstCrossCorr} to relate the true cross-correlation to the true power spectrum, and defined $S \equiv ( B / X^2 Y) ( 2 k_B / \lambda^2 )^2$. Ensuring that there is no signal loss is thus tantamount to requiring that $ S \sum_{ij} g_{ij} \Omega_{ij} =1$, so that $\langle \widehat{P} \rangle = P$. We may impose this constraint by introducing a Lagrange multiplier $\lambda$ in our minimization of the noise variance, minimizing
 \begin{equation}
-\mathcal L = \sum_{ij} w_{ij} w_{ji} - \lambda \sum_{ij} w_{ij} \Omega_{ij},
+\mathcal L = \sum_{ij} g_{ij} g_{ji} - \lambda \sum_{ij} w_{ij} \Omega_{ij},
 \end{equation}
-where both $\sigma^4$ and $S$ have been absorbed into our definition of $\lambda$. Differentiating with respect to each element and setting the result to zero gives an optimized weight given by $w_{km} \propto \Omega_{km}$, and normalizing according to our constraint yields
+where both $\sigma^4$ and $S$ have been absorbed into our definition of $\lambda$. Differentiating with respect to each element and setting the result to zero gives an optimized weight given by $g_{km} \propto \Omega_{km}$, and normalizing according to our constraint yields
 \begin{equation}
 \label{eq:PspecOptWeights}
-w_{km} = \frac{\Omega_{km}}{S \sum_{ij} \Omega_{ij}^2}.
+g_{km} = \frac{\Omega_{km}}{S \sum_{ij} \Omega_{ij}^2}.
 \end{equation}
 
 To make intuitive sense of this, let us make a few more approximations. The key quantity here is $\Omega_{ij}$, which we can see from Equation \eqref{eq:Omega_ij_def} is the overlap integral between the effective primary beams of the $i$th and $j$th fringe-rate bins. In Section \ref{sec:overview}, we saw that if one takes the fringe-rate Fourier transform over a wide enough window in time, different fringe-rates map to different portions of the sky with relatively little overlap. If this is indeed the case, $\Omega_{ij}^{pp}$ vanishes unless $i=j$. Defining
@@ -456,21 +456,68 @@ We note that following fringe-rate filtering, the normalization of the power
 spectrum estimator must be modified accordingly. This can be seen in Equation
 \eqref{eq:finalEst}, where the scalar quantities in front of the sum are
 different than those found in Equation \eqref{eq:P14est}, which is applicable
-to non-fringe rate filtered data. To ensure that one's power spectrum estimates
-are correctly normalized, one can simply follow the prescription in Equation
-\eqref{eq:finalEst}. However, the derivation of Equation \eqref{eq:finalEst}
-involved a number of approximations. Additionally, as we discussed in Section
-\ref{sec:Implementation}, practical implementations of fringe-rate filtering
-may deviate from the optimal prescription outlined here. It may therefore be
-safer to instead compute the normalization of the power spectrum numerically.
-Once the fringe-rate weights have been specified, Equation
-\eqref{eq:EffectiveBeamDef} gives the effective beam. Since we know from
-Equation \eqref{eq:ShrunkBeam} that the measurement equation for fringe-rate
-filtered visibilities is the same as that for the original visibilities up to
-the revised beam, one can simply use Equation \eqref{eq:P14est} as long as the
-beam area is accordingly revised.
+to non-fringe rate filtered data. More generally, suppose we consider an
+auto-correlation-only estimator of the form
+\begin{equation}
+\label{eq:CountlessPhats}
+\widehat{P} = \sum_{i} w_{i}^2 | \widetilde{V}_i |^2 = \sum_i | w_i \widetilde{V}_i |^2,
+\end{equation}
+where if $w_i$ is set to $\mu_i^{1/2}$, we recover the optimized estimator derived
+above. Keeping $w_i$ arbitrary here will be useful in later sections,
+when we examine estimators that are purposely non-optimal as far as
+instrumental noise sensitivity is concerned, but may provide
+better final results due to a better mitigation of systematics. Like before,
+we may impose the condition that $\langle \widehat{P} \rangle = P$, which
+requires that the weights satisfy $S \sum_i w_i^2 \mu_i = 1$ (where we have
+once again invoked the approximation that $\Omega_{ij}^{pp}=0$ if $i \neq j$).
+Equivalently, we may leave our weights initially unnormalized as one forms
+the combination $w_i \widetilde{V}_i $ in Equation \eqref{eq:CountlessPhats},
+instead compensating with a normalizing denominator. Writing the estimator
+in this way, one obtains
+\begin{equation}
+\label{eq:DunnoWhatToCallThis}
+\widehat{P} = \frac{\sum_i | w_i \widetilde{V}_i |^2}{S \sum_j w_j^2 \mu_j} =\left( \frac{\lambda^2}{2 k_B} \right)^2 \frac{X^2 Y}{ B}   \frac{\sum_i | \widetilde{V}^\textrm{filt} (t_i) |^2}{\sum_j w_j^2 \mu_j},
+\end{equation}
+where in the last equality we re-inserted the definition of $S$ and invoked Parseval's theorem in the numerator
+to write the fringe-rate filtered visibilities in the time domain. Our expression now takes precisely the same form
+as Equation \eqref{eq:P14est}, except with fringe-rate filtered visibilities $\widetilde{V}^\textrm{filt} (t)$ instead 
+of the original visibilities, and $\sum_j w_j^2 \mu_j$ as a normalizing beam area instead of the integrated square
+beam $\Omega_{pp}$. That the estimator can be written in such a similar form is unsurprising,
+since we showed in Equation \eqref{eq:ShrunkBeam} that fringe-rate filtered visibilities are essentially
+the same as the original visibilities but with modified primary beams. Indeed, the term $\sum_j w_j^2 \mu_j$
+can alternatively be computed by simply evaluating the integral for $\Omega_{pp}$ but with the
+effective primary beam of Equation \eqref{eq:EffectiveBeamDef} instead of the original primary beam. 
+Explicitly, the relevant integral is $\frac{1}{B} \int d\Omega d\nu A^\textrm{eff}_{\nu} ( \rhat, \nu)^2$, which becomes
+\begin{equation}
+\frac{1}{B} \int d\Omega d\nu A_{\nu} ( \rhat, \nu)^2 \,w^2\!\left( \frac{\nu}{c} \mathbf{b}_t \times \boldsymbol \omega_\Earth \cdot \rhat  \right),
+\end{equation}
+where we made the approximation that $ \tilde{\gamma}$ is a reasonably compact function in Equation \eqref{eq:EffectiveBeamDef}.
+Suppose we now evaluate this integral by splitting the sky into rings of constant fringe-rate, i.e., regions within which
+we have $ \mathbf{b}_t \times \boldsymbol \omega_\Earth \cdot \rhat$ equal to a constant. By construction, the function $w$ is
+constant within each of these regions, and denoting its value in the $j$th region as $w_j$, the integral becomes
+\begin{equation}
+\sum_j w_j^2 \frac{1}{B}  \int d\Omega d\nu A_j ( \rhat, \nu)^2 = \sum_j w_j^2 \mu_j ,
+\end{equation}
+completing our proof that the normalization factor in Equation \eqref{eq:DunnoWhatToCallThis} is simply
+$\Omega_{pp}$ computed with the effective primary beam.
+%
+%To ensure that one's power spectrum estimates
+%are correctly normalized, one can simply follow the prescription in Equation
+%\eqref{eq:finalEst}. However, the derivation of Equation \eqref{eq:finalEst}
+%involved a number of approximations. Additionally, as we discussed in Section
+%\ref{sec:Implementation}, practical implementations of fringe-rate filtering
+%may deviate from the optimal prescription outlined here. It may therefore be
+%safer to instead compute the normalization of the power spectrum numerically.
+%Once the fringe-rate weights have been specified, Equation
+%\eqref{eq:EffectiveBeamDef} gives the effective beam. Since we know from
+%Equation \eqref{eq:ShrunkBeam} that the measurement equation for fringe-rate
+%filtered visibilities is the same as that for the original visibilities up to
+%the revised beam, one can simply use Equation \eqref{eq:P14est} as long as the
+%beam area is accordingly revised.
 
-To verify the effective beam after fringe-rate filtering, we use simulated observations 
+
+To be conservative, however, it is important to verify our analytic results using numerical
+simulations, since a number of approximations were made in our derviations. We use simulated observations 
 of individual point sources positioned at declinations in $5^\circ$ increments, traversing
 through the primary beam and fringe pattern as a function of time.  As
 illustrated in Figure \ref{fig:src_track_flat}, we inject point sources of unity
@@ -730,7 +777,7 @@ match before summing them to form a Stokes I visibility.  Finally, we see that f
 chosen that explicitly
 minimize leakage while retaining significant sensitivity; the last row of Table \ref{tbl:beam_metrics},
 corresponding to the green curve in Figure \ref{fig:fringe_rate_cut}, illustrates how an additional
-$\sim25$\% decrease in polarization leakage can be obtained with a $\sim$10\% degredation
+$\sim25$\% decrease in polarization leakage can be obtained with a $\sim$10\% degradation
 in sensitivity.
 % XXX should make clear that we only benefit from the square root of sigma^2 filt, since we get incoherent baselines back in quadrature
 
@@ -780,16 +827,13 @@ pairs of fringe-rate bins. The general form for such an estimator is given by Eq
 as we found in Section \ref{sec:PspecOptimization}, one may approximate the different fringe-rate bins as being
 uncorrelated. The same approximation can be made here, allowing us to define $\mu^I$ and $\mu^Q$ by
 letting $\Omega_{ij}^{II} \equiv \delta_{ij} \mu_i^I$ and $\Omega_{ij}^{QQ} \equiv \delta_{ij} \mu_i^Q$. With no
-correlations between fringe-rate bins, it becomes sufficient to estimate the power spectrum using auto-correlations
-only, with an estimator of the form
+correlations between fringe-rate bins, it becomes sufficient to once again use Equation \eqref{eq:CountlessPhats}.
+Taking the ensemble average of Equation \eqref{eq:CountlessPhats} but this time including polarization leakage
+terms, i.e., inserting Equation \eqref{eq:LeakyCorrelFct} rather than Equation \eqref{eq:visCrossCorr} gives
 \begin{equation}
-\widehat{P} = \sum_{i} g_{i}| \widetilde{V}_i |^2,
+\langle \widehat{P} \rangle = \left( S \sum_i w_i^2 \mu^I_i \right) P_I + \left( S \sum_i w_i^2 \mu^Q_i \right) P_Q.
 \end{equation}
-where $g_i$ is the weight given to the auto-correlation of the $i$th fringe rate. Taking the ensemble average gives
-\begin{equation}
-\langle \widehat{P} \rangle = \left( S \sum_i g_i \mu^I_i \right) P_I + \left( S \sum_i g_i \mu^Q_i \right) P_Q.
-\end{equation}
-If, as before, we require our weights to be normalized so that $S \sum_i g_i \mu^I_i =1$, the first term gives an
+If, as before, we require our weights to be normalized so that $S \sum_i w_i^2 \mu^I_i =1$, the first term gives an
 unbiased estimator of the Stokes I power spectrum. The second term is the bias in our final power spectrum estimate
 due to leakage from Q to I. Ideally, the weights are chosen to mitigate this contribution. However, in attempting to
 minimize this systematic, one must be careful not to pick weights that dramatically amplify the instrumental noise
@@ -797,22 +841,22 @@ contribution. We therefore choose to minimize an overall ``variance" that is the
 \eqref{eq:NoiseVar} plus the square of the Stokes Q power spectrum bias (essentially adding the error bars
 from instrumental noise and polarization leakage in quadrature). In other words, we minimize
 \begin{equation}
-\mathcal L = \sigma^4 \mathbf{g} \cdot \mathbf{g} + \left(S P_Q \right)^2 \left(\mathbf{g} \cdot \boldsymbol \mu^Q \right)^2 - \lambda \mathbf{g} \cdot \boldsymbol \mu^I,
+\mathcal L = \sigma^4 \mathbf{m} \cdot \mathbf{m} + \left(S P_Q \right)^2 \left(\mathbf{m} \cdot \boldsymbol \mu^Q \right)^2 - \lambda \mathbf{m} \cdot \boldsymbol \mu^I,
 \end{equation}
 where we have introduced a Lagrange multiplier $\lambda$ to enforce our normalization constraint, and have grouped
-the different fringe-rate weights into a vector $\mathbf{g}$, with the beam overlap integrals similarly grouped into
+the different fringe-rate weights into a vector $\mathbf{m}\equiv( w_1^2, w_2^2, \dots )$, with the beam overlap integrals similarly grouped into
 vectors $\boldsymbol \mu^I$ and $\boldsymbol \mu^Q$. Now, notice that if we define
 \begin{equation}
 \mathbf{H} \equiv \sigma^4 \mathbf{I} + \left(S P_Q \right)^2 \boldsymbol \mu^Q (\boldsymbol \mu^Q)^t,
 \end{equation}
 our expression can be written as
 \begin{equation}
-\mathcal L = \mathbf{g}^t \mathbf{H} \mathbf{g} - \lambda \mathbf{g}^t \boldsymbol \mu^I.
+\mathcal L = \mathbf{m}^t \mathbf{H} \mathbf{m} - \lambda \mathbf{m}^t \boldsymbol \mu^I.
 \end{equation}
 Differentiating this, setting the result to zero, and solving for the normalized weights gives
 \begin{equation}
 \label{eq:PolOptWeights}
-\mathbf{g} =  \frac{\mathbf{H}^{-1}  \boldsymbol \mu^I}{ S (\boldsymbol \mu^I)^t  \mathbf{H}^{-1}  \boldsymbol \mu^I}.
+\mathbf{m} =  \frac{\mathbf{H}^{-1}  \boldsymbol \mu^I}{ S (\boldsymbol \mu^I)^t  \mathbf{H}^{-1}  \boldsymbol \mu^I}.
 \end{equation}
 This expression involves $\mathbf{H}^{-1}$, which can be evaluated quite explicitly in our case using the
 Woodbury formula, giving
@@ -822,8 +866,8 @@ Woodbury formula, giving
 \end{equation}
 where $P_N$ is the noise power spectrum, which is equal to the root-mean-square visibility
 noise divided by by $S$. If the sky were completely unpolarized ($P_Q = 0$) or there were no polarization leakage due to mismatched beams ($\boldsymbol \mu^Q = 0$), then $\mathbf{H}^{-1} \propto \mathbf{I}$, and the optimal weighting would take the form
-$\mathbf{g} \propto \boldsymbol \mu^I$. Recalling that each component of a $\boldsymbol \mu$ vector corresponds
-to a different fringe rate, we see that $\mathbf{g} \propto \boldsymbol \mu^I$ is precisely the result derived in Section
+$\mathbf{m} \propto \boldsymbol \mu^I$. Recalling that each component of a $\boldsymbol \mu$ vector corresponds
+to a different fringe rate, we see that $\mathbf{m} \propto \boldsymbol \mu^I$ is precisely the result derived in Section
 \ref{sec:PspecOptimization}, where each fringe-rate bin was weighted by the integrated square of the beam within the bin.
 
 With polarization leakage, Equation \eqref{eq:PolOptWeights} shows that as a first step, one should still weight by
