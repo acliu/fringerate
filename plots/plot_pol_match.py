@@ -117,6 +117,8 @@ print 'Sensitivity:', n.sqrt(crit_noise_lev / fng_noise_lev) * n.sum(bmIm_fngpol
 print beam_area(bmI), beam_area(bmIm), beam_area(bmIm_fng), beam_area(bmIm_fngpol)
 print beam_area(bmI**2), beam_area(bmIm**2), beam_area(bmIm_fng**2), beam_area(bmIm_fngpol**2)
 
+print 'XXX', beam_area(bmI**2), beam_area((bmI*fng_wgt)**2)
+
 print 'Unweighted:', n.sqrt(n.sum(bmQ**2)/n.sum(bmI**2))
 print 'Matched:   ', n.sqrt(n.sum(bmQm**2)/n.sum(bmIm**2))
 print 'Optimal SN:', n.sqrt(n.sum(bmQm_fng**2)/n.sum(bmIm_fng**2))
