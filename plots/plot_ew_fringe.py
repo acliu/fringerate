@@ -59,5 +59,7 @@ for lt in n.arange(-90, 90, 10):
     lats = n.ones_like(lons) * lt
     x,y = m(lons,lats)
     m.plot(x,y, 'k', linewidth=1)
-    p.arrow(x[1],y[1],x[0]-x[1],y[0]-y[1], edgecolor='k', facecolor='k', overhang=.5, head_width=.04)
+    if x[0]-x[1] == 0 and y[0]-y[1] == 0: continue
+    print x[0]-x[1], y[0]-y[1]
+    p.arrow(x[1],y[1],x[0]-x[1],y[0]-y[1], edgecolor='k', facecolor='k', overhang=.5, head_width=.04, length_includes_head=True)
 p.show()

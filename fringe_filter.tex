@@ -155,7 +155,7 @@ to time-variation in $V_{b\nu}(t)$ as the Earth rotates.
 \caption{
 The fringe pattern at 150 MHz of a fiducial 30-m east-west baseline, overlaid with arrows indicating
 the distance traversed by sources at various declinations over a two-hour time span centered at transit.
-In a fixed time interval, sources near $\delta=0^\circ$ traverse more 
+In a fixed time interval, sources near declination $\delta=0^\circ$ traverse more 
 fringe periods than sources nearer to the celestial poles. This gives rise to different
 fringe rates that can be used to distinguish sources in a time-series measured with a single baseline.
 }\label{fig:ew_fringe}
@@ -532,9 +532,15 @@ HEALpix spherical grid \citep{gorski_et_al2005} to determine the effective beam 
 at that location.  We perform these simulations using both an isotropic primary beam (in Figure \ref{fig:src_track_flat})
 and with the PAPER primary beam (in Figure \ref{fig:src_track_beam}).  
 The effective beam responses that
-we recover are shown in Figure \ref{fig:eff_beam}.  These compare well to the results shown in Figure \ref{fig:sim_beam}, 
+we recover are shown in Figure \ref{fig:eff_beam}.  The artifacts 
+that appear every $5^\circ$ in declination are a result the binned beam model imperfectly 
+interpolating between source tracks at different
+declinations.  Aside from these artifacts, which we emphasize are associated with the reconstruction of
+the beam model and not with any features exhibited along a source track, 
+these results compare well to the results shown in Figure \ref{fig:sim_beam}, 
 where we show the effective beam response by looking up the filter response corresponding
-to the fringe rate at each sky position, i.e., by using Equation \eqref{eq:EffectiveBeamDef}.  As these simulations illustrate, the approximations we have made in our analytic
+to the fringe rate at each sky position, i.e., by using Equation \eqref{eq:EffectiveBeamDef}.  
+As these simulations illustrate, the approximations we have made in our analytic
 derivation of the effect of fringe-rate filtering on the effective beam response are valid, with errors 
 dominated by binning effects associated with determining the effective beam from the point-source simulations.
 

@@ -98,7 +98,7 @@ DONE
 Fig 1:
 It seems the arrows do not scale properly compared to the lines of longitude. Caption: delta not defined.
 
-ARP
+DONE
 
 Eq. 2: (and all Eq following)
 It might be useful to change f(t'-t) in (t'-t)f, as the first looks like a function evaluation.
@@ -194,7 +194,46 @@ DONE. "The typical technique for..." -> "A commonly used technique..."
 
 Page 9, col 2, par 3, line 10-13: "As such, for a chosen uv coordinate, ... before summing." I am not sure what the authors mean here: convolving the XX and YY visibilities in uv-space (in 2d) with the Fourier transform of the full inverse Mueller matrix image would completely correct that particular mode for the beam, resulting in zero leakage on average. This does not depend on overlap of kernels with other visibilities. Clarify or remove.
 
-ARP
+The reviewer is incorrect.
+ARP DISCUSSION:
+
+In image domain, the baseline fringe pattern has been integrated across the sky
+weighted by two different (XX, YY) beams.  This means that an interferometric
+baseline for these two polarizations samples the uv plane convolved by two
+different kernels --- the Fourier transforms of the XX, YY beams, respectively.
+Because the resulting V_XX, V_YY visibilities no longer retain any
+direction-dependent information (they were integrated over angle) V_XX and V_YY
+cannot be re-weighted in a way that produces pure Stokes I response in all
+directions, except in the trivial case that the YY beam differs from the XX
+beam by a direction-independent multiplicative factor.  Said another way, given
+a single degree of freedom in the relative weighting of V_XX and V_YY, it is
+not possible to gaurantee a pure Stokes I response in more than one direction.
+
+It is common practice in synthesis imaging to grid visibilities in the uv plane
+with convolving kernels that contain direction-dependent information.  Examples
+include W-projection kernels, the Fourier transform of the primary beam used in
+optimal map making, and (relevant here) the Fourier transform of the inverse of
+direction-dependent Mueller matrices.  Indeed, in the case of a completely
+sampled uv plane, the inverse Mueller beam kernel would perfectly match the XX
+and YY beams.  However, as the sampling of the uv plane becomes sparser, the
+removal of samples removes degrees of freedom in weighting as a function of
+direction.  In the limiting case of a very sparse array where the convolving
+kernels of uv samples do not overlap, we revert to the single
+direction-independent weighting factor above.
+
+Another way of thinking about this is to realize that, by gridding visibilities
+in the uv plane with a convolving kernel, we are attempting to reassign sky
+intensity from the visibility, which was integrated over in equation 1, back to
+its original location so that it may be re-weighted to match the XX and YY
+polarization responses.  This inversion is only well posed in the case of a
+completely sampled uv plane.  As we lose uv samples, we lose the ability to
+reconstruct the original sky intensity, and hence, to perfectly match the XX
+and YY polarization responses as a function of direction.  In the case of a
+sparsely sampled uv plane, it is only possible to construct a pure Stokes I
+response as a function of direction if one has sufficient additional
+information about the sky (for example, if it sparsely populated by point
+sources) that one can reconstruct the missing modes and hence, fully invert the
+uv plane.
 
 Page 9, col 2, par 4, line 11-..: "Typically, earth-rotation synthesis.." somewhat same comment as above; I don't know what the authors mean, but arrays like MWA and LOFAR can perform adequate beam correction of snapshots, so this statement seems not correct.
 
