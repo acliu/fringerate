@@ -58,36 +58,64 @@ On page 4, in the description of the FIR filter: A crucial detail for fringe-rat
 
 One trivial implication is visible in Fig. 3, which shows a time kernel which is over 2 hours in time. Since in Ali et al. 2015 night-time observations of 8.30 hour were used, at face value it seems that in such a case almost 25% of the data had to be discarded to properly filter the data. How is this handled? Moreover, could the authors describe what kind of windowing function is used, and how its size was chosen?
 
-ARP
+ARP Although 8.3 hrs of data were used in the final analysis, this time range
+was selected after the application of a fringe-rate filter to a longer (~12 hr)
+data set.  Hence, the 8.3 hr window was not limited by the boundary conditions
+to which the reviewer is referring.  The windowing function was chosen to be a
+XXX, with width chosen to truncate the time-domain kernel in regions where the
+weighting falls below XXX % of the peak response.  This windowing has a minor
+effect of the shape of the effective fringe-domain response.  This deviation
+from optimal weighting has only a negligible effect on sensitivity, and is
+balanced by the other merits of having a compact time-domain kernel.
 
 Some quantitative results are presented on Page 8 and 12. On Page 8 this is the signal loss assuming a Gaussian random field and the point-source gain of the sculpted beam. Page 12 describes the sensitivity improvement of the filtering, which is convincing. However, none of these tests quantify how much signal is mixed from one mode to another because of the finite filter size. This could e.g. be visualized by simulating a non-uniform (e.g. single mode) power spectrum and measuring the reconstructed power spectrum. Since this method is quite crucial for the EoR analyses, I think this effect should be extensively & quantitatively validated.
 
-ARP, ACL DISCUSSION NEEDED.
+ARP, ACL DISCUSSION NEEDED.  The reviewer is correct that fringe-rate filtering
+creates correlations between what would otherwise be independent modes sampled
+as a function of time.  The number of independent modes preserved for power
+spectrum analysis corresponds directly to the number and weighting of
+fringe-rate modes by the fringe-rate filter.  Even for short time-domain
+integrations, quantifying the number of sampled modes is very tricky, as the
+time dependence of a baselines projection (and hence, uv mode sampling) toward
+a patch of sky varies substantially over the wide fields of view of
+low-frequency interferometers such as PAPER and the MWA.  Indeed, optimal
+fringe-rate filtering addresses this spatially varying time dependence more
+directly than standard square time-domain integrations might.  This trickiness
+is addressed in Parsons et al. (2014), where we determine that to accurately
+determine the statistical interdependence of these modes in either the
+fringe-rate filtering or square time-domain integration case, it is necessary
+to use bootstrapping.  We will echo that finding here.
 
 Related to this, on Page 8, col 1, 11th line before bottom the authors write: "These compare well to the results shown in Figure 7." This is arguable; Fig 6 is clearly different from Fig. 7. The technique significantly enhances the sensitivity of the power spectrum, as shown later, but by itself having a beam which acts like Fig. 6 looks actually worrying. This needs to be elaborated and should be quantified.
 
-ARP, ACL DISCUSSION NEEDED. Two separate points here. First, whether figures 6 and 7 look similar.
-I really do think they do. Maybe emphasize that this really is just finite resolution effects, and
-that there's convergence as we increase the number of slices through the beam? Second point is why
-the beam in Figure 6 is worrying? Maybe because of all the features? Perhaps we should emphasize
-that the "actual" effect of the instrument + filtering is given by Figure 7, not the noisy version
-in Figure 6. Ultimately, all we really need are the various versions of the beam area, and we can
-use the analytic expression (i.e. use Figure 7) if we want.
+ARP, ACL DISCUSSION NEEDED. Two separate points here. First, whether figures 6
+and 7 look similar.  I really do think they do. Maybe emphasize that this
+really is just finite resolution effects, and that there's convergence as we
+increase the number of slices through the beam? Second point is why the beam in
+Figure 6 is worrying? Maybe because of all the features? Perhaps we should
+emphasize that the "actual" effect of the instrument + filtering is given by
+Figure 7, not the noisy version in Figure 6. Ultimately, all we really need are
+the various versions of the beam area, and we can use the analytic expression
+(i.e. use Figure 7) if we want.
 
 My final issue is that the paper is a bit long for what it presents. Parts that were in particular somewhat distracting from the main points of the paper were the discussion of the normalization of the power spectrum estimator (Page 7 last paragraph, and 8 up to the paragraph ending with "...with the effective primary beam.") and the discussion showing that optimal map making would filter high fringe rates (Page 16, under Eq 59), which of course is not surprising, as well as that common uv-gridding employed for map making also includes a low-pass filter, which is similar to fringe-rate filtering. Hence, I suggest removing both parts, possibly putting the PS normalization into an Appendix if the authors feel it is relevant, and I recommend further reduction of size if possible.
 
-ARP, ACL DISCUSSION NEEDED. Probably happy to move normalization to appendix. Mapmaking connection, maybe not.
+ARP, ACL DISCUSSION NEEDED. Probably happy to move normalization to appendix.
+Mapmaking connection, maybe not.
 
 I have some further smaller issues which I detail below:
 
 Page 1, col 1, first paragraph:
 "These differences ... interferometers that only have moderate angular resolution...", and later LOFAR is mentioned as one such interferometer. This should be reworded a bit, since I would not say that LOFAR has 'moderate' angular resolution, better to say 'with less focus' or something similar.
 
-DONE. Changed "that broadly fit this description" to "that broadly fit some or all of this description"
+DONE. Changed "that broadly fit this description" to "that broadly fit some or
+all of this description"
 
 Page 1, col 2, par 2:
 "In this paper, we extend ideas..."
 Probably the paper by D. Roshi and R. Perley ("A New Technique to improve RFI suppression in Radio Interferometers", 2003, http://arxiv.org/abs/astro-ph/0304493 ) is quite relevant as well.
+
+XXX?
 
 Page 2, col 1, par 1:
 "...providing cleaner views of systematics in the data"
@@ -109,18 +137,24 @@ DONE
 "...our transform at time t'=t."
 The window function here is centred here, not the transform. Also, it is centred on t, not on t'=t."
 
-DONE. "thereby centering our transform at time $t^\prime = t$" -> "in essence shifting the origin of our transform to time $t$"
+DONE. "thereby centering our transform at time $t^\prime = t$" -> "in essence
+shifting the origin of our transform to time $t$"
 
 Next line:
 "...the time-dependence of the visibility will likely be...through the celestial sphere."
 The filter size does not influence the time-dependence of the visibilities. Reword. Also see my comments on the window size at this point.
 
-DONE. "If the characteristic width of $\gamma$ is relatively short, one is effectively examining the visibility over short timescales, during which its time-dependence will likely be dominated by features on the sky moving relative to fringes, and not the movement of the primary beam through the celestial sphere."
+DONE. "If the characteristic width of $\gamma$ is relatively short, one is
+effectively examining the visibility over short timescales, during which its
+time-dependence will likely be dominated by features on the sky moving relative
+to fringes, and not the movement of the primary beam through the celestial
+sphere."
 
 Below Eq. 3; worth mentioning explicitly that this assumes a relatively small window size.
 
-DISAGREE. The discussion before Equation 3 is explicitly about short time periods/small
-window sizes, and it's probably overkill to mention the approximation both before and after.
+DISAGREE. The discussion before Equation 3 is explicitly about short time
+periods/small window sizes, and it's probably overkill to mention the
+approximation both before and after.
 
 Eq. 4: It took me some time figuring out why the term "nu/c(b_t x omega)r" is negative; the authors might help the reader by already reversing the omega x b term in Eq. 3. The 'x' meaning 'multiply' on the beginning of the 2nd line is somewhat confusing with cross product or convolution. Below Eq 4: as it is written, gamma-tilde is the *inverse* FT of gamma.
 
@@ -136,7 +170,10 @@ DONE. "contours" -> "shaded bands"
 
 Page 4, line 1: "that essentially averages together data." I wouldn't say filtering is essentially averaging, they're different operations. The authors could say something like that it reduces entropy of the data making it better compressible, if that is what the authors are trying to say.
 
-DONE. Elaborating a little bit: "For example, if $w(f)$ is chosen in a way that suppresses high fringe rates, the effect in the time domain will be a low-pass filter that (among other features) has the rough effect of averaging together data."
+DONE. Elaborating a little bit: "For example, if $w(f)$ is chosen in a way that
+suppresses high fringe rates, the effect in the time domain will be a low-pass
+filter that (among other features) has the rough effect of averaging together
+data."
 
 Page 4, col 1, par 2, line 3: "be used in for" bad sentence.
 
@@ -149,7 +186,16 @@ DONE. "In keeping with its origins targeting observations from the PAPER array"
 
 Figure 3. Can the authors explain why the XX/YY matching line has such a different shape, and is cut off at ~-0.7? (possibly on P 12 where it is discussed) I assume this implies that the fringe response shown is only for XX or YY? Please specify. Is the high frequency in this fringe-rate filter also a reason for the insufficient beam correction in Fig. 8, or is it just the 1D nature of the fringe filter which causes this?
 
-ARP
+ARP XX/YY only aims to normalize the YY beam to the XX beam.  This ratio does
+not include the absolute beam response (which the other curves include as
+optimal weighting), and so the curve has a substantially different shape.
+Fringe is only XX.  Cut at -0.7 is just an effect of the vertical scale, chosen
+to keep the other curves legible.  Since the XX/YY ratio can diverge as YY goes
+toward zero, and because the blue solid curve includes similar information but
+in a beam-weighted fashion, this cropping was deemed acceptable.  The "high
+frequency", which we interpret to mean the variation of this function with
+fringe rate, is not a limiting factor in the beam matching; it is, as the
+reviewer speculates, just the 1D nature of the fringe filter.
 
 Page 5, col 2, line 8: "primary beam A_i(r)" and three lines later:
 I think it is more logical to write A_i(r, nu).
@@ -178,7 +224,8 @@ DONE.
 
 Page 7, col 1, under Eq 26: "This is a rather remarkable result, ..." -- I'm not sure why the authors find this remarkable... Indeed, it can be described as somewhat 'counter-intuitive' when thinking about 'normal' visibility averaging.
 
-DISAGREE. "Remarkable" in the sense of "worthy of a remark because it is counterintuitive", and in the next sentence we say that it's counterintuitive.
+DISAGREE. "Remarkable" in the sense of "worthy of a remark because it is
+counterintuitive", and in the next sentence we say that it's counterintuitive.
 
 Page 8, col 1, par 2, line 3: "derviations" -> derivations.
 
@@ -186,7 +233,11 @@ DONE.
 
 Page 8, col 1, 7th line before bottom: "As these simulations illustrate...point-source simulations". I do not understand this sentence, clarify. Are the authors saying the difference between Fig 6 and 7 can be explained by the 'binning'? Isn't the binning equal in both Fig 6 and 7?
 
-ARP
+ARP Binning is not equal.  Fig. 7 is an analytic beam that is interpolated to
+high precision.  In Fig. 6, this same level of resolution is not available
+because the beam is reconstructed from source tracks that are simulated for
+every 5 degrees in declination.  To smooth over the beam on scales of 5
+degrees, coarser binning is used.
 
 Page 9, col 2, par 2, "The typical technique for..." Typical for dishes, but I don't think this is 'typical' for aperture arrays with a fixed element beam, which involve more typically a multiplication of an inverse Mueller matrix (e.g. as is done in AW-projection for LOFAR by Tasse et al., 2012, http://arxiv.org/abs/1212.6178, or for the MWA as done in the RTS as in Mitchel et al. 2008 http://arxiv.org/abs/0807.1912 and Offringa et al. 2014 http://arxiv.org/abs/1407.1943 ).
 
@@ -194,20 +245,18 @@ DONE. "The typical technique for..." -> "A commonly used technique..."
 
 Page 9, col 2, par 3, line 10-13: "As such, for a chosen uv coordinate, ... before summing." I am not sure what the authors mean here: convolving the XX and YY visibilities in uv-space (in 2d) with the Fourier transform of the full inverse Mueller matrix image would completely correct that particular mode for the beam, resulting in zero leakage on average. This does not depend on overlap of kernels with other visibilities. Clarify or remove.
 
-The reviewer is incorrect.
-ARP DISCUSSION:
-
-In image domain, the baseline fringe pattern has been integrated across the sky
-weighted by two different (XX, YY) beams.  This means that an interferometric
-baseline for these two polarizations samples the uv plane convolved by two
-different kernels --- the Fourier transforms of the XX, YY beams, respectively.
-Because the resulting V_XX, V_YY visibilities no longer retain any
-direction-dependent information (they were integrated over angle) V_XX and V_YY
-cannot be re-weighted in a way that produces pure Stokes I response in all
-directions, except in the trivial case that the YY beam differs from the XX
-beam by a direction-independent multiplicative factor.  Said another way, given
-a single degree of freedom in the relative weighting of V_XX and V_YY, it is
-not possible to gaurantee a pure Stokes I response in more than one direction.
+ARP DISCUSSION: In image domain, the baseline fringe pattern has been
+integrated across the sky weighted by two different (XX, YY) beams.  This means
+that an interferometric baseline for these two polarizations samples the uv
+plane convolved by two different kernels --- the Fourier transforms of the XX,
+YY beams, respectively.  Because the resulting V_XX, V_YY visibilities no
+longer retain any direction-dependent information (they were integrated over
+angle) V_XX and V_YY cannot be re-weighted in a way that produces pure Stokes I
+response in all directions, except in the trivial case that the YY beam differs
+from the XX beam by a direction-independent multiplicative factor.  Said
+another way, given a single degree of freedom in the relative weighting of V_XX
+and V_YY, it is not possible to gaurantee a pure Stokes I response in more than
+one direction.
 
 It is common practice in synthesis imaging to grid visibilities in the uv plane
 with convolving kernels that contain direction-dependent information.  Examples
@@ -237,7 +286,9 @@ uv plane.
 
 Page 9, col 2, par 4, line 11-..: "Typically, earth-rotation synthesis.." somewhat same comment as above; I don't know what the authors mean, but arrays like MWA and LOFAR can perform adequate beam correction of snapshots, so this statement seems not correct.
 
-ARP
+ARP As per above, this conflates the correction of the primary beam in the
+direction of particular point sources and the inversion of diffuse structure
+seen through a polarized beam.
 
 Fig 8. caption: "XX-YY/2" -> "(XX-YY)/2"
 
@@ -245,12 +296,13 @@ DONE
 
 Page 11, col 1, line 8: "In the case of... products" this is dependent on the above points, and thus needs to be changed too if above points can't be clarified.
 
-ARP
+ARP Hopefully, addressed above.
 
 Table 1: what is meant with "Effective integration time" ? (in particular how the last number can be 5570 with less sensitivity)
 
-ARP, ACL DISCUSSION NEEDED. Probably should define exactly which "width" of the filter is used to define t_eff.
-For 2nd question, because if we integrate for too long we completely wipe out the beam area.
+ARP, ACL DISCUSSION NEEDED. Probably should define exactly which "width" of the
+filter is used to define t_eff.  For 2nd question, because if we integrate for
+too long we completely wipe out the beam area.
 
 Page 14, last line of par 1: "...the most natural". 
 It is mentioned quite often in the paper that the fringe domain is 'the (most) natural domain'. One could equally argue that the uv plane or some kind of weighted image domain is a natural domain for averaging. I don't object to "a natural domain", but "the most natural" seems subjective. Also, it is mentioned a bit too often.
@@ -285,10 +337,3 @@ Page 17, col 2, final sentence: "we anticipate that fringe-filtering is likely .
 
 DONE. "likely be an important analysis tool" -> "may be an important analysis tool"
 
-
-
--- 
-Aaron Parsons
-
-510-406-4322 (cell)
-Campbell Hall 523, UCB
