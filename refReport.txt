@@ -100,7 +100,7 @@ the various versions of the beam area, and we can use the analytic expression
 
 My final issue is that the paper is a bit long for what it presents. Parts that were in particular somewhat distracting from the main points of the paper were the discussion of the normalization of the power spectrum estimator (Page 7 last paragraph, and 8 up to the paragraph ending with "...with the effective primary beam.") and the discussion showing that optimal map making would filter high fringe rates (Page 16, under Eq 59), which of course is not surprising, as well as that common uv-gridding employed for map making also includes a low-pass filter, which is similar to fringe-rate filtering. Hence, I suggest removing both parts, possibly putting the PS normalization into an Appendix if the authors feel it is relevant, and I recommend further reduction of size if possible.
 
-ARP, ACL DISCUSSION NEEDED. Probably happy to move normalization to appendix.
+ACL DISCUSSION NEEDED. Probably happy to move normalization to appendix.
 Mapmaking connection, maybe not.
 
 I have some further smaller issues which I detail below:
@@ -245,6 +245,7 @@ DONE. "The typical technique for..." -> "A commonly used technique..."
 
 Page 9, col 2, par 3, line 10-13: "As such, for a chosen uv coordinate, ... before summing." I am not sure what the authors mean here: convolving the XX and YY visibilities in uv-space (in 2d) with the Fourier transform of the full inverse Mueller matrix image would completely correct that particular mode for the beam, resulting in zero leakage on average. This does not depend on overlap of kernels with other visibilities. Clarify or remove.
 
+Add footnote w/ ref response + explanation below
 ARP DISCUSSION: In image domain, the baseline fringe pattern has been
 integrated across the sky weighted by two different (XX, YY) beams.  This means
 that an interferometric baseline for these two polarizations samples the uv
@@ -323,11 +324,11 @@ DISAGREE. To save space.
 
 Under Eq. 52: "This is still not...and all t." While this is true, the non-optimality this causes for telescopes with a small tracking beam (~a few deg) is negligible. In particular, in 3rd line under Eq. 53: "...is an optimal way..only if"; the above proof shows that it is an optimal way 'if', and not 'only if', so remove 'only'. Also, it would be helpful to mention that a small beam is sufficient too.
 
-ARP, ACL DISCUSSION NEEDED.
+ACL DISCUSSION NEEDED. Remove "only", "flat sky" -> achieved through a small primary beam
 
 Sect 5.3 (as well as the abstract): I think it should be stressed that these derivations are much more applicable to drift-scan observations (or with a highly varying beam, if you wish). In tracking observations, the improvement that can be made with such weighting is insignificant. This comment also applies to Sec 6, line 7: "...are almost always sub-optimal..." ; I think that should specify 'for drift-scan observations'. Moreover, these weightings could also be applied by the a-projection technique, which would actually be more accurate, because it can weight(/correct) in two dimensions, so the authors should make some remark about a-projection.
 
-ARP, ACL DISCUSSION NEEDED.
+ACL DISCUSSION NEEDED.  Add mention of a-projection.
 
 Page 17, col 2, line 9, "..while avoid [should be avoiding] many...". Same comment to 'cleaner analysis' as before -> 'different analysis'. Also, I think that 'analysis-induced systematics associated with gridding' is too strong. It is true to say that it is beneficial to avoid gridding, but not that gridding induces many systematics. Radio astronomers know well how to grid, and dominating systematics come from other things.
 
