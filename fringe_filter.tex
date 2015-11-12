@@ -102,7 +102,7 @@ Long time-integrations are therefore crucial not only for generating the requisi
 detection of the cosmological signal, but also to allow faint systematics to be detected and excised
 from the data.
 
-In this paper, we extend ideas introduced in \citet{parsons_backer2009} (as well as similar ideas in \citealt{offringa_et_al2012} and \citealt{shaw_et_al2013}) to optimize the process of combining time-ordered data. The key realization is that fringe-rate---the Fourier dual to time---is a
+In this paper, we extend ideas introduced in \citet{parsons_backer2009} (as well as similar ideas in \citealt{roshi_and_perley2003}, \citealt{offringa_et_al2012} and \citealt{shaw_et_al2013}) to optimize the process of combining time-ordered data. The key realization is that fringe-rate---the Fourier dual to time---is a
 more natural space to enact time-averaging. Traditional time-averaging (say, a running box-car average)
 is equivalent to multiplying by a sinc filter in the fringe-rate domain. Generalizing this process, the
 convolution theorem ensures that time integration can be achieved by 
@@ -344,14 +344,14 @@ In Section \ref{sec:Implementation}, we discussed how a fringe-rate filter can b
 
 In \citet{parsons_et_al2012a} and \citet{P14}, it was shown that estimates of the three-dimensional power spectrum of $21\,\textrm{cm}$ brightness temperature fluctuations could be obtained from a single baseline by Fourier transforming visibility data along the frequency axis (forming a ``delay spectrum"), and then taking the absolute square of the results. Here, we will show how fringe-rate weights can be chosen to maximize the sensitivity of a single-baseline-derived power spectrum.
 
-We begin by considering a generalization of the derivation in \citet{P14}, where it was assumed that the primary beams of all elements in the interferometer are identical. We now consider the possibility of probing the power spectrum via a cross-correlation of two baselines with different primary beams. To be clear, our eventual discussion will be based on the analysis of fringe-rate filtered visibilities from a \emph{single} baseline. However, from Section \ref{sec:overview}, we saw that to a good approximation, selecting different fringe-rates is equivalent to observing the sky with different effective beams. Thus, the cross-correlation of visibilities from two different fringe-rate bins is mathematically identical to cross-correlating two baselines with different beams. To begin, suppose that the $i$th baseline consists of antenna elements with primary beam $A_i (\rhat)$. The delay-transformed visibility takes the form
+We begin by considering a generalization of the derivation in \citet{P14}, where it was assumed that the primary beams of all elements in the interferometer are identical. We now consider the possibility of probing the power spectrum via a cross-correlation of two baselines with different primary beams. To be clear, our eventual discussion will be based on the analysis of fringe-rate filtered visibilities from a \emph{single} baseline. However, from Section \ref{sec:overview}, we saw that to a good approximation, selecting different fringe-rates is equivalent to observing the sky with different effective beams. Thus, the cross-correlation of visibilities from two different fringe-rate bins is mathematically identical to cross-correlating two baselines with different beams. To begin, suppose that the $i$th baseline consists of antenna elements with primary beam $A_i (\rhat, \nu)$. The delay-transformed visibility takes the form
 % XXX i,j are used as antenna indices here, later fringe-rate indices.  maybe choose different letters?
 \begin{equation}
 \widetilde{V}_i(\mathbf{u},\eta) = \frac{2 k_B}{\lambda^2} \int  d^2 \mathbf{u}^\prime \, d\eta^\prime \widetilde{A}_i (\mathbf{u} -\mathbf{u}^\prime, \eta-\eta^\prime) \widetilde{T}(\mathbf{u}^\prime , \eta^\prime),
 \end{equation}
 where $\eta$ is the Fourier dual to frequency\footnote{This equation can be derived by Fourier transforming Equation 
 \eqref{eq:originalVis} along the frequency axis and re-expressing the angular integral in $uv$ coordinates assuming the flat-sky approximation. However, it also makes the crucial assumption that one can neglect the frequency-dependent nature of the mapping of baseline $\mathbf{b}$ to $\mathbf{u}$ coordinate. In practice, this is only a reasonable approximation for short baselines \citep{parsons_et_al2012b,liu_et_al2014a} such as those used for power spectrum analyses in the PAPER experiment \citep{P14,J14,ali_et_al2015}.
-}, $\widetilde{A}_i $ is the Fourier transform of $A_i (\rhat)$ in both the angular and spectral directions, $\widetilde{T}$ is the brightness temperature field in Fourier space, $k_B$ is Boltzmann's constant, $\lambda$ is the central observation frequency, and $\mathbf{b} = \mathbf{u} \lambda$, with $\mathbf{u} \equiv (u,v)$. From this, we can see that two baselines with different primary beams, but located at the same location on the $uv$ plane have a delay-spectrum cross-correlation given by
+}, $\widetilde{A}_i $ is the Fourier transform of $A_i (\rhat, \nu)$ in both the angular and spectral directions, $\widetilde{T}$ is the brightness temperature field in Fourier space, $k_B$ is Boltzmann's constant, $\lambda$ is the central observation frequency, and $\mathbf{b} = \mathbf{u} \lambda$, with $\mathbf{u} \equiv (u,v)$. From this, we can see that two baselines with different primary beams, but located at the same location on the $uv$ plane have a delay-spectrum cross-correlation given by
 \begin{eqnarray}
 \label{eq:visCrossCorr}
 \langle \widetilde{V}_i(\mathbf{u},\eta) \widetilde{V}_j(\mathbf{u},\eta)^*\rangle = \left( \frac{2 k_B}{\lambda^2} \right)^2 \int d^2 \mathbf{u}^\prime \, d\eta^\prime  P(\mathbf{u}^\prime , \eta^\prime) \nonumber \\
@@ -448,7 +448,7 @@ where the optimally filtered visibility in the time domain $\widetilde{V}^\textr
 \widetilde{V}^\textrm{opt} (\mathbf{u}, \eta; t_i) &\equiv& \sum_i e^{i 2 \pi f t} \mu_i^{1/2} \widetilde{V}_i \nonumber \\
 &=&  \sum_i e^{i 2 \pi f t} \left[\frac{1}{B} \int d\Omega d\nu A_i(\rhat,\nu)^2\right]^\frac{1}{2} \widetilde{V}_i. \qquad
 \end{eqnarray}
-This is a rather remarkable result, in that the optimal power spectrum estimator for a single baseline interferometer consists of a squared statistic (i.e., one with no phase information) integrated in time. This may seem counterintuitive, particularly if one is accustomed to more conventional techniques where images are formed from the visibilities and averaged down before any squaring steps. There, it is crucial to average in time \emph{before} squaring, because data from different time steps can be sourced by the same Fourier modes on the celestial sphere. Integrating before squaring allows information from these modes to be coherently averaged together (since phase information has yet to be discarded), resulting in instrumental noise that integrates down as $1/\sqrt{t}$. This then becomes a $1/t$ dependence for the error bars on the final (squared) power spectrum results, and is a much quicker reduction of instrumental noise than if the data had been squared first, which would have resulted in a $1/\sqrt{t}$ dependence on the power spectrum errors.
+This is a rather interesting result, in that the optimal power spectrum estimator for a single baseline interferometer consists of a squared statistic (i.e., one with no phase information) integrated in time. This may seem counterintuitive, particularly if one is accustomed to more conventional techniques where images are formed from the visibilities and averaged down before any squaring steps. There, it is crucial to average in time \emph{before} squaring, because data from different time steps can be sourced by the same Fourier modes on the celestial sphere. Integrating before squaring allows information from these modes to be coherently averaged together (since phase information has yet to be discarded), resulting in instrumental noise that integrates down as $1/\sqrt{t}$. This then becomes a $1/t$ dependence for the error bars on the final (squared) power spectrum results, and is a much quicker reduction of instrumental noise than if the data had been squared first, which would have resulted in a $1/\sqrt{t}$ dependence on the power spectrum errors.
 
 In our derivation, we showed that the optimal power spectrum estimator can in fact be obtained by squaring before integrating, \emph{provided} the power spectra formed at each time instant are first fringe-rate filtered with weights $ \mu_i^{1/2}$, i.e., where each fringe-rate is weighted by the RMS primary beam within the corresponding constant-fringe-rate contour on the sky. Essentially, the pre-processing step of fringe-rate filtering (with these specific weights) replaces the independent time samples with a set of correlated visibilities that have effectively already been coherently integrated in time. Note that these weights are \emph{not} generally the same as the ones derived in Section \ref{fringeRateIntro} for optimal mapmaking, where measurements will essentially be weighted by an additional factor of the primary beam in fringe-rate space, rather than by the RMS beam weighting suggested here. Put another way, to obtain the full power spectrum sensitivity of an interferometer, it is insufficient
 to simply square the Fourier amplitudes outputted from a map, even if the mapmaking was optimized to minimize the error bars of the map.  Forming the power spectrum in such a way would be equivalent to restricting $g_{ij}$ to a form separable in $i$ and $j$. This restriction precludes the form for $w_{ij}$ given by Equation \eqref{eq:PspecOptWeights}, which minimizes the error bars of the power spectrum.
@@ -1106,7 +1106,9 @@ $\N$ is the noise covariance matrix, defined as $\langle \mathbf{n}
 \mathbf{n}^\dagger \rangle$, with angled brackets denoting an ensemble average.
 Again, our vector/matrix expressions are basis-independent, so even though the
 formation of $\xhat$ is often described as ``mapmaking", it need not correspond
-to spatial imaging in the traditional sense of the word.
+to spatial imaging in the traditional sense of the word. A similar approach
+can also be found in ``A-projection" algorithms \citep{bhatnagar_et_al2008,
+bhatnagar_et_al2013,tasse_et_al2013}.
 
 The error bars on the estimator $\xhat$ are obtained by computing the square root
 of the diagonal elements of the covariance $\boldsymbol \Sigma$, which is given by
@@ -1285,8 +1287,8 @@ $\psi(t) = -2 \pi \frac{b_x}{\lambda} \omega_\Earth t$ gives
 && \times \sum_b   \int  dt \, V_{b\nu}(t),
 \end{eqnarray}
 which is a simple averaging in time.  In short, then, integrating in time is an
-optimal way to combine time-ordered data only if a number of criteria are met:
-the flat-sky approximation must hold, the primary beam must track the field,
+optimal way to combine time-ordered data if a number of criteria are met:
+the flat-sky approximation must hold (which can be achieved, for example, by having a small primary beam), the primary beam must track the field,
 the visibilities must be phased to track the center of the field, and the
 observations must be short.
 
@@ -1415,7 +1417,7 @@ In this paper, we have revisited the concept of filtering the visibility time-se
 measured by an interferometric baseline that was presented in \citet{parsons_backer2009}.
 Using a mapping between the timescale of variation in visibility data and position
 on the sky for a chosen baseline, we have seen that the rectangular time windows typically
-used when integrating visibilities are almost always sub-optimal, and motivate 
+used when integrating visibilities are almost always sub-optimal (particularly for wide-field, drift-scan instruments), and motivate 
 filtering on the basis of fringe rate
 as a step for optimally combining time-ordered visibility data.  In Section \ref{sec:Mapmaking}, we found
 that fringe-rate filtering also naturally arises as part of optimized mapmaking prescriptions such as those
