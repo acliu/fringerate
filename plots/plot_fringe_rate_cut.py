@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 import aipy as a, numpy as n, pylab as p
 import capo as C, scipy
+import frf_conv
 from mpl_toolkits.basemap import Basemap
 
 FQ = .159
@@ -19,15 +20,18 @@ bmYY = n.where(tz > 0, _bmy**2, 0)
 
 bl = aa.get_baseline(0,16,'r') * FQ
 print 'Baseline:', bl
-fng = C.frf_conv.mk_fng(bl, *xyz)
+fng = frf_conv.mk_fng(bl, *xyz)
 binwidth = .00005
+#binwidth = .000015
 bin_edges = n.arange(-.01+binwidth/2,.01,binwidth)
 hXX, bin_edges = n.histogram(fng, bins=bin_edges, weights=bmXX*bmXX)
 hXY, bin_edges = n.histogram(fng, bins=bin_edges, weights=bmXX*bmYY)
 hYY, bin_edges = n.histogram(fng, bins=bin_edges, weights=bmYY*bmYY)
 bins = 0.5 * (bin_edges[:-1] + bin_edges[1:])
 #polmatch = n.where(hYY > 0, hXY / hYY, 0)
-polmatch = n.where(hYY > 0, n.sqrt(hXX / hYY), 0)
+print bins
+polmatch = n.where(hYY > 0, hXY / hYY, n.where(n.logical_and(bins >= -.0007, bins < 0), 2., 0))
+#polmatch = n.where(hYY > 0, n.sqrt(hXX / hYY), 0)
 polmatch = scipy.interpolate.interp1d(bins, polmatch, kind='linear', bounds_error=False, fill_value=0)
 hXX = n.sqrt(hXX)
 hXY = n.sqrt(hXY)
@@ -46,15 +50,15 @@ htot, bin_edges = n.histogram(fng, bins=bin_edges, weights=(bmXXm+bmYYm)**2)
 bins = 0.5 * (bin_edges[:-1] + bin_edges[1:])
 match = n.where(hpol > 0, n.sqrt(htot/hpol), 0); match /= match.max() # XXX sqrt or no?
 wgt_pol = scipy.interpolate.interp1d(bins, match, kind='linear', bounds_error=False, fill_value=0)
-tbins,firs,frbins,frfs= C.frf_conv.get_fringe_rate_kernels(n.array([wgt_pol]),42.9,403)
+tbins,firs,frbins,frfs= frf_conv.get_fringe_rate_kernels(n.array([wgt_pol]),42.9,403)
 frfs[0] /= frfs[0].max()
 wgt_pol = scipy.interpolate.interp1d(frbins, frfs[0], kind='linear')
 
 
-frf,bins,wgt,(cen,wid) = C.frf_conv.get_optimal_kernel_at_ref(aa, 0, (0,16))
+frf,bins,wgt,(cen,wid) = frf_conv.get_optimal_kernel_at_ref(aa, 0, (0,16))
 
-bwfrs = C.frf_conv.get_beam_w_fr(aa, (0,16), ref_chan=0)
-tbins,firs,frbins,frfs = C.frf_conv.get_fringe_rate_kernels(bwfrs,42.9,403)
+bwfrs = frf_conv.get_beam_w_fr(aa, (0,16), ref_chan=0)
+tbins,firs,frbins,frfs = frf_conv.get_fringe_rate_kernels(bwfrs,42.9,403)
 wgt = scipy.interpolate.interp1d(frbins, frfs[0], kind='linear')
 
 wgt_bins = wgt(bins); wgt_bins /= wgt_bins.max()

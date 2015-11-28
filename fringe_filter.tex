@@ -261,11 +261,14 @@ that has recently been used to place the current best upper limits on $21\,\text
 \includegraphics[width=\columnwidth]{plots/fringe_rate_cut.png}
 \caption{
 Top: the optimal power-spectrum sensitivity weighting in fringe-rate space 
-for our fiducial baseline (black) is overlaid with
+for the XX polarization beam of our fiducial baseline (black) is overlaid with
 the simple parametrization for optimal weighting (red) used in \citet{ali_et_al2015},
-which excises fringe rates at risk for contamination by crosstalk and smooths the
-weighting profile to provide a compact time-domain convolution kernel.  Also illustrated
-are the weightings for matching the XX and YY polarization beams (blue dashed) and
+which excises fringe rates at risk for contamination by crosstalk, and 
+applies a Blackman-Harris window in the time domain to
+generate a compact time-domain convolution kernel with regions weighted below 5\% of the
+peak response suppressed.
+Also illustrated
+are the weightings for matching the YY to the XX polarization beam (blue dashed) and
 for reducing polarization leakage (blue solid) described in Section \ref{sec:polbeams}, as well
 as a weighting that balances the needs of sensitivity, polarization leakage, crosstalk
 removal, and off-axis foregrounds (green).  Bottom: the time-domain convolution kernel
@@ -330,8 +333,11 @@ FIR taps (coefficient multiplies) that target the missing data. The summed outpu
 account for the missing samples.  Another advantage of the FIR implementation of the fringe-rate filter is the potential for
 windowing the time-domain filter profile.  While time-domain windowing causes further deviations from the ideal
 fringe-rate filter profile, it can be used to produce a more compact time-domain kernel.
-Reducing the number of time-domain samples used in the FIR filter improves the computational efficiency of the filter and
-helps limit the number of samples potentially corrupted by spurious systematics such as radio frequency interference.
+Reducing the number of time-domain samples used in the FIR filter improves the computational efficiency of the filter, 
+helps limit the number of samples potentially corrupted by spurious systematics such as radio frequency interference,
+and reduces boundary effects.  In \citet{ali_et_al2015}, a 12-hour data set was filtered in this manner, with boundary
+effects limited to an hour on each end.  The final analysis proceeded on 8.3 hours selected from within the region
+not affected by boundary effects.
 
 
 \section{Applications}
@@ -542,7 +548,8 @@ where we show the effective beam response by looking up the filter response corr
 to the fringe rate at each sky position, i.e., by using Equation \eqref{eq:EffectiveBeamDef}.  
 As these simulations illustrate, the approximations we have made in our analytic
 derivation of the effect of fringe-rate filtering on the effective beam response are valid, with errors 
-dominated by binning effects associated with determining the effective beam from the point-source simulations.
+dominated by the effects of binning and interpolating between the 5$^\circ$ intervals in declination
+between point-source simulation tracks when reconstructing an effective beam.
 
 As a final check, we perform simulations assigning flux to pixels on the sky with a Gaussian random distribution
 and simulating the visibilities measured as a function of time for our fiducial baseline.  We compute the
@@ -592,6 +599,9 @@ visibilities; the center panel illustrates the
 beam weighting that results from applying a fringe-rate filter tuned to optimize sensitivity
 for power spectrum measurements, assuming an isotropic primary beam; the right panel
 shows the effective response after applying this fringe-rate filter to data including PAPER's model beam response.
+The periodic structure along the vertical axis is an artifact of reconstructing beams from point sources 
+spaced every $5^\circ$ in declination; we emphasize that they are not associated with any fundamental
+structure associated with fringe-rate filtering.
 }\label{fig:eff_beam}
 \end{figure*}
 
@@ -667,10 +677,10 @@ A commonly used technique for correcting the mismatch between the XX and YY pola
 image these polarization products, correct each pixel in each image using modeled beam responses,
 and then to sum the corrected images together to form a Stokes I map 
 (e.g., \citealt{sullivan_et_al2012,bernardi_et_al2013,asad_et_al2015}).  Mathematically, this technique is identical to convolving the sampled
-$uv$ plane by the Fourier transform of the directionally-dependent correction applied in the image domain, and for an ideal
+$uv$ plane by the Fourier transform of the directionally-dependent correction applied in the image domain. For an ideal
 array that samples the $uv$ plane at scales significantly finer than the aperture of a single element, this technique can
 in principle perfectly correct mismatches between the XX and YY polarization beams.
-However, the success that can be achieved with this technique depends strongly on an array's $uv$ sampling pattern.
+In practice, the success that can be achieved with this technique depends strongly on an array's $uv$ sampling pattern.
 
 Take, for example, the case of a sparsely sampled $uv$ plane where the spacing between $uv$ samples is much greater than
 the aperture scale of a single element.  In this case, the beam correction described above 
@@ -678,7 +688,49 @@ convolves each $uv$ sample with a kernel whose size scales roughly as the size o
 single element in wavelengths.  Since this kernel is much smaller than the spacing between $uv$ samples, 
 each point in the convolved $uv$ plane is dominated by the product of a kernel weight and a single visibility measurement.
 As such, for a chosen $uv$ coordinate, the level of leakage in the Stokes I $uv$ plane can
-be no better than what can be achieved by using a single number to rescale $\VXX$ and $\VYY$ before summing.  
+be no better than what can be achieved by using a single number to rescale $\VXX$ and $\VYY$ before 
+summing\footnote{
+In image domain, the baseline fringe pattern has been
+integrated across the sky weighted by two different (XX, YY) beam responses to produce
+a visibility.  This means
+that an interferometric baseline for these two polarizations samples the $uv$
+plane convolved by two different kernels --- the Fourier transforms of the XX,
+YY beams, respectively.  Because the resulting $\VXX$ and $\VYY$ visibilities no
+longer retain any direction-dependent information (they were integrated over
+angle) $\VXX$ and $\VYY$ cannot be re-weighted in a way that produces pure Stokes I
+response in all directions, except in the trivial case where the YY beam differs
+from the XX beam by a direction-independent multiplicative factor.  Said
+another way, given a single degree of freedom in the relative weighting of $\VXX$
+and $\VYY$, it is not possible to guarantee a pure Stokes I response in more than
+one direction.
+\\
+As mentioned above, it is common practice in synthesis imaging 
+to grid visibilities in the $uv$ plane
+with convolving kernels that contain direction-dependent information.  Examples
+include W-projection kernels \citep{cornwell_et_al2003}, the Fourier transform of the primary beam used in
+optimal map making \citep{morales_matejek2009,bhatnagar_et_al2008}, and (relevant here) the 
+Fourier transform of the inverse of
+direction-dependent Mueller matrices \citep{XXX}.  Indeed, in the case of a completely
+sampled $uv$ plane, the inverse Mueller beam kernel would perfectly match the XX
+and YY beams.  However, as the sampling of the $uv$ plane becomes sparser, the
+removal of samples removes degrees of freedom in weighting as a function of
+direction.  In the limiting case of a very sparse array where the convolving
+kernels of $uv$ samples do not overlap, we revert to the single
+direction-independent weighting factor above.
+\\
+Another way of thinking about this is to realize that, by gridding visibilities
+in the $uv$ plane with a convolving kernel, we are attempting to reassign sky
+intensity from the visibility, which was integrated over in equation \ref{eq:originalVis}, back to
+its original location so that it may be re-weighted to match the XX and YY
+polarization responses.  This inversion is only well posed in the case of a
+completely sampled $uv$ plane.  As we lose samples, we lose the ability to
+reconstruct the original sky intensity, and hence, to perfectly match the XX
+and YY polarization responses as a function of direction.  In the case of a
+sparsely sampled $uv$ plane, it is only possible to construct a pure Stokes I
+response as a function of direction if one has sufficient additional
+information about the sky (for example, if it sparsely populated by point
+sources) that one can reconstruct the missing modes and hence, fully invert the
+$uv$ plane.}.
 
 For cases where $uv$ sampling falls somewhere between the sparse and the oversampled cases described above, the level
 of primary beam correction that can be realized is more complicated.  Ultimately, the Fourier relationship between
@@ -686,7 +738,11 @@ the $uv$ plane and the image dictates that samples that are nearby to one
 another in the $uv$ plane enable primary beam corrections on the largest angular scales, while samples that are farther
 apart contribute to corrections on finer angular scales, with the orientation of the samples relative to one another
 dictating the axis along which such corrections take effect in image domain.  Typically, earth-rotation synthesis
-is required to sample the $uv$ plane densely enough to allow for effective beam correction, although some array
+is required to sample the $uv$ plane densely enough to allow for effective beam correction for
+diffuse structure\footnote{
+As in the previous footnote, it is possible to correct for direction-dependent polarization beams toward
+sparse point sources using more widely separated visibility samples.  It is diffuse structure (which
+is more localized in the $uv$ plane) that poses the greatest challenge.}
 configurations are not dense enough to fully correct the beam even then.  One particularly relevant case that falls
 in this last category are many of the maximum redundancy configurations currently favored by several $21\,\textrm{cm}$ cosmology experiments
 for their sensitivity benefits \citep{parsons_et_al2012a,P14}.
@@ -814,10 +870,25 @@ For instrumental noise sensitivity, then, the crucial quantity is $\sigma^2_\tex
 (rightmost column) for the various weighting schemes considered in this section, normalized to the value
 obtained with no fringe-rate filtering. We also show the integrated power beam $\int A^\textrm{eff} (\rhat) d\Omega$, the
 square-integrated power beam $\Omega^{II}_\textrm{eff} \equiv \int A^\textrm{eff} (\rhat)^2 d\Omega$, the
-effective integration time implied by each fringe-rate filter, and the fractional power spectrum
+effective (noise equivalent) integration time implied by each fringe-rate filter, and the fractional power spectrum
 leakage $\Omega^{QQ}_\textrm{eff}/\Omega^{II}_\textrm{eff}$.
 
-With only a polarization-matching filter applied (second row of Table \ref{tbl:beam_metrics}; second column of Figure \ref{fig:pol_match}), we see that
+At this point, we should emphasize that because fringe-rate filtering performs
+a weighted combination of samples over a wide time interval, the instrumental
+noise errors $\Delta\widehat{P}_I$ are substantially correlated between nearby
+times samples.  The number of independent modes preserved for power
+spectrum analysis corresponds to the number and weighting of the filtered
+fringe-rate modes.  Even without filtering,
+quantifying the number of sampled modes is non-trivial, as the
+time dependence of a baselines projection (and hence, $uv$ mode sampling) toward
+a patch of sky varies substantially over the wide fields of view of
+low-frequency interferometers.  As discussed in \citet{parsons_et_al2014}, to
+accurately account for the statistical interdependence of these modes in either the
+fringe-rate filtering or square time-domain integration case, it is necessary
+to use bootstrapping to determine errorbars. 
+
+With only a polarization-matching filter applied weighting the YY polarization beam
+to best match the XX polarization beam (second row of Table \ref{tbl:beam_metrics}; second column of Figure \ref{fig:pol_match}), we see that
 the fractional polarization leakage is reduced from $1.64 \times 10^{-3}$ to $1.26 \times 10^{-3}$. Applying
 an additional sensitivity weighting step from Section \ref{sec:PspecOptimization} (third row of Table \ref{tbl:beam_metrics}; third column of Figure \ref{fig:pol_match}) further reduces the fractional
 polarization leakage to $0.88 \times 10^{-3}$, and though there is a 25\% reduction in effective
@@ -827,7 +898,9 @@ also the corresponding decrease in the number of independent time samples availa
 effectively averages together nearby time samples, and thus returns a time series where instrumental noise
 is no longer independent from time slice to time slice). Finally, applying
 another filter to minimize leakage (fourth row of Table \ref{tbl:beam_metrics}; fourth column of Figure \ref{fig:pol_match}; green curve of Figure \ref{fig:fringe_rate_cut}), results in another $\sim25$\% decrease in polarization leakage with only a $\sim$10\% degradation
-in sensitivity.
+in sensitivity.  This degradation is associated with the 
+longer integration times required to produce the narrow fringe-rate weighting profile needed for polarization
+matching. This results in sensitive regions of the beam being underweighted because of their leakage.
 
 
 %One sees that, despite a 25\% reduction
