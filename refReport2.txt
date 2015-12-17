@@ -1,0 +1,42 @@
+Referee Report 
+
+The authors have solved or explained almost all of the points that were mentioned in the review report. I have two more comments based on their replies. These are very small and technical in nature and don't effect conclusions, but they should be solved.
+
+1)
+In response to:
+"Footnote 6; I could not find this (easily) in Liu et al.
+(2014b), could the authors specify a location in the paper
+for this approximation?
+
+DONE. Turns out to be Section III A. "
+
+This seems not to be the right reference; section III does not have a subsection A, and section III in Lui et al 2014b does not discuss the issue (neither http://journals.aps.org/prd/abstract/10.1103/PhysRevD.90.023019 nor http://arxiv.org/abs/1404.4372 )
+
+2)
+In response to:
+"
+Page 9, col 2, par 3, line 10-13: "As such, for a chosen uv
+coordinate, ... before summing." I am not sure what the
+authors mean here: convolving the XX and YY visibilities in
+uv-space (in 2d) with the Fourier transform of the full
+inverse Mueller matrix image would completely correct that
+particular mode for the beam, resulting in zero leakage on
+average. This does not depend on overlap of kernels with
+other visibilities. Clarify or remove.
+
+We have added the following clarifying footnote to page 9: [..]"
+
+I agree with the new footnote's contents, and I think its text is somewhat helpful. However, I still don't agree with the main text. In the way the main text describes this, the authors seem to incorrectly generalize that rescaling Vxx and Vyy with a scalar gives the least possible leakage when uv-samples don't overlap. However, using a kernel instead of a scalar will provide information about more modes. Therefore, in this sentence: "As such, for a chosen uv coordinate, the level of leakage in the Stokes I uv plane can be no better than [a scaling factor]" -- One can choose a uv coordinate that would be inside a beam correction kernel, but is not at the centre of the kernel or sampled otherwise, and according to this sentence it would still be corrected. However, a single scaling factor at the centre will of course not accurately correct this uv-sample (but rather leave it zero). So this statement is not fully correct, but only holds for the uv-samples at the centre of the
+kernel.
+
+This also relates to this response:
+
+"Page 11, col 1, line 8: "In the case of... products" this is
+dependent on the above points, and thus needs to be changed
+too if above points can't be clarified.
+
+This point has been addressed in the clarifications above. "
+
+I disagree with this sentence: "[..] the result will be identical to the best that can be achieved by independently imaging [..]", because for scalar correction, information is lost for the modes that are contained in the kernel. As an example, if one observes one strong, dominating source away from zenith (e.g. one of the 'A' sources), even the 'image' of a single visibility will accurately correct the (modelled) instrumental polarization when convolving with the proper kernel, while a single scaling factor will not. That using fringe filters with polarization correction are an improvement over no correction is well shown, and that actually doesn't require these statements.
+
+Finally, personally because of its length I would not have made a footnote of footnote 8, but that's up to the authors / editor.

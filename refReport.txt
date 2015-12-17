@@ -1,199 +1,231 @@
-Thank you to the referee for a very detailed read-through of our paper. All
-the comments were very helpful, and we have made alterations to the text
-to address them. Details of our responses are provided below.
+Thank you to the referee for a very detailed read-through of our
+paper. All the comments were very helpful, and we have made
+alterations to the text to address them. Details of our responses are
+provided below.
 
 ----------------------------------------------------------------------------
 
-    On page 4, in the description of the FIR filter: A crucial detail for
-    fringe-rate filtering is the requirement to both have a broad window function
-    (function gamma) for most effective filtering and to prevent mode mixing, while
-    simultaneously desiring a small window to satisfy the linear time-dependence
-    assumption (for Eq 3), which is also desirable for other practical issues like
-    calibration and RFI mitigation. While these assumptions are mostly mentioned
-    during the derivations, the effect of the window size is not discussed, but has
-    some implications. 
+    On page 4, in the description of the FIR filter: A crucial
+    detail for fringe-rate filtering is the requirement to both
+    have a broad window function (function gamma) for most
+    effective filtering and to prevent mode mixing, while
+    simultaneously desiring a small window to satisfy the linear
+    time-dependence assumption (for Eq 3), which is also
+    desirable for other practical issues like calibration and
+    RFI mitigation. While these assumptions are mostly mentioned
+    during the derivations, the effect of the window size is not
+    discussed, but has some implications. 
 
-    One trivial implication is visible in Fig. 3, which shows a time kernel which
-    is over 2 hours in time. Since in Ali et al. 2015 night-time observations of
-    8.30 hour were used, at face value it seems that in such a case almost 25% of
-    the data had to be discarded to properly filter the data. How is this handled?
-    Moreover, could the authors describe what kind of windowing function is used,
-    and how its size was chosen?
+    One trivial implication is visible in Fig. 3, which shows a
+    time kernel which is over 2 hours in time. Since in Ali et
+    al. 2015 night-time observations of 8.30 hour were used, at
+    face value it seems that in such a case almost 25% of the
+    data had to be discarded to properly filter the data.  How
+    is this handled?  Moreover, could the authors describe what
+    kind of windowing function is used, and how its size was
+    chosen?
 
-Although 8.3 hrs of data were used in the final analysis, this time range was
-selected after the application of a fringe-rate filter to a longer (~12 hr)
-data set.  Hence, the 8.3 hr window was not limited by the boundary conditions
-to which the reviewer is referring.  The windowing function was chosen to be a
-blackman-harris, with width chosen to suppress the time-domain kernel where the
-weighting falls below 5% of the peak response.  This windowing has a minor
-effect of the shape of the effective fringe-domain response.  This deviation
-from optimal weighting has only a negligible effect on sensitivity, and is
-balanced by the other merits of having a compact time-domain kernel.  Changes
-were made to the caption and the end of S3 to clarify.
-
-----------------------------------------------------------------------------
-
-    Some quantitative results are presented on Page 8 and 12. On Page 8 this is the
-    signal loss assuming a Gaussian random field and the point-source gain of the
-    sculpted beam. Page 12 describes the sensitivity improvement of the filtering,
-    which is convincing. However, none of these tests quantify how much signal is
-    mixed from one mode to another because of the finite filter size. This could
-    e.g. be visualized by simulating a non-uniform (e.g. single mode) power
-    spectrum and measuring the reconstructed power spectrum. Since this method is
-    quite crucial for the EoR analyses, I think this effect should be extensively &
-    quantitatively validated.
-
-The reviewer is correct that fringe-rate filtering creates correlations between
-what would otherwise be independent modes sampled as a function of time.  The
-number of independent modes preserved for power spectrum analysis corresponds
-directly to the number and weighting of fringe-rate modes by the fringe-rate
-filter.  Even for short time-domain integrations, quantifying the number of
-sampled modes is very tricky, as the time dependence of a baselines projection
-(and hence, uv mode sampling) toward a patch of sky varies substantially over
-the wide fields of view of low-frequency interferometers such as PAPER and the
-MWA.  Indeed, optimal fringe-rate filtering addresses this spatially varying
-time dependence more directly than standard square time-domain integrations
-might.  This trickiness is addressed in Parsons et al. (2014), where we
-determine that to accurately determine the statistical interdependence of these
-modes in either the fringe-rate filtering or square time-domain integration
-case, it is necessary to use bootstrapping.  We echo that finding in a new
-paragraph after equation 35 in the text.
+Although 8.3 hrs of data were used in the final analysis, this time
+range was selected after the application of a fringe-rate filter to a
+longer (~12 hr) data set.  Hence, the 8.3 hr window was not limited by
+the boundary conditions to which the reviewer is referring.  The
+windowing function was chosen to be a blackman-harris, with width
+chosen to suppress the time-domain kernel where the weighting falls
+below 5% of the peak response.  This windowing has a minor effect of
+the shape of the effective fringe-domain response.  This deviation
+from optimal weighting has only a negligible effect on sensitivity,
+and is balanced by the other merits of having a compact time-domain
+kernel.  Changes were made to the caption and the end of S3 to
+clarify.
 
 ----------------------------------------------------------------------------
 
-    Related to this, on Page 8, col 1, 11th line before bottom the authors write:
-    "These compare well to the results shown in Figure 7." This is arguable; Fig 6
-    is clearly different from Fig. 7. The technique significantly enhances the
-    sensitivity of the power spectrum, as shown later, but by itself having a beam
-    which acts like Fig. 6 looks actually worrying. This needs to be elaborated and
-    should be quantified.
+    Some quantitative results are presented on Page 8 and 12. On
+    Page 8 this is the signal loss assuming a Gaussian random
+    field and the point-source gain of the sculpted beam. Page
+    12 describes the sensitivity improvement of the filtering,
+    which is convincing. However, none of these tests quantify
+    how much signal is mixed from one mode to another because of
+    the finite filter size. This could e.g. be visualized by
+    simulating a non-uniform (e.g. single mode) power spectrum
+    and measuring the reconstructed power spectrum. Since this
+    method is quite crucial for the EoR analyses, I think this
+    effect should be extensively & quantitatively validated.
 
-We assume the reviewer refers to the artifacts along the vertical axis.  We
-mentioned in the text that these are artifacts associated with reconstructing
-beams from sources spaced every 5 degrees in declination, and are not
-associated with fringe rate filtering.  To avoid confusion, we echo that
-statement in the caption of Figure 6 as well.  Other than this reconstruction
-artifact, Figures 6 and 7 really do compare well.
+The reviewer is correct that fringe-rate filtering creates
+correlations between what would otherwise be independent modes sampled
+as a function of time.  The number of independent modes preserved for
+power spectrum analysis corresponds directly to the number and
+weighting of fringe-rate modes by the fringe-rate filter.  Even for
+short time-domain integrations, quantifying the number of sampled
+modes is very tricky, as the time dependence of a baselines projection
+(and hence, uv mode sampling) toward a patch of sky varies
+substantially over the wide fields of view of low-frequency
+interferometers such as PAPER and the MWA.  Indeed, optimal
+fringe-rate filtering addresses this spatially varying time dependence
+more directly than standard square time-domain integrations might.
+This trickiness is addressed in Parsons et al. (2014), where we
+determine that to accurately determine the statistical interdependence
+of these modes in either the fringe-rate filtering or square
+time-domain integration case, it is necessary to use bootstrapping.
+We echo that finding in a new paragraph after equation 35 in the text.
 
 ----------------------------------------------------------------------------
 
-    My final issue is that the paper is a bit long for what it presents. Parts that
-    were in particular somewhat distracting from the main points of the paper were
-    the discussion of the normalization of the power spectrum estimator (Page 7
-    last paragraph, and 8 up to the paragraph ending with "...with the effective
-    primary beam.") and the discussion showing that optimal map making would filter
-    high fringe rates (Page 16, under Eq 59), which of course is not surprising, as
-    well as that common uv-gridding employed for map making also includes a
-    low-pass filter, which is similar to fringe-rate filtering. Hence, I suggest
-    removing both parts, possibly putting the PS normalization into an Appendix if
-    the authors feel it is relevant, and I recommend further reduction of size if
-    possible.
+    Related to this, on Page 8, col 1, 11th line before bottom
+    the authors write: "These compare well to the results shown
+    in Figure 7." This is arguable; Fig 6 is clearly different
+    from Fig. 7. The technique significantly enhances the
+    sensitivity of the power spectrum, as shown later, but by
+    itself having a beam which acts like Fig. 6 looks actually
+    worrying. This needs to be elaborated and should be
+    quantified.
 
-In response to the referee's suggestion, we had a critical look at the material
-the referee pointed to, and discussed possible cuts. However, we found that it
-was difficult to do so without compromising the structure and comprehensibility
-of the paper.  In particular: i) The normalization of the power spectrum from a
-visibility-based estimator has often been mistreated in the literature,
-partially due to early forecasting papers that used top-hat beams in their
-calculations. These mistreatments were only pointed out explicitly in the
-relatively recent work of Parsons et al. (2014). Especially with the subtleties
-of heterogeneous primary beams and fringe-rate filtered data (which is what the
-normalization derivation in the present paper adds to the literature), we think
-it is better to err on the side of being explicit.  ii) Indeed, the referee is
-correct in saying that Section 5 is in principle entirely encapsulated in Eq.
-(45), which in turn is equivalent optimal mapmaking and uv-gridded imaging
-procedures. Thus, one may in principle stop with Eq. (45), which really just
-states that the data is being fit to a linear model. However, the point of Sec.
-5 is that this rather opaque matrix expression can be understood more
-intuitively in terms of fringe-rate filtering, which arises naturally from
-optimal mapmaking. Sec. 5 is therefore an integral part of the paper.
+We assume the reviewer refers to the artifacts along the vertical
+axis.  We mentioned in the text that these are artifacts associated
+with reconstructing beams from sources spaced every 5 degrees in
+declination, and are not associated with fringe rate filtering.  To
+avoid confusion, we echo that statement in the caption of Figure 6 as
+well.  Other than this reconstruction artifact, Figures 6 and 7 really
+do compare well.
+
+----------------------------------------------------------------------------
+
+    My final issue is that the paper is a bit long for what it
+    presents. Parts that were in particular somewhat distracting
+    from the main points of the paper were the discussion of the
+    normalization of the power spectrum estimator (Page 7 last
+    paragraph, and 8 up to the paragraph ending with "...with
+    the effective primary beam.") and the discussion showing
+    that optimal map making would filter high fringe rates (Page
+    16, under Eq 59), which of course is not surprising, as well
+    as that common uv-gridding employed for map making also
+    includes a low-pass filter, which is similar to fringe-rate
+    filtering. Hence, I suggest removing both parts, possibly
+    putting the PS normalization into an Appendix if the authors
+    feel it is relevant, and I recommend further reduction of
+    size if possible.
+
+In response to the referee's suggestion, we had a critical look at the
+material the referee pointed to, and discussed possible cuts. However,
+we found that it was difficult to do so without compromising the
+structure and comprehensibility of the paper.  In particular: i) The
+normalization of the power spectrum from a visibility-based estimator
+has often been mistreated in the literature, partially due to early
+forecasting papers that used top-hat beams in their calculations.
+These mistreatments were only pointed out explicitly in the relatively
+recent work of Parsons et al. (2014). Especially with the subtleties
+of heterogeneous primary beams and fringe-rate filtered data (which is
+what the normalization derivation in the present paper adds to the
+literature), we think it is better to err on the side of being
+explicit.  ii) Indeed, the referee is correct in saying that Section 5
+is in principle entirely encapsulated in Eq.  (45), which in turn is
+equivalent optimal mapmaking and uv-gridded imaging procedures. Thus,
+one may in principle stop with Eq. (45), which really just states that
+the data is being fit to a linear model. However, the point of Sec.  5
+is that this rather opaque matrix expression can be understood more
+intuitively in terms of fringe-rate filtering, which arises naturally
+from optimal mapmaking. Sec. 5 is therefore an integral part of the
+paper.
 
 ----------------------------------------------------------------------------
 
     I have some further smaller issues which I detail below:
 
-    Page 1, col 1, first paragraph: "These differences ... interferometers that
-    only have moderate angular resolution...", and later LOFAR is mentioned as one
-    such interferometer. This should be reworded a bit, since I would not say that
-    LOFAR has 'moderate' angular resolution, better to say 'with less focus' or
-    something similar.
+    Page 1, col 1, first paragraph: "These differences ...
+    interferometers that only have moderate angular
+    resolution...", and later LOFAR is mentioned as one such
+    interferometer. This should be reworded a bit, since I would
+    not say that LOFAR has 'moderate' angular resolution, better
+    to say 'with less focus' or something similar.
 
-We changed "that broadly fit this description" to "that broadly fit some or
-all of this description"
+We changed "that broadly fit this description" to "that broadly fit
+some or all of this description"
 
-    Page 1, col 2, par 2: "In this paper, we extend ideas..." Probably the paper by
-    D. Roshi and R. Perley ("A New Technique to improve RFI suppression in Radio
-    Interferometers", 2003, http://arxiv.org/abs/astro-ph/0304493 ) is quite
-    relevant as well.
+    Page 1, col 2, par 2: "In this paper, we extend ideas..."
+    Probably the paper by D. Roshi and R. Perley ("A New
+    Technique to improve RFI suppression in Radio
+    Interferometers", 2003,
+    http://arxiv.org/abs/astro-ph/0304493 ) is quite relevant as
+    well.
 
 Citation has been added to the text.
 
-    Page 2, col 1, par 1: "...providing cleaner views of systematics in the data"
-    "Cleaner" is somewhat subjective -- they can be helpful for some systematics,
-    but can actually hide others. I would thus rather say "a different view"
+    Page 2, col 1, par 1: "...providing cleaner views of
+    systematics in the data" "Cleaner" is somewhat subjective --
+    they can be helpful for some systematics, but can actually
+    hide others. I would thus rather say "a different view"
 
 DONE
 
-    Fig 1: It seems the arrows do not scale properly compared to the lines of
-    longitude. Caption: delta not defined.
+    Fig 1: It seems the arrows do not scale properly compared to
+    the lines of longitude. Caption: delta not defined.
 
 DONE
 
-    Eq. 2: (and all Eq following) It might be useful to change f(t'-t) in (t'-t)f,
-    as the first looks like a function evaluation.
+    Eq. 2: (and all Eq following) It might be useful to change
+    f(t'-t) in (t'-t)f, as the first looks like a function
+    evaluation.
 
 DONE
 
-    4th line below Eq. 2: "...our transform at time t'=t." The window function here
-    is centred here, not the transform. Also, it is centred on t, not on t'=t."
+    4th line below Eq. 2: "...our transform at time t'=t." The
+    window function here is centred here, not the transform.
+    Also, it is centred on t, not on t'=t."
 
-DONE. "thereby centering our transform at time $t^\prime = t$" -> "in essence
-shifting the origin of our transform to time $t$"
+DONE. "thereby centering our transform at time $t^\prime = t$" -> "in
+essence shifting the origin of our transform to time $t$"
 
-    Next line: "...the time-dependence of the visibility will likely be...through
-    the celestial sphere." The filter size does not influence the time-dependence
-    of the visibilities. Reword. Also see my comments on the window size at this
+    Next line: "...the time-dependence of the visibility will
+    likely be...through the celestial sphere." The filter size
+    does not influence the time-dependence of the visibilities.
+    Reword. Also see my comments on the window size at this
     point.
 
-DONE. "If the characteristic width of $\gamma$ is relatively short, one is
-effectively examining the visibility over short timescales, during which its
-time-dependence will likely be dominated by features on the sky moving relative
-to fringes, and not the movement of the primary beam through the celestial
-sphere."
+DONE. "If the characteristic width of $\gamma$ is relatively short,
+one is effectively examining the visibility over short timescales,
+during which its time-dependence will likely be dominated by features
+on the sky moving relative to fringes, and not the movement of the
+primary beam through the celestial sphere."
 
-    Below Eq. 3; worth mentioning explicitly that this assumes a relatively small
-    window size.
+    Below Eq. 3; worth mentioning explicitly that this assumes a
+    relatively small window size.
 
-We agree that the caveat of a relatively small window size is important to
-state. However, this assumption is discussed in the text preceding Eq. (3), and
-we feel that it is probably not necessary to mention the approximation both
-before and after the equation.
+We agree that the caveat of a relatively small window size is
+important to state. However, this assumption is discussed in the text
+preceding Eq. (3), and we feel that it is probably not necessary to
+mention the approximation both before and after the equation.
 
-    Eq. 4: It took me some time figuring out why the term "nu/c(b_t x omega)r" is
-    negative; the authors might help the reader by already reversing the omega x b
-    term in Eq. 3. The 'x' meaning 'multiply' on the beginning of the 2nd line is
-    somewhat confusing with cross product or convolution. Below Eq 4: as it is
-    written, gamma-tilde is the *inverse* FT of gamma.
+    Eq. 4: It took me some time figuring out why the term
+    "nu/c(b_t x omega)r" is negative; the authors might help the
+    reader by already reversing the omega x b term in Eq. 3. The
+    'x' meaning 'multiply' on the beginning of the 2nd line is
+    somewhat confusing with cross product or convolution. Below
+    Eq 4: as it is written, gamma-tilde is the *inverse* FT of
+    gamma.
 
 DONE.
 
-    Page 3, col 2, first word: "as advertised", somewhat awkward word for a paper.
+    Page 3, col 2, first word: "as advertised", somewhat awkward
+    word for a paper.
 
 DONE. "as advertised" -> "as claimed"
 
-    Page 3, col 2, line 3: "shows contours". There are no contours drawn...
+    Page 3, col 2, line 3: "shows contours". There are no
+    contours drawn...
 
 DONE. "contours" -> "shaded bands"
 
-    Page 4, line 1: "that essentially averages together data." I wouldn't say
-    filtering is essentially averaging, they're different operations. The authors
-    could say something like that it reduces entropy of the data making it better
+    Page 4, line 1: "that essentially averages together data." I
+    wouldn't say filtering is essentially averaging, they're
+    different operations. The authors could say something like
+    that it reduces entropy of the data making it better
     compressible, if that is what the authors are trying to say.
 
-DONE. Elaborating a little bit: "For example, if $w(f)$ is chosen in a way that
-suppresses high fringe rates, the effect in the time domain will be a low-pass
-filter that (among other features) has the rough effect of averaging together
-data."
+DONE. Elaborating a little bit: "For example, if $w(f)$ is chosen in a
+way that suppresses high fringe rates, the effect in the time domain
+will be a low-pass filter that (among other features) has the rough
+effect of averaging together data."
 
     Page 4, col 1, par 2, line 3: "be used in for" bad sentence.
 
@@ -201,46 +233,54 @@ DONE. "be used in for" -> "be used for"
 
     Sect 3, line 5: "its origins targeting" awkward sentence.
 
-DONE. "In keeping with its origins targeting observations from the PAPER array"
--> "keeping with its origins as a tool for analyzing data from the PAPER array"
+DONE. "In keeping with its origins targeting observations from the
+PAPER array" -> "keeping with its origins as a tool for analyzing data
+from the PAPER array"
 
-    Figure 3. Can the authors explain why the XX/YY matching line has such a
-    different shape, and is cut off at ~-0.7? (possibly on P 12 where it is
-    discussed) I assume this implies that the fringe response shown is only for XX
-    or YY? Please specify. Is the high frequency in this fringe-rate filter also a
-    reason for the insufficient beam correction in Fig. 8, or is it just the 1D
-    nature of the fringe filter which causes this?
+    Figure 3. Can the authors explain why the XX/YY matching
+    line has such a different shape, and is cut off at ~-0.7?
+    (possibly on P 12 where it is discussed) I assume this
+    implies that the fringe response shown is only for XX or YY?
+    Please specify. Is the high frequency in this fringe-rate
+    filter also a reason for the insufficient beam correction in
+    Fig. 8, or is it just the 1D nature of the fringe filter
+    which causes this?
 
-DONE. XX/YY only aims to normalize the YY beam to the XX beam.  This ratio does
-not include the absolute beam response (which the other curves include as
-optimal weighting), and so the curve has a substantially different shape.
-The fringe responses are indeed XX, and we now note this in the caption and on page 12.  
-The cutoff at -0.66 is the maximum negative fringe rate for the chosen array
-latitude, but the point is taken that it cuts out slightly before the other curves.  
-This difference was a result of catching the numerical divergence of a denominator 
-going to zero.  We have tweaked the thresholds to push the cut closer to the
-actual maximal negative fringe rate.  The "high
-frequency", which we interpret to mean the variation of this function with
-fringe rate, is not a limiting factor in the beam matching; it is, as the
-reviewer speculates, just the 1D nature of the fringe filter.
+DONE. XX/YY only aims to normalize the YY beam to the XX beam.  This
+ratio does not include the absolute beam response (which the other
+curves include as optimal weighting), and so the curve has a
+substantially different shape.  The fringe responses are indeed XX,
+and we now note this in the caption and on page 12.  The cutoff at
+-0.66 is the maximum negative fringe rate for the chosen array
+latitude, but the point is taken that it cuts out slightly before the
+other curves.  This difference was a result of catching the numerical
+divergence of a denominator going to zero.  We have tweaked the
+thresholds to push the cut closer to the actual maximal negative
+fringe rate.  The "high frequency", which we interpret to mean the
+variation of this function with fringe rate, is not a limiting factor
+in the beam matching; it is, as the reviewer speculates, just the 1D
+nature of the fringe filter.
 
-    Page 5, col 2, line 8: "primary beam A_i(r)" and three lines later:
-    I think it is more logical to write A_i(r, nu).
+    Page 5, col 2, line 8: "primary beam A_i(r)" and three lines
+    later: I think it is more logical to write A_i(r, nu).
 
 DONE.
 
-    5 lines under Eq 8: "it is implicitly assumed that the baseline length is given
-    by b=u lambda", I don't understand why defined this way, why not 'explicitly'
-    say "and u = b/lambda..." ?
+    5 lines under Eq 8: "it is implicitly assumed that the
+    baseline length is given by b=u lambda", I don't understand
+    why defined this way, why not 'explicitly' say "and u =
+    b/lambda..." ?
 
 DONE.
 
-    Footnote 6; I could not find this (easily) in Liu et al. (2014b), could the
-    authors specify a location in the paper for this approximation?
+    Footnote 6; I could not find this (easily) in Liu et al.
+    (2014b), could the authors specify a location in the paper
+    for this approximation?
 
 DONE. Turns out to be Section III A.
 
-    Page 5, col 2, 9th line to last: "as an integral over angles" -> solid angle
+    Page 5, col 2, 9th line to last: "as an integral over
+    angles" -> solid angle
 
 DONE
 
@@ -248,128 +288,147 @@ DONE
 
 DONE.
 
-    Page 7, before Eq. 24: might clarify this is combining (17), (22) and (23).
+    Page 7, before Eq. 24: might clarify this is combining (17),
+    (22) and (23).
 
 DONE.
 
-    Page 7, col 1, under Eq 26: "This is a rather remarkable result, ..." -- I'm
-    not sure why the authors find this remarkable... Indeed, it can be described as
-    somewhat 'counter-intuitive' when thinking about 'normal' visibility averaging.
+    Page 7, col 1, under Eq 26: "This is a rather remarkable
+    result, ..." -- I'm not sure why the authors find this
+    remarkable... Indeed, it can be described as somewhat
+    'counter-intuitive' when thinking about 'normal' visibility
+    averaging.
 
-We only meant "remarkable" in the sense of "worthy of a remark because it is
-counterintuitive", and indeed, in the next sentence we state that the result is
-counterintuitive.  However, we can see how "remarkable" may sound strange in
-this context, and thus we have changed to the blander description of our result
-as an "interesting" one.
+We only meant "remarkable" in the sense of "worthy of a remark because
+it is counterintuitive", and indeed, in the next sentence we state
+that the result is counterintuitive.  However, we can see how
+"remarkable" may sound strange in this context, and thus we have
+changed to the blander description of our result as an "interesting"
+one.
 
     Page 8, col 1, par 2, line 3: "derviations" -> derivations.
 
 DONE.
 
     Page 8, col 1, 7th line before bottom: "As these simulations
-    illustrate...point-source simulations". I do not understand this sentence,
-    clarify. Are the authors saying the difference between Fig 6 and 7 can be
-    explained by the 'binning'? Isn't the binning equal in both Fig 6 and 7?
+    illustrate...point-source simulations". I do not understand
+    this sentence, clarify. Are the authors saying the
+    difference between Fig 6 and 7 can be explained by the
+    'binning'? Isn't the binning equal in both Fig 6 and 7?
 
 DONE. We perhaps mischaracterized this as "binning".  We mean that the
-binning and interpolation of the simulated source tracks, separated in 5-degree
-intervals in declination, are the dominant source of error.  We have revised this
-sentence to clarify.
+binning and interpolation of the simulated source tracks, separated in
+5-degree intervals in declination, are the dominant source of error.
+We have revised this sentence to clarify.
 
-    Page 9, col 2, par 2, "The typical technique for..." Typical for dishes, but I
-    don't think this is 'typical' for aperture arrays with a fixed element beam,
-    which involve more typically a multiplication of an inverse Mueller matrix
-    (e.g. as is done in AW-projection for LOFAR by Tasse et al., 2012,
-    http://arxiv.org/abs/1212.6178, or for the MWA as done in the RTS as in Mitchel
-    et al. 2008 http://arxiv.org/abs/0807.1912 and Offringa et al. 2014
+    Page 9, col 2, par 2, "The typical technique for..." Typical
+    for dishes, but I don't think this is 'typical' for aperture
+    arrays with a fixed element beam, which involve more
+    typically a multiplication of an inverse Mueller matrix
+    (e.g. as is done in AW-projection for LOFAR by Tasse et al.,
+    2012, http://arxiv.org/abs/1212.6178, or for the MWA as done
+    in the RTS as in Mitchel et al. 2008
+    http://arxiv.org/abs/0807.1912 and Offringa et al. 2014
     http://arxiv.org/abs/1407.1943 ).
 
 DONE. "The typical technique for..." -> "A commonly used technique..."
 
-    Page 9, col 2, par 3, line 10-13: "As such, for a chosen uv coordinate, ...
-    before summing." I am not sure what the authors mean here: convolving the XX
-    and YY visibilities in uv-space (in 2d) with the Fourier transform of the full
-    inverse Mueller matrix image would completely correct that particular mode for
-    the beam, resulting in zero leakage on average. This does not depend on overlap
-    of kernels with other visibilities. Clarify or remove.
+    Page 9, col 2, par 3, line 10-13: "As such, for a chosen uv
+    coordinate, ...  before summing." I am not sure what the
+    authors mean here: convolving the XX and YY visibilities in
+    uv-space (in 2d) with the Fourier transform of the full
+    inverse Mueller matrix image would completely correct that
+    particular mode for the beam, resulting in zero leakage on
+    average. This does not depend on overlap of kernels with
+    other visibilities. Clarify or remove.
 
 We have added the following clarifying footnote to page 9:
 
-In image domain, the baseline fringe pattern has been
-integrated across the sky weighted by two different (XX, YY) beams.  This means
-that an interferometric baseline for these two polarizations samples the uv
-plane convolved by two different kernels --- the Fourier transforms of the XX,
-YY beams, respectively.  Because the resulting V_XX, V_YY visibilities no
-longer retain any direction-dependent information (they were integrated over
-angle) V_XX and V_YY cannot be re-weighted in a way that produces pure Stokes I
-response in all directions, except in the trivial case that the YY beam differs
-from the XX beam by a direction-independent multiplicative factor.  Said
-another way, given a single degree of freedom in the relative weighting of V_XX
-and V_YY, it is not possible to guarantee a pure Stokes I response in more than
-one direction.
+In image domain, the baseline fringe pattern has been integrated
+across the sky weighted by two different (XX, YY) beams.  This means
+that an interferometric baseline for these two polarizations samples
+the uv plane convolved by two different kernels --- the Fourier
+transforms of the XX, YY beams, respectively.  Because the resulting
+V_XX, V_YY visibilities no longer retain any direction-dependent
+information (they were integrated over angle) V_XX and V_YY cannot be
+re-weighted in a way that produces pure Stokes I response in all
+directions, except in the trivial case that the YY beam differs from
+the XX beam by a direction-independent multiplicative factor.  Said
+another way, given a single degree of freedom in the relative
+weighting of V_XX and V_YY, it is not possible to guarantee a pure
+Stokes I response in more than one direction.
 
-It is common practice in synthesis imaging to grid visibilities in the uv plane
-with convolving kernels that contain direction-dependent information.  Examples
-include W-projection kernels, the Fourier transform of the primary beam used in
-optimal map making, and (relevant here) the Fourier transform of the inverse of
-direction-dependent Mueller matrices.  Indeed, in the case of a completely
-sampled uv plane, the inverse Mueller beam kernel would perfectly match the XX
-and YY beams.  However, as the sampling of the uv plane becomes sparser, the
-removal of samples removes degrees of freedom in weighting as a function of
-direction.  In the limiting case of a very sparse array where the convolving
-kernels of uv samples do not overlap, we revert to the single
-direction-independent weighting factor above.
+It is common practice in synthesis imaging to grid visibilities in the
+uv plane with convolving kernels that contain direction-dependent
+information.  Examples include W-projection kernels, the Fourier
+transform of the primary beam used in optimal map making, and
+(relevant here) the Fourier transform of the inverse of
+direction-dependent Mueller matrices.  Indeed, in the case of a
+completely sampled uv plane, the inverse Mueller beam kernel would
+perfectly match the XX and YY beams.  However, as the sampling of the
+uv plane becomes sparser, the removal of samples removes degrees of
+freedom in weighting as a function of direction.  In the limiting case
+of a very sparse array where the convolving kernels of uv samples do
+not overlap, we revert to the single direction-independent weighting
+factor above.
 
-Another way of thinking about this is to realize that, by gridding visibilities
-in the uv plane with a convolving kernel, we are attempting to reassign sky
-intensity from the visibility, which was integrated over in equation 1, back to
-its original location so that it may be re-weighted to match the XX and YY
-polarization responses.  This inversion is only well posed in the case of a
-completely sampled uv plane.  As we lose uv samples, we lose the ability to
-reconstruct the original sky intensity, and hence, to perfectly match the XX
-and YY polarization responses as a function of direction.  In the case of a
-sparsely sampled uv plane, it is only possible to construct a pure Stokes I
-response as a function of direction if one has sufficient additional
-information about the sky (for example, if it sparsely populated by point
-sources) that one can reconstruct the missing modes and hence, fully invert the
-uv plane.
+Another way of thinking about this is to realize that, by gridding
+visibilities in the uv plane with a convolving kernel, we are
+attempting to reassign sky intensity from the visibility, which was
+integrated over in equation 1, back to its original location so that
+it may be re-weighted to match the XX and YY polarization responses.
+This inversion is only well posed in the case of a completely sampled
+uv plane.  As we lose uv samples, we lose the ability to reconstruct
+the original sky intensity, and hence, to perfectly match the XX and
+YY polarization responses as a function of direction.  In the case of
+a sparsely sampled uv plane, it is only possible to construct a pure
+Stokes I response as a function of direction if one has sufficient
+additional information about the sky (for example, if it sparsely
+populated by point sources) that one can reconstruct the missing modes
+and hence, fully invert the uv plane.
 
-    Page 9, col 2, par 4, line 11-..: "Typically, earth-rotation synthesis.."
-    somewhat same comment as above; I don't know what the authors mean, but arrays
-    like MWA and LOFAR can perform adequate beam correction of snapshots, so this
+    Page 9, col 2, par 4, line 11-..: "Typically, earth-rotation
+    synthesis.." somewhat same comment as above; I don't know
+    what the authors mean, but arrays like MWA and LOFAR can
+    perform adequate beam correction of snapshots, so this
     statement seems not correct.
 
-The reviewer is correct to point out that our statement should be restricted
-to diffuse structure (which is more localized in the uv plane).  Synthesis arrays
-do commonly correct for beams responses toward point sources.  We have added a
-footnote with this clarification.
+The reviewer is correct to point out that our statement should be
+restricted to diffuse structure (which is more localized in the uv
+plane).  Synthesis arrays do commonly correct for beams responses
+toward point sources.  We have added a footnote with this
+clarification.
 
     Fig 8. caption: "XX-YY/2" -> "(XX-YY)/2"
 
 DONE
 
-    Page 11, col 1, line 8: "In the case of... products" this is dependent on the
-    above points, and thus needs to be changed too if above points can't be
-    clarified.
+    Page 11, col 1, line 8: "In the case of... products" this is
+    dependent on the above points, and thus needs to be changed
+    too if above points can't be clarified.
 
 This point has been addressed in the clarifications above.
 
-    Table 1: what is meant with "Effective integration time" ? (in particular how
-    the last number can be 5570 with less sensitivity)
+    Table 1: what is meant with "Effective integration time" ?
+    (in particular how the last number can be 5570 with less
+    sensitivity)
 
-We have clarified in the text that 'effective' means the noise equivalent
-integration time.  As for the second question, narrower fringe-rate weightings
-require longer integration times, but restricting the fringe-rate response to a
-narrower region does not necessarily improve sensitivity.  In fact, any
-deviation from optimal weighting, including longer integration times, by
-definition will reduce sensitivity.  Clarifying text has been added on page 12
-to this effect.
+We have clarified in the text that 'effective' means the noise
+equivalent integration time.  As for the second question, narrower
+fringe-rate weightings require longer integration times, but
+restricting the fringe-rate response to a narrower region does not
+necessarily improve sensitivity.  In fact, any deviation from optimal
+weighting, including longer integration times, by definition will
+reduce sensitivity.  Clarifying text has been added on page 12 to this
+effect.
 
-    Page 14, last line of par 1: "...the most natural".  It is mentioned quite
-    often in the paper that the fringe domain is 'the (most) natural domain'. One
-    could equally argue that the uv plane or some kind of weighted image domain is
-    a natural domain for averaging. I don't object to "a natural domain", but "the
-    most natural" seems subjective. Also, it is mentioned a bit too often.
+    Page 14, last line of par 1: "...the most natural".  It is
+    mentioned quite often in the paper that the fringe domain is
+    'the (most) natural domain'. One could equally argue that
+    the uv plane or some kind of weighted image domain is a
+    natural domain for averaging. I don't object to "a natural
+    domain", but "the most natural" seems subjective. Also, it
+    is mentioned a bit too often.
 
 DONE. (But really only just that one instance)
 
@@ -377,67 +436,81 @@ DONE. (But really only just that one instance)
 
 DONE
 
-    Eq. 49: the deltas here should be called delta^D to distinguish them from declination.
+    Eq. 49: the deltas here should be called delta^D to
+    distinguish them from declination.
 
-DONE, but only for the second copy, since the first is a Kronecker delta.
+DONE, but only for the second copy, since the first is a Kronecker
+delta.
 
     Eq. 50: Why is sigma within the integral and summation?
 
 Simply to save space.
 
-    Under Eq. 52: "This is still not...and all t." While this is true, the
-    non-optimality this causes for telescopes with a small tracking beam (~a few
-    deg) is negligible. In particular, in 3rd line under Eq. 53: "...is an optimal
-    way..only if"; the above proof shows that it is an optimal way 'if', and not
-    'only if', so remove 'only'. Also, it would be helpful to mention that a small
-    beam is sufficient too.
+    Under Eq. 52: "This is still not...and all t." While this is
+    true, the non-optimality this causes for telescopes with a
+    small tracking beam (~a few deg) is negligible. In
+    particular, in 3rd line under Eq. 53: "...is an optimal
+    way..only if"; the above proof shows that it is an optimal
+    way 'if', and not 'only if', so remove 'only'. Also, it
+    would be helpful to mention that a small beam is sufficient
+    too.
 
-We have removed the "only", and have added that the small primary beam will
-automatically allow the flat-sky approximation (and hence the time-averaging
-procedure) to be valid.
+We have removed the "only", and have added that the small primary beam
+will automatically allow the flat-sky approximation (and hence the
+time-averaging procedure) to be valid.
 
-    Sect 5.3 (as well as the abstract): I think it should be stressed that these
-    derivations are much more applicable to drift-scan observations (or with a
-    highly varying beam, if you wish). In tracking observations, the improvement
-    that can be made with such weighting is insignificant. This comment also
-    applies to Sec 6, line 7: "...are almost always sub-optimal..." ; I think that
-    should specify 'for drift-scan observations'. Moreover, these weightings could
-    also be applied by the a-projection technique, which would actually be more
-    accurate, because it can weight(/correct) in two dimensions, so the authors
-    should make some remark about a-projection.
+    Sect 5.3 (as well as the abstract): I think it should be
+    stressed that these derivations are much more applicable to
+    drift-scan observations (or with a highly varying beam, if
+    you wish). In tracking observations, the improvement that
+    can be made with such weighting is insignificant. This
+    comment also applies to Sec 6, line 7: "...are almost always
+    sub-optimal..." ; I think that should specify 'for
+    drift-scan observations'. Moreover, these weightings could
+    also be applied by the a-projection technique, which would
+    actually be more accurate, because it can weight(/correct)
+    in two dimensions, so the authors should make some remark
+    about a-projection.
 
-Thank you to the referee for pointing out that we neglected to mention/cite
-A-projection. With its similarities to the optimal mapmaking approach, we have
-added some citations (Bhatnagar et al. 2008, 2013, Tasse et al. 2013) to the
-discussion where we introduce optimal mapmaking. We have also added the phrase
-"particularly for wide-field, drift-scan instruments" in the portion of Sec. 6
-referred to by the referee.  We have decided to leave the abstract unchanged
-because it remains true that "fringe-rate filtering arises naturally in minimum
-variance treatments", and there we make no reference to the (possible)
-non-optimality of the other techniques. (We mention potential systematics, but
-not any statistically non-optimalities in the sense of an increased variance in
-the final results). Note that the two-dimensional weighting that the referee
-mentions is implemented in our fringe-rate framework. In Eq. (61), for example,
-one direction of the weighting is implemented by the fringe-rate weighting
-(everything within the summation), while the other direction of the weighting
-is performed in image space (via the B(delta) term near the beginning of the
-expression).
+Thank you to the referee for pointing out that we neglected to
+mention/cite A-projection. With its similarities to the optimal
+mapmaking approach, we have added some citations (Bhatnagar et al.
+2008, 2013, Tasse et al. 2013) to the discussion where we introduce
+optimal mapmaking. We have also added the phrase "particularly for
+wide-field, drift-scan instruments" in the portion of Sec. 6 referred
+to by the referee.  We have decided to leave the abstract unchanged
+because it remains true that "fringe-rate filtering arises naturally
+in minimum variance treatments", and there we make no reference to the
+(possible) non-optimality of the other techniques. (We mention
+potential systematics, but not any statistically non-optimalities in
+the sense of an increased variance in the final results). Note that
+the two-dimensional weighting that the referee mentions is implemented
+in our fringe-rate framework. In Eq. (61), for example, one direction
+of the weighting is implemented by the fringe-rate weighting
+(everything within the summation), while the other direction of the
+weighting is performed in image space (via the B(delta) term near the
+beginning of the expression).
 
-    Page 17, col 2, line 9, "..while avoid [should be avoiding] many...". Same
-    comment to 'cleaner analysis' as before -> 'different analysis'. Also, I think
-    that 'analysis-induced systematics associated with gridding' is too strong. It
-    is true to say that it is beneficial to avoid gridding, but not that gridding
-    induces many systematics. Radio astronomers know well how to grid, and
-    dominating systematics come from other things.
+    Page 17, col 2, line 9, "..while avoid [should be avoiding]
+    many...". Same comment to 'cleaner analysis' as before ->
+    'different analysis'. Also, I think that 'analysis-induced
+    systematics associated with gridding' is too strong. It is
+    true to say that it is beneficial to avoid gridding, but not
+    that gridding induces many systematics. Radio astronomers
+    know well how to grid, and dominating systematics come from
+    other things.
 
-We have softened the language, switching to saying that we avoid "potential"
-analysis-induced systematics associated with gridding.
+We have softened the language, switching to saying that we avoid
+"potential" analysis-induced systematics associated with gridding.
 
-    Page 17, col 2, final sentence: "we anticipate that fringe-filtering is likely
-    ... [important for] ... the SKA". Currently, fringe filtering does not seem
-    applicable to the current SKA low configuration, and the planned technique
-    seems to be a-projection (e.g. Cornwell 2012). So, it is currently not likely
-    that fringe filtering will be used for the SKA.
+    Page 17, col 2, final sentence: "we anticipate that
+    fringe-filtering is likely ... [important for] ... the SKA".
+    Currently, fringe filtering does not seem applicable to the
+    current SKA low configuration, and the planned technique
+    seems to be a-projection (e.g. Cornwell 2012). So, it is
+    currently not likely that fringe filtering will be used for
+    the SKA.
 
-DONE. "likely be an important analysis tool" -> "may be an important analysis tool"
+DONE. "likely be an important analysis tool" -> "may be an important
+analysis tool"
 
