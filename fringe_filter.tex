@@ -687,9 +687,10 @@ the aperture scale of a single element.  In this case, the beam correction descr
 convolves each $uv$ sample with a kernel whose size scales roughly as the size of the aperture of a
 single element in wavelengths.  Since this kernel is much smaller than the spacing between $uv$ samples, 
 each point in the convolved $uv$ plane is dominated by the product of a kernel weight and a single visibility measurement.
-As such, for a chosen $uv$ coordinate, the level of leakage in the Stokes I $uv$ plane can
-be no better than what can be achieved by using a single number to rescale $\VXX$ and $\VYY$ before 
-summing\footnote{
+As such, for a chosen $uv$ coordinate, the level of leakage in the Stokes I $uv$ plane effectively reduces to
+what can be achieved using a single number to rescale $\VXX$ and $\VYY$ before 
+summing.
+
 In image domain, the baseline fringe pattern has been
 integrated across the sky weighted by two different (XX, YY) beam responses to produce
 a visibility.  This means
@@ -703,7 +704,7 @@ from the XX beam by a direction-independent multiplicative factor.  Said
 another way, given a single degree of freedom in the relative weighting of $\VXX$
 and $\VYY$, it is not possible to guarantee a pure Stokes I response in more than
 one direction.
-\\
+
 As mentioned above, it is common practice in synthesis imaging 
 to grid visibilities in the $uv$ plane
 with convolving kernels that contain direction-dependent information.  Examples
@@ -717,7 +718,7 @@ removal of samples removes degrees of freedom in weighting as a function of
 direction.  In the limiting case of a very sparse array where the convolving
 kernels of $uv$ samples do not overlap, we revert to the single
 direction-independent weighting factor above.
-\\
+
 Another way of thinking about this is to realize that, by gridding visibilities
 in the $uv$ plane with a convolving kernel, we are attempting to reassign sky
 intensity from the visibility, which was integrated over in equation \ref{eq:originalVis}, back to
@@ -730,7 +731,7 @@ sparsely sampled $uv$ plane, it is only possible to construct a pure Stokes I
 response as a function of direction if one has sufficient additional
 information about the sky (for example, if it sparsely populated by point
 sources) that one can reconstruct the missing modes and hence, fully invert the
-$uv$ plane.}.
+$uv$ plane.
 
 For cases where $uv$ sampling falls somewhere between the sparse and the oversampled cases described above, the level
 of primary beam correction that can be realized is more complicated.  Ultimately, the Fourier relationship between
@@ -751,7 +752,7 @@ However, even in the single-baseline case, earth-rotation synthesis provides den
 direction the baseline traverses in the $uv$ plane.  The appropriate
 convolution kernel can combine samples along this track so as to correct the primary beam mismatch along one axis.
 Of course, what we have just described---a convolution kernel acting along a time series
-of samples from a single baseline---is precisely fringe-rate filtering.  Put another way, since fringe-rate filtering has the effect of modifying one's primary beams, it is possible to tailor fringe-rates to improve the match between the XX and YY polarization beams. In the case of sparse array sampling, the result will be identical to the best that can be achieved by independently
+of samples from a single baseline---is precisely fringe-rate filtering.  Put another way, since fringe-rate filtering has the effect of modifying one's primary beams, it is possible to tailor fringe-rates to improve the match between the XX and YY polarization beams. In the case of sparse array sampling, fringe-rate filtering reproduces what can be achieved by independently
 imaging the polarization products.  While this is not as effective at mitigating polarization leakage as can be achieved
 through imaging in the dense sampling case, we will now show that it nonetheless represents a substantial improvement
 over the naive summing of XX and YY visibility measurements.
