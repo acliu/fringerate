@@ -2,6 +2,7 @@
 import aipy as a, numpy as n, pylab as p
 import capo as C, scipy
 from mpl_toolkits.basemap import Basemap
+import frf_conv
 
 FQ = .151
 DIM = 400
@@ -62,14 +63,14 @@ bl = aa.get_baseline(0,16,'r') * FQ
 #bl = aa.get_baseline(0,28,'r') * FQ
 #bl = aa.get_baseline(0,3,'r') * 10 * FQ
 print 'Baseline:', bl
-fng = C.frf_conv.mk_fng(bl, *xyz)
+fng = frf_conv.mk_fng(bl, *xyz)
 #fng = mk_fng(bl, *xyz)
 print fng.max()
 
 #plot_hmap(fng, mode='real', mx=.001, drng=.001); p.colorbar(); p.show()
-frf,bins,wgt,(cen,wid) = C.frf_conv.get_optimal_kernel_at_ref(aa, 0, (0,16))
-bwfrs = C.frf_conv.get_beam_w_fr(aa, (0,16), ref_chan=0) # XXX check our ref_chan
-tbins,firs,frbins,frfs = C.frf_conv.get_fringe_rate_kernels(bwfrs,42.9,403)
+frf,bins,wgt,(cen,wid) = frf_conv.get_optimal_kernel_at_ref(aa, 0, (0,16))
+bwfrs = frf_conv.get_beam_w_fr(aa, (0,16), ref_chan=0) # XXX check our ref_chan
+tbins,firs,frbins,frfs = frf_conv.get_fringe_rate_kernels(bwfrs,42.9,403)
 
 skypass = n.where(n.abs(bins)<0.5/42.9, 1, 0)
 crosstalk = n.ones_like(frbins)

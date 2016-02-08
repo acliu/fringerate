@@ -2,6 +2,7 @@
 import aipy as a, pylab as p, numpy as n, sys, optparse, capo as C, scipy
 from mpl_toolkits.basemap import Basemap
 from matplotlib import gridspec
+import frf_conv
 
 #p.ion()
 FQ = .150
@@ -76,12 +77,12 @@ xyz = h.px2crd(n.arange(h.npix()), ncrd=3)
 top = n.dot(aa._eq2zen, xyz)
 bl = aa.get_baseline(0,16,'r') * FQ
 print 'Baseline:', bl
-fng = C.frf_conv.mk_fng(bl, *xyz)
+fng = frf_conv.mk_fng(bl, *xyz)
 #plot_hmap(fng, mode='real'); p.show()
 
-frf,bins,wgt,(cen,wid) = C.frf_conv.get_optimal_kernel_at_ref(aa, 0, (0,16))
-bwfrs = C.frf_conv.get_beam_w_fr(aa, (0,16), ref_chan=0)
-tbins,firs,frbins,frfs = C.frf_conv.get_fringe_rate_kernels(bwfrs,42.9,403)
+frf,bins,wgt,(cen,wid) = frf_conv.get_optimal_kernel_at_ref(aa, 0, (0,16))
+bwfrs = frf_conv.get_beam_w_fr(aa, (0,16), ref_chan=0)
+tbins,firs,frbins,frfs = frf_conv.get_fringe_rate_kernels(bwfrs,42.9,403)
 wgt = scipy.interpolate.interp1d(frbins, frfs[0], kind='linear', bounds_error=False, fill_value=0)
 fng_wgt = wgt(fng)
 
